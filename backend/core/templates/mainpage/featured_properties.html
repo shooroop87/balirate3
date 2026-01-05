@@ -1,0 +1,47 @@
+{% load static %}
+<!-- section-features-property -->
+<div class="bg-dark-color sw-layout tf-spacing-1">
+    <div class="tf-container">
+        <div class="wrap-heading-section d-flex justify-content-between align-items-center mb_48">
+            <div class="heading-section">
+                <span class="sub text-uppercase fw-6 text_secondary-color-2 split-text effect-rotate">Featured Properties</span>
+                <h3 class="text_white split-text effect-blur-fade">Find Your Dream Home</h3>
+            </div>
+            <a href="{% url 'properties_list' %}" class="tf-btn btn-bg-white btn-px-32">
+                <span>View All Properties</span>
+                <span class="bg-effect"></span>
+            </a>
+        </div>
+    </div>
+    <div class="tf-container slider-layout-right">
+        <div class="swiper scrolling-effect effectRight" data-screen-xl="3.712" data-preview="2.7"
+            data-tablet="2" data-mobile-sm="1.5" data-mobile="1" data-space-lg="30" data-space-md="20" data-space="15">
+            <div class="swiper-wrapper">
+                <!-- Property items will be here -->
+                <div class="swiper-slide">
+                    <div class="property-item style-1">
+                        <div class="property-thumb">
+                            <img src="{% static 'images/properties/property-1.jpg' %}" alt="property">
+                            <div class="wrap-tag">
+                                <span class="tag rent">For Rent</span>
+                            </div>
+                        </div>
+                        <div class="property-content">
+                            <h5><a href="#">Modern Villa in Bali</a></h5>
+                            <p class="location"><i class="icon-MapPin"></i> Seminyak, Bali</p>
+                            <div class="property-meta">
+                                <span><i class="icon-Bed"></i> 3 Beds</span>
+                                <span><i class="icon-Bath"></i> 2 Baths</span>
+                                <span><i class="icon-Square"></i> 150 m²</span>
+                            </div>
+                            <div class="price">$2,500<span>/month</span></div>
+                        </div>
+                    </div>
+                </div>
+                <!-- More property slides -->
+            </div>
+            <div class="sw-dots sw-pagination-layout text-center mt_24"></div>
+        </div>
+    </div>
+</div>
+<!-- End section-features-property -->

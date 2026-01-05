@@ -22,7 +22,7 @@ from celery.schedules import crontab
 # Устанавливаем настройки Django
 os.environ.setdefault("DJANGO_SETTINGS_MODULE", "config.settings")
 
-app = Celery("blisterperpost")
+app = Celery("Balirate")
 
 # Читаем конфигурацию из Django settings
 app.config_from_object("django.conf:settings", namespace="CELERY")

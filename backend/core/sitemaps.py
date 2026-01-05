@@ -12,13 +12,6 @@ class StaticSitemap(Sitemap):
     def items(self):
         return [
             ("index", 1.0, "weekly"),
-            ("contact", 0.7, "monthly"),
-            ("privacy", 0.3, "yearly"),
-            ("terms", 0.3, "yearly"),
-            ("imprint", 0.3, "yearly"),
-            ("withdrawal", 0.3, "yearly"),
-            ("consent", 0.3, "yearly"),
-            ("cookies", 0.3, "yearly"),
         ]
 
     def location(self, item):

@@ -22,7 +22,7 @@ class UserManager(BaseUserManager):
 
 
 class User(AbstractUser):
-    """Custom User model для BlisterPerPost."""
+    """Custom User model для Balirate."""
 
     username = None
     email = models.EmailField(_("E-Mail-Adresse"), unique=True)

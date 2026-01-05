@@ -29,18 +29,6 @@ urlpatterns = [
 
 # --- Языковые маршруты ---
 urlpatterns += i18n_patterns(
-    # Allauth (authentication)
-    path("account/", include("allauth.urls")),
-    
-    # Accounts (profile, subscriptions, etc.)
-    path("account/", include("accounts.urls")),
-    
-    # Subscriptions & Checkout
-    path("subscriptions/", include("subscriptions.urls")),
-    
-    # Deliveries & Tracking
-    path("deliveries/", include("deliveries.urls")),
-    
     # Core pages
     path("", include("core.urls")),
     

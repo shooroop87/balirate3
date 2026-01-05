@@ -1,6 +1,6 @@
 # core/services/sendpulse.py
 """
-SendPulse Email Service для BlisterPerPost.
+SendPulse Email Service для Balirate.
 """
 import logging
 from pysendpulse.pysendpulse import PySendPulse
@@ -72,7 +72,7 @@ class SendPulseService:
         """Отправить письмо подтверждения email."""
         from django.template.loader import render_to_string
         
-        subject = "Bestätigen Sie Ihre E-Mail-Adresse - BlisterPerPost"
+        subject = "Bestätigen Sie Ihre E-Mail-Adresse - Balirate"
         
         html_content = render_to_string('emails/email_verification.html', {
             'first_name': user.first_name or 'Kunde',

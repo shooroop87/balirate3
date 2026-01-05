@@ -13,7 +13,7 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 SECRET_KEY = os.getenv("SECRET_KEY", "1insecure1-1default1")
 
 # DEBUG
-DEBUG = False
+DEBUG = True
 
 # ALLOWED_HOSTS
 if DEBUG:
@@ -23,8 +23,8 @@ else:
 
 CSRF_TRUSTED_ORIGINS = [
     "http://localhost",
-    "http://localhost:5000",
-    "http://127.0.0.1:5000",
+    "http://localhost:4000",
+    "http://127.0.0.1:4000",
     "http://localhost:8000",
     "http://127.0.0.1:8000",
     "https://parisweek.ru",
@@ -61,9 +61,6 @@ INSTALLED_APPS = [
     "crispy_bootstrap5",
     # Local
     "core",
-    "accounts",
-    "subscriptions",
-    "deliveries",
     "blog",
 ]
 
@@ -86,7 +83,6 @@ MIDDLEWARE = [
     "django.middleware.csrf.CsrfViewMiddleware",
     "django.contrib.auth.middleware.AuthenticationMiddleware",
     "allauth.account.middleware.AccountMiddleware",
-    "accounts.middleware.OnboardingMiddleware",
     "django.contrib.messages.middleware.MessageMiddleware",
     "django.middleware.clickjacking.XFrameOptionsMiddleware",
 ]
@@ -134,7 +130,7 @@ else:
     DATABASES = {
         "default": {
             "ENGINE": "django.db.backends.postgresql",
-            "NAME": os.getenv("POSTGRES_DB", "blister"),
+            "NAME": os.getenv("POSTGRES_DB", "balirate"),
             "USER": os.getenv("POSTGRES_USER", "balirate_user"),
             "PASSWORD": os.getenv("POSTGRES_PASSWORD", "balirate_password"),
             "HOST": os.getenv("POSTGRES_HOST", "localhost"),
@@ -145,8 +141,8 @@ else:
 DEFAULT_AUTO_FIELD = "django.db.models.BigAutoField"
 
 # Локальная разработка
-if not os.environ.get('DOCKER_ENV') and any(cmd in sys.argv for cmd in ['runserver', 'migrate', 'makemigrations', 'shell', 'createsuperuser']):
-    DATABASES['default']['HOST'] = 'localhost'
+#if not os.environ.get('DOCKER_ENV') and any(cmd in sys.argv for cmd in ['runserver', 'migrate', 'makemigrations', 'shell', 'createsuperuser']):
+#    DATABASES['default']['HOST'] = 'localhost'
 
 # Cache (Redis)
 if os.environ.get('REDIS_URL'):
@@ -169,12 +165,12 @@ else:
 # ===========================================
 # AUTHENTICATION
 # ===========================================
-AUTH_USER_MODEL = "accounts.User"
+#AUTH_USER_MODEL = "accounts.User"
 
-AUTHENTICATION_BACKENDS = [
-    "django.contrib.auth.backends.ModelBackend",
-    "allauth.account.auth_backends.AuthenticationBackend",
-]
+#AUTHENTICATION_BACKENDS = [
+#    "django.contrib.auth.backends.ModelBackend",
+#    "allauth.account.auth_backends.AuthenticationBackend",
+#]
 
 # ===========================================
 # ALLAUTH - Custom User без username
@@ -191,9 +187,9 @@ if DEBUG:
 else:
     ACCOUNT_DEFAULT_HTTP_PROTOCOL = "https"
 
-LOGIN_REDIRECT_URL = "/dashboard/"
-LOGOUT_REDIRECT_URL = "/"
-LOGIN_URL = "/account/login/"
+#LOGIN_REDIRECT_URL = "/dashboard/"
+#LOGOUT_REDIRECT_URL = "/"
+#LOGIN_URL = "/account/login/"
 
 # Google OAuth
 SOCIALACCOUNT_PROVIDERS = {
@@ -213,7 +209,7 @@ SOCIALACCOUNT_PROVIDERS = {
 SENDPULSE_API_USER_ID = os.getenv("SENDPULSE_API_USER_ID", "")
 SENDPULSE_API_SECRET = os.getenv("SENDPULSE_API_SECRET", "")
 SENDPULSE_FROM_EMAIL = os.getenv("SENDPULSE_FROM_EMAIL", "noreply@parisweek.ru")
-SENDPULSE_FROM_NAME = os.getenv("SENDPULSE_FROM_NAME", "BlisterPerPost")
+SENDPULSE_FROM_NAME = os.getenv("SENDPULSE_FROM_NAME", "Balirate")
 
 
 # Allauth Social
@@ -223,12 +219,12 @@ SOCIALACCOUNT_EMAIL_AUTHENTICATION_AUTO_CONNECT = True
 SOCIALACCOUNT_LOGIN_ON_GET = True
 
 # Custom Adapter для HTML emails
-ACCOUNT_ADAPTER = 'accounts.adapters.HTMLEmailAccountAdapter'
+#ACCOUNT_ADAPTER = 'accounts.adapters.HTMLEmailAccountAdapter'
 
 # Custom signup form с DSGVO согласиями
-ACCOUNT_FORMS = {
-    "signup": "accounts.forms.CustomSignupForm",
-}
+#ACCOUNT_FORMS = {
+#    "signup": "accounts.forms.CustomSignupForm",
+#}
 
 # Password validation
 AUTH_PASSWORD_VALIDATORS = [
@@ -238,20 +234,20 @@ AUTH_PASSWORD_VALIDATORS = [
     {"NAME": "django.contrib.auth.password_validation.NumericPasswordValidator"},
 ]
 
-ACCOUNT_LOGIN_ON_EMAIL_CONFIRMATION = True
-ACCOUNT_EMAIL_CONFIRMATION_AUTHENTICATED_REDIRECT_URL = "/dashboard/"
+#ACCOUNT_LOGIN_ON_EMAIL_CONFIRMATION = True
+#ACCOUNT_EMAIL_CONFIRMATION_AUTHENTICATED_REDIRECT_URL = "/dashboard/"
 
 # ===========================================
 # INTERNATIONALIZATION (DE primary, EN secondary)
 # ===========================================
-LANGUAGE_CODE = "de"
-TIME_ZONE = "Europe/Berlin"
+LANGUAGE_CODE = "ru"
+TIME_ZONE = "Asia/Makassar"
 USE_I18N = True
 USE_L10N = True
 USE_TZ = True
 
 LANGUAGES = [
-    ("de", _("Deutsch")),
+    ("ru", _("Russian")),
     ("en", _("English")),
 ]
 
@@ -259,11 +255,11 @@ LOCALE_PATHS = [BASE_DIR / "locale"]
 
 PARLER_LANGUAGES = {
     SITE_ID: (
-        {"code": "de", "fallbacks": ["en"], "hide_untranslated": False},
-        {"code": "en", "fallbacks": ["de"], "hide_untranslated": False},
+        {"code": "ru", "fallbacks": ["en"], "hide_untranslated": False},
+        {"code": "en", "fallbacks": ["ru"], "hide_untranslated": False},
     ),
     "default": {
-        "fallbacks": ["de"],
+        "fallbacks": ['ru'],
         "hide_untranslated": False,
     },
 }
@@ -310,7 +306,7 @@ EMAIL_USE_TLS = True
 EMAIL_HOST_USER = os.getenv("EMAIL_HOST_USER", "")
 EMAIL_HOST_PASSWORD = os.getenv("EMAIL_HOST_PASSWORD", "")
 
-DEFAULT_FROM_EMAIL = os.getenv("DEFAULT_FROM_EMAIL", "BlisterPerPost <service@parisweek.ru>")
+DEFAULT_FROM_EMAIL = os.getenv("DEFAULT_FROM_EMAIL", "Balirate <service@parisweek.ru>")
 
 # ===========================================
 # PayPal
