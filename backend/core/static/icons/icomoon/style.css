@@ -1,0 +1,276 @@
+@font-face {
+  font-family: 'icomoon';
+  src:  url('fonts/icomoon.eot?vq4g7u');
+  src:  url('fonts/icomoon.eot?vq4g7u#iefix') format('embedded-opentype'),
+    url('fonts/icomoon.ttf?vq4g7u') format('truetype'),
+    url('fonts/icomoon.woff?vq4g7u') format('woff'),
+    url('fonts/icomoon.svg?vq4g7u#icomoon') format('svg');
+  font-weight: normal;
+  font-style: normal;
+  font-display: block;
+}
+
+[class^="icon-"], [class*=" icon-"] {
+  /* use !important to prevent issues with browser extensions that change fonts */
+  font-family: 'icomoon' !important;
+  speak: never;
+  font-style: normal;
+  font-weight: normal;
+  font-variant: normal;
+  text-transform: none;
+  line-height: 1;
+
+  /* Better Font Rendering =========== */
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+.icon-Crosshair:before {
+  content: "\e952";
+}
+.icon-image:before {
+  content: "\e951";
+}
+.icon-XCircle:before {
+  content: "\e950";
+}
+.icon-pinterest:before {
+  content: "\e900";
+}
+.icon-youtube:before {
+  content: "\e901";
+}
+.icon-Facebook-2:before {
+  content: "\e902";
+}
+.icon-Linkedin:before {
+  content: "\e903";
+}
+.icon-PlusSquare:before {
+  content: "\e904";
+}
+.icon-SignOut:before {
+  content: "\e905";
+}
+.icon-Package:before {
+  content: "\e906";
+}
+.icon-FileText:before {
+  content: "\e907";
+}
+.icon-ListDashes:before {
+  content: "\e908";
+}
+.icon-SkypeLogo:before {
+  content: "\e909";
+}
+.icon-TelegramLogo:before {
+  content: "\e90a";
+}
+.icon-MessengerLogo:before {
+  content: "\e90b";
+}
+.icon-ArrowFatUp:before {
+  content: "\e90c";
+}
+.icon-ArrowUpRight:before {
+  content: "\e90d";
+}
+.icon-CaretDown:before {
+  content: "\e90e";
+}
+.icon-CaretRight:before {
+  content: "\e90f";
+}
+.icon-FacebookLogo:before {
+  content: "\e910";
+}
+.icon-InstagramLogo:before {
+  content: "\e911";
+}
+.icon-MagnifyingGlass:before {
+  content: "\e912";
+}
+.icon-PaperPlaneTilt:before {
+  content: "\e913";
+}
+.icon-TiktokLogo:before {
+  content: "\e914";
+}
+.icon-XLogo:before {
+  content: "\e915";
+}
+.icon-YoutubeLogo:before {
+  content: "\e916";
+}
+.icon-CalendarBlank:before {
+  content: "\e917";
+}
+.icon-favorite_major:before {
+  content: "\e918";
+}
+.icon-quote-line:before {
+  content: "\e919";
+}
+.icon-check:before {
+  content: "\e91a";
+}
+.icon-Faders:before {
+  content: "\e91b";
+}
+.icon-CaretLeft:before {
+  content: "\e91c";
+}
+.icon-Clock:before {
+  content: "\e91d";
+}
+.icon-EnvelopeSimple:before {
+  content: "\e91e";
+}
+.icon-PhoneCall:before {
+  content: "\e91f";
+}
+.icon-Bed:before {
+  content: "\e920";
+}
+.icon-Ruler:before {
+  content: "\e921";
+}
+.icon-Bathstub:before {
+  content: "\e922";
+}
+.icon-Certificate:before {
+  content: "\e923";
+}
+.icon-ChartDonut:before {
+  content: "\e924";
+}
+.icon-BuildingOffice:before {
+  content: "\e925";
+}
+.icon-SketchLogo:before {
+  content: "\e926";
+}
+.icon-ClockCountdown:before {
+  content: "\e927";
+}
+.icon-Lifebuoy:before {
+  content: "\e928";
+}
+.icon-eye:before {
+  content: "\e929";
+}
+.icon-Fire:before {
+  content: "\e92a";
+}
+.icon-CheckCircle:before {
+  content: "\e92b";
+}
+.icon-eye-slash:before {
+  content: "\e92c";
+}
+.icon-HouseLine:before {
+  content: "\e92d";
+}
+.icon-Alarm:before {
+  content: "\e92e";
+}
+.icon-MapPin:before {
+  content: "\e92f";
+}
+.icon-trash-alt-solid:before {
+  content: "\e930";
+}
+.icon-Heart:before {
+  content: "\e931";
+}
+.icon-Rows:before {
+  content: "\e932";
+}
+.icon-SquaresFour:before {
+  content: "\e933";
+}
+.icon-SecurityCamera:before {
+  content: "\e934";
+}
+.icon-Snowflake:before {
+  content: "\e935";
+}
+.icon-SolarPanel:before {
+  content: "\e936";
+}
+.icon-Television:before {
+  content: "\e937";
+}
+.icon-Thermometer:before {
+  content: "\e938";
+}
+.icon-WifiHigh:before {
+  content: "\e939";
+}
+.icon-CloudWarning:before {
+  content: "\e93a";
+}
+.icon-Fan:before {
+  content: "\e93b";
+}
+.icon-FileDoc:before {
+  content: "\e93c";
+}
+.icon-FilePdf:before {
+  content: "\e93d";
+}
+.icon-FingerprintSimple:before {
+  content: "\e93e";
+}
+.icon-Crop:before {
+  content: "\e93f";
+}
+.icon-HouseSimple:before {
+  content: "\e940";
+}
+.icon-ShareNetwork:before {
+  content: "\e941";
+}
+.icon-Shower:before {
+  content: "\e942";
+}
+.icon-SlidersHorizontal:before {
+  content: "\e943";
+}
+.icon-Warehouse:before {
+  content: "\e944";
+}
+.icon-ArrowsLeftRight:before {
+  content: "\e945";
+}
+.icon-PlayCircle:before {
+  content: "\e946";
+}
+.icon-Image:before {
+  content: "\e947";
+}
+.icon-DownloadSimple:before {
+  content: "\e948";
+}
+.icon-ChatCircleDots:before {
+  content: "\e949";
+}
+.icon-Target:before {
+  content: "\e94a";
+}
+.icon-Crown:before {
+  content: "\e94b";
+}
+.icon-times-solid:before {
+  content: "\e94c";
+}
+.icon-User:before {
+  content: "\e94d";
+}
+.icon-ChatTeardropDots:before {
+  content: "\e94e";
+}
+.icon-Bookmark:before {
+  content: "\e94f";
+}
