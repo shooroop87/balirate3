@@ -1,5 +1,5 @@
 server {
-    server_name 217.154.149.73 balirate.com www.balirate.com;
+    server_name 217.154.149.73 parisweek.ru www.parisweek.ru;
     server_tokens off;
 
     location / {

@@ -1,0 +1,232 @@
+name: Main ciaorentcar workflow
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  tests:
+    name: Run tests
+    runs-on: ubuntu-latest
+
+    services:
+      postgres:
+        image: postgres:13.10
+        env:
+          POSTGRES_USER: ciaorentcar_user
+          POSTGRES_PASSWORD: ciaorentcar_password
+          POSTGRES_DB: ciaorentcar
+        ports:
+          - "5432:5432"
+        options: >-
+          --health-cmd pg_isready
+          --health-interval 10s
+          --health-timeout 5s
+          --health-retries 5
+
+      redis:
+        image: redis:7
+        ports:
+          - "6379:6379"
+        options: >-
+          --health-cmd "redis-cli ping"
+          --health-interval 10s
+          --health-timeout 5s
+          --health-retries 5
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Install OS deps for cairo
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y libcairo2-dev pkg-config python3-dev libffi-dev
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.9"
+
+      - name: Install dependencies
+        run: |
+          python -m pip install --upgrade pip
+          pip install flake8==6.0.0 flake8-isort==6.0.0
+          pip install -r ./backend/requirements.txt
+
+      - name: Django tests
+        env:
+          POSTGRES_USER: ciaorentcar_user
+          POSTGRES_PASSWORD: ciaorentcar_password
+          POSTGRES_DB: ciaorentcar
+          DB_HOST: 127.0.0.1
+          DB_PORT: 5432
+        run: |
+          cd backend/
+          python manage.py makemigrations core --check
+          python manage.py migrate
+          python manage.py test
+
+  build:
+    name: Cleanup runner docker cache
+    runs-on: ubuntu-latest
+    needs: tests
+    steps:
+      - name: Prune old Docker images
+        run: |
+          sudo docker system prune -f --all
+
+  build_and_push_to_docker_hub:
+    name: Push backend Docker image to DockerHub
+    runs-on: ubuntu-latest
+    needs: tests
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Set up Docker Buildx
+        uses: docker/setup-buildx-action@v3
+
+      - name: Login to DockerHub
+        uses: docker/login-action@v3
+        with:
+          username: ${{ secrets.DOCKER_USERNAME }}
+          password: ${{ secrets.DOCKERHUB_TOKEN_RW }}
+
+      - name: Build and push backend
+        uses: docker/build-push-action@v6
+        with:
+          context: ./backend/
+          push: true
+          tags: egorovdocker/ciaorentcar_backend:latest
+
+  build_gateway_and_push_to_docker_hub:
+    name: Push gateway Docker image to DockerHub
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Set up Docker Buildx
+        uses: docker/setup-buildx-action@v3
+
+      - name: Login to DockerHub
+        uses: docker/login-action@v3
+        with:
+          username: ${{ secrets.DOCKER_USERNAME }}
+          password: ${{ secrets.DOCKERHUB_TOKEN_RW }}
+
+      - name: Build and push gateway
+        uses: docker/build-push-action@v6
+        with:
+          context: ./gateway/
+          push: true
+          tags: egorovdocker/ciaorentcar_gateway:latest
+
+  deploy:
+    name: Deploy to server
+    runs-on: ubuntu-latest
+    needs:
+      - build_and_push_to_docker_hub
+      - build_gateway_and_push_to_docker_hub
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Copy docker-compose.production.yml via SCP
+        uses: appleboy/scp-action@master
+        with:
+          host: ${{ secrets.HOST }}
+          username: ${{ secrets.USER }}
+          key: ${{ secrets.SSH_KEY }}
+          passphrase: ${{ secrets.SSH_PASSPHRASE }}
+          source: docker-compose.production.yml
+          target: ciaorentcar
+
+      - name: Deploy over SSH
+        uses: appleboy/ssh-action@master
+        with:
+          host: ${{ secrets.HOST }}
+          username: ${{ secrets.USER }}
+          key: ${{ secrets.SSH_KEY }}
+          passphrase: ${{ secrets.SSH_PASSPHRASE }}
+          script: |
+            set -e
+
+            cd ciaorentcar
+
+            echo "${{ secrets.DOCKERHUB_TOKEN_RO }}" | sudo docker login -u "${{ secrets.DOCKER_USERNAME }}" --password-stdin
+
+            sudo docker system prune -f
+            sudo docker compose -f docker-compose.production.yml pull
+
+            echo "🔄 Ensuring database is running..."
+            sudo docker compose -f docker-compose.production.yml up -d db redis
+
+            echo "⏳ Waiting for services to start..."
+            sleep 30
+
+            echo "🔄 Restarting application services..."
+            sudo docker compose -f docker-compose.production.yml up -d backend gateway
+
+            echo "📋 Current status of services:"
+            sudo docker compose -f docker-compose.production.yml ps
+
+            echo "🧹 Safe cleanup (preserving data)..."
+            sudo docker container prune -f
+            sudo docker image prune -f
+            echo "ℹ️ Redis cleanup skipped - automatic cleanup is configured with maxmemory-policy"
+
+            echo "🔄 Running all migrations..."
+            sudo docker compose -f docker-compose.production.yml exec backend python manage.py migrate
+
+            echo "🌍 Compiling messages..."
+            sudo docker compose -f docker-compose.production.yml exec backend python manage.py compilemessages
+
+            echo "📁 Collecting static files..."
+            sudo docker compose -f docker-compose.production.yml exec backend python manage.py collectstatic --noinput --clear
+
+            echo "🔍 Checking service health..."
+            for i in {1..12}; do
+              if sudo docker compose -f docker-compose.production.yml ps --filter "health=healthy" | grep -q "healthy"; then
+                echo "✅ Services are healthy"
+                break
+              fi
+              echo "⏳ Waiting for services to become healthy... ($i/12)"
+              sleep 10
+            done
+
+            echo "✅ Deployment completed! Final status:"
+            sudo docker compose -f docker-compose.production.yml ps
+
+            echo "📋 Recent backend logs:"
+            sudo docker compose -f docker-compose.production.yml logs --tail=20 backend
+
+  send_message:
+    name: Notify via Telegram
+    runs-on: ubuntu-latest
+    needs: deploy
+
+    steps:
+      - name: Send Telegram message
+        uses: appleboy/telegram-action@master
+        with:
+          to: ${{ secrets.TELEGRAM_TO }}
+          token: ${{ secrets.TELEGRAM_TOKEN }}
+          message: |
+            🎉 Деплой ciaorentcar успешно завершен!
+            🔧 Коммит: ${{ github.sha }}
+            👤 Автор: ${{ github.actor }}
+            🔗 Run: ${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}
+
+            ✅ Новый блог развернут
+            ✅ Миграции применены
+            ✅ Админ пользователь создан
+            ✅ Статика собрана
+            ✅ Данные PostgreSQL и Redis сохранены
+
+            🌐 Сайт готов к работе

@@ -17,4 +17,4 @@ Disallow: /filer/
 # Статика и медиа (опционально)
 Disallow: /media/uploads/
 
-Sitemap: https://balirate.com/sitemap.xml
+Sitemap: https://parisweek.ru/sitemap.xml

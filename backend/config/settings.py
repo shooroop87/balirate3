@@ -19,7 +19,7 @@ DEBUG = False
 if DEBUG:
     ALLOWED_HOSTS = ["*"]
 else:
-    ALLOWED_HOSTS = os.getenv("ALLOWED_HOSTS", "localhost 127.0.0.1 217.154.149.73 balirate.com www.balirate.com").split()
+    ALLOWED_HOSTS = os.getenv("ALLOWED_HOSTS", "localhost 127.0.0.1 217.154.149.73 parisweek.ru www.parisweek.ru").split()
 
 CSRF_TRUSTED_ORIGINS = [
     "http://localhost",
@@ -27,8 +27,8 @@ CSRF_TRUSTED_ORIGINS = [
     "http://127.0.0.1:5000",
     "http://localhost:8000",
     "http://127.0.0.1:8000",
-    "https://balirate.com",
-    "https://www.balirate.com",
+    "https://parisweek.ru",
+    "https://www.parisweek.ru",
 ]
 
 SECURE_PROXY_SSL_HEADER = ('HTTP_X_FORWARDED_PROTO', 'https')
@@ -212,7 +212,7 @@ SOCIALACCOUNT_PROVIDERS = {
 # ===========================================
 SENDPULSE_API_USER_ID = os.getenv("SENDPULSE_API_USER_ID", "")
 SENDPULSE_API_SECRET = os.getenv("SENDPULSE_API_SECRET", "")
-SENDPULSE_FROM_EMAIL = os.getenv("SENDPULSE_FROM_EMAIL", "noreply@balirate.com")
+SENDPULSE_FROM_EMAIL = os.getenv("SENDPULSE_FROM_EMAIL", "noreply@parisweek.ru")
 SENDPULSE_FROM_NAME = os.getenv("SENDPULSE_FROM_NAME", "BlisterPerPost")
 
 
@@ -310,7 +310,7 @@ EMAIL_USE_TLS = True
 EMAIL_HOST_USER = os.getenv("EMAIL_HOST_USER", "")
 EMAIL_HOST_PASSWORD = os.getenv("EMAIL_HOST_PASSWORD", "")
 
-DEFAULT_FROM_EMAIL = os.getenv("DEFAULT_FROM_EMAIL", "BlisterPerPost <service@balirate.com>")
+DEFAULT_FROM_EMAIL = os.getenv("DEFAULT_FROM_EMAIL", "BlisterPerPost <service@parisweek.ru>")
 
 # ===========================================
 # PayPal
