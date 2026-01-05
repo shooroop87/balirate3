@@ -1,0 +1,361 @@
+{% load i18n static %}
+
+<!-- GDPR Cookie Consent Modal -->
+<div id="gdprModal" class="gdpr-modal" style="display: none;">
+    <div class="gdpr-overlay"></div>
+    <div class="gdpr-content">
+        <div class="gdpr-header">
+            <div class="gdpr-logo">
+                <svg width="35" height="35" viewBox="0 0 35 35" fill="none" xmlns="http://www.w3.org/2000/svg">
+<g clip-path="url(#clip0_10166_162)">
+<path d="M31.1503 8.44942C30.705 7.75915 30.0844 7.19806 29.3511 6.82289L18.7287 0.719574C17.8995 0.24519 16.9596 -0.00429206 16.0031 -0.0039058C15.0465 -0.00351954 14.1068 0.246721 13.2781 0.721775L2.65566 6.82289C1.81694 7.30271 0.690518 8.19411 0.601998 9.31441C0.393976 11.982 3.84626 13.6459 6.15442 14.8719C10.1378 16.976 12.6983 18.1954 14.6391 20.1718C15.0706 20.612 15.7456 21.3802 16.0045 21.9855C16.2568 21.3802 16.9384 20.6098 17.3677 20.1718C19.3085 18.191 21.88 16.976 25.8546 14.8719C28.1273 13.6701 31.4667 12.1427 31.4026 9.32101C31.3845 9.01547 31.2983 8.71776 31.1503 8.44942ZM16.0045 15.8469C15.3381 15.8469 14.6868 15.6503 14.1328 15.2821C13.5788 14.9138 13.1471 14.3903 12.8923 13.778C12.6375 13.1656 12.571 12.4918 12.7013 11.8419C12.8317 11.1919 13.1529 10.5951 13.6244 10.1267C14.0959 9.65842 14.6964 9.33972 15.3501 9.21096C16.0038 9.0822 16.6811 9.14917 17.2965 9.40339C17.9119 9.65761 18.4376 10.0877 18.8072 10.6391C19.1768 11.1906 19.3736 11.8387 19.3727 12.5014C19.3724 12.9411 19.285 13.3763 19.1156 13.7824C18.9462 14.1884 18.698 14.5573 18.3852 14.868C18.0725 15.1786 17.7013 15.425 17.2928 15.5929C16.8843 15.7609 16.4465 15.8472 16.0045 15.8469Z" fill="url(#paint0_linear_10166_162)"></path>
+<path d="M25.8678 16.633C21.143 19.1289 17.8279 20.2932 16.54 24.3364C16.3087 24.982 16.1275 25.6442 15.9978 26.3173C15.8705 25.6441 15.6907 24.9818 15.46 24.3364C14.1632 20.3042 10.857 19.1487 6.13223 16.644C1.23043 14.0534 0.183679 12.7658 0 12.209V23.7157C0.0014291 24.6635 0.252969 25.5943 0.729475 26.415C1.20598 27.2358 1.89076 27.9178 2.71535 28.3928L13.3378 34.4873C13.6863 34.6981 14.0574 34.8694 14.4443 34.998C14.3159 34.5445 14.1654 34.0647 13.9817 33.5541C10.6622 24.31 4.79779 22.0386 4.79779 22.0386C4.79779 22.0386 7.53084 22.2587 11.4368 26.2689C13.3289 28.2145 14.816 30.541 16.0022 32.9642C16.0022 32.9642 18.6091 28.2762 20.5721 26.2579C24.478 22.2455 27.2111 22.0276 27.2111 22.0276C27.2111 22.0276 21.3422 24.3012 18.0271 33.5431C17.8434 34.0559 17.6907 34.5335 17.5624 34.9891C17.9486 34.859 18.3196 34.6878 18.6689 34.4785L29.2824 28.3928C30.1075 27.9175 30.7926 27.2352 31.2695 26.4141C31.7464 25.593 31.9983 24.6618 32 23.7135V12.2002C31.8141 12.746 30.7607 14.0446 25.8678 16.633Z" fill="url(#paint1_linear_10166_162)"></path>
+</g>
+<defs>
+<linearGradient id="paint0_linear_10166_162" x1="0.595359" y1="10.9916" x2="31.4048" y2="10.9916" gradientUnits="userSpaceOnUse">
+<stop stop-color="#336AEA"></stop>
+<stop offset="1" stop-color="#87ABFF"></stop>
+</linearGradient>
+<linearGradient id="paint1_linear_10166_162" x1="19.7488" y1="7.15555" x2="9.62465" y2="37.8394" gradientUnits="userSpaceOnUse">
+<stop stop-color="#2A3547"></stop>
+<stop offset="1" stop-color="#707070"></stop>
+</linearGradient>
+<clipPath id="clip0_10166_162">
+<rect width="32" height="35" fill="white"></rect>
+</clipPath>
+</defs>
+</svg>
+                <span class="logo_first">Blister</span>
+                <span class="logo_last">PerPost</span>
+            </div>
+            <h3>{% trans "Datenschutz & Cookies" %}</h3>
+            <p>{% trans "Wir verwenden Cookies und verarbeiten personenbezogene Daten, um Ihnen den bestmöglichen Service zu bieten." %}</p>
+        </div>
+        
+        <div class="gdpr-body">
+            <div class="gdpr-category">
+                <div class="gdpr-category-header">
+                    <div class="gdpr-category-info">
+                        <span class="gdpr-icon">🔒</span>
+                        <div>
+                            <strong>{% trans "Notwendige Cookies" %}</strong>
+                            <p>{% trans "Erforderlich für Login, Sicherheit und Grundfunktionen" %}</p>
+                        </div>
+                    </div>
+                    <label class="gdpr-switch disabled">
+                        <input type="checkbox" checked disabled>
+                        <span class="slider"></span>
+                        <span class="gdpr-always">{% trans "Immer aktiv" %}</span>
+                    </label>
+                </div>
+            </div>
+
+            <div class="gdpr-category">
+                <div class="gdpr-category-header">
+                    <div class="gdpr-category-info">
+                        <span class="gdpr-icon">⚙️</span>
+                        <div>
+                            <strong>{% trans "Funktionale Cookies" %}</strong>
+                            <p>{% trans "Speichern Ihre Sprache und Einstellungen" %}</p>
+                        </div>
+                    </div>
+                    <label class="gdpr-switch">
+                        <input type="checkbox" id="gdpr-functional">
+                        <span class="slider"></span>
+                    </label>
+                </div>
+            </div>
+
+            <div class="gdpr-category">
+                <div class="gdpr-category-header">
+                    <div class="gdpr-category-info">
+                        <span class="gdpr-icon">📊</span>
+                        <div>
+                            <strong>{% trans "Analyse-Cookies" %}</strong>
+                            <p>{% trans "Helfen uns, die Website zu verbessern" %}</p>
+                        </div>
+                    </div>
+                    <label class="gdpr-switch">
+                        <input type="checkbox" id="gdpr-analytics">
+                        <span class="slider"></span>
+                    </label>
+                </div>
+            </div>
+
+            <div class="gdpr-category gdpr-medical">
+                <div class="gdpr-category-header">
+                    <div class="gdpr-category-info">
+                        <span class="gdpr-icon">🏥</span>
+                        <div>
+                            <strong>{% trans "Verarbeitung von Gesundheitsdaten" %}</strong>
+                            <p>{% trans "Für unseren Blister-Service verarbeiten wir Ihre Rezepte und Medikamentendaten gemäß Art. 9 DSGVO (Kranich-Apotheke Darmstadt)." %}</p>
+                        </div>
+                    </div>
+                    <label class="gdpr-switch">
+                        <input type="checkbox" id="gdpr-medical">
+                        <span class="slider"></span>
+                    </label>
+                </div>
+                <div class="gdpr-medical-note">
+                    <small>{% trans "Hinweis: Ohne diese Einwilligung können wir den Blister-Service nicht anbieten." %}</small>
+                </div>
+            </div>
+        </div>
+
+        <div class="gdpr-footer">
+            <div class="gdpr-links">
+                <a href="{% url 'privacy' %}" target="_blank">{% trans "Datenschutz" %}</a>
+                <a href="{% url 'consent' %}" target="_blank">{% trans "Patienteneinwilligung" %}</a>
+                <a href="{% url 'imprint' %}" target="_blank">{% trans "Impressum" %}</a>
+            </div>
+            <div class="gdpr-buttons">
+                <button type="button" class="gdpr-btn gdpr-btn-reject" id="gdprReject">{% trans "Nur Notwendige" %}</button>
+                <button type="button" class="gdpr-btn gdpr-btn-settings" id="gdprSettings">{% trans "Auswahl speichern" %}</button>
+                <button type="button" class="gdpr-btn gdpr-btn-accept" id="gdprAccept">{% trans "Alle akzeptieren" %}</button>
+            </div>
+        </div>
+    </div>
+</div>
+<style>
+.gdpr-modal {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    z-index: 99999;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 20px;
+}
+.gdpr-overlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.7);
+    backdrop-filter: blur(5px);
+}
+.gdpr-content {
+    position: relative;
+    background: #fff;
+    border-radius: 20px;
+    max-width: 580px;
+    width: 100%;
+    max-height: 90vh;
+    overflow-y: auto;
+    box-shadow: 0 25px 80px rgba(0, 0, 0, 0.3);
+    animation: gdprSlideIn 0.4s ease;
+}
+@keyframes gdprSlideIn {
+    from { opacity: 0; transform: translateY(30px) scale(0.95); }
+    to { opacity: 1; transform: translateY(0) scale(1); }
+}
+.gdpr-header {
+    padding: 25px 25px 20px;
+    text-align: center;
+    border-bottom: 1px solid #f0f0f0;
+}
+.gdpr-logo { margin-bottom: 12px; }
+.gdpr-header h3 { font-size: 20px; font-weight: 700; color: #1a1a2e; margin-bottom: 8px; }
+.gdpr-header p { color: #5A6A85; font-size: 13px; margin: 0; line-height: 1.5; }
+.gdpr-body { padding: 20px 25px; }
+.gdpr-category {
+    background: #f8f9fa;
+    border-radius: 12px;
+    padding: 14px;
+    margin-bottom: 10px;
+}
+.gdpr-category:hover { background: #f0f4f8; }
+.gdpr-category.gdpr-medical {
+    background: linear-gradient(135deg, #EBF5FF, #E0F2FE);
+    border: 1px solid rgba(51, 106, 234, 0.15);
+}
+.gdpr-category-header {
+    display: flex;
+    align-items: flex-start;
+    justify-content: space-between;
+    gap: 12px;
+}
+.gdpr-category-info { display: flex; align-items: flex-start; gap: 10px; flex: 1; }
+.gdpr-icon {
+    font-size: 20px;
+    width: 36px;
+    height: 36px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: #fff;
+    border-radius: 8px;
+    flex-shrink: 0;
+}
+.gdpr-category-info strong { display: block; font-size: 13px; color: #1a1a2e; margin-bottom: 3px; }
+.gdpr-category-info p { font-size: 11px; color: #5A6A85; margin: 0; line-height: 1.4; }
+.gdpr-medical-note { margin-top: 10px; padding-top: 10px; border-top: 1px solid rgba(51, 106, 234, 0.15); }
+.gdpr-medical-note small { color: #336AEA; font-size: 11px; }
+
+/* Switch */
+.gdpr-switch { position: relative; display: inline-flex; align-items: center; gap: 8px; cursor: pointer; flex-shrink: 0; }
+.gdpr-switch input { opacity: 0; width: 0; height: 0; }
+.gdpr-switch .slider {
+    width: 44px;
+    height: 24px;
+    background: #ccc;
+    border-radius: 24px;
+    position: relative;
+    transition: 0.3s;
+}
+.gdpr-switch .slider:before {
+    content: "";
+    position: absolute;
+    width: 18px;
+    height: 18px;
+    background: #fff;
+    border-radius: 50%;
+    top: 3px;
+    left: 3px;
+    transition: 0.3s;
+}
+.gdpr-switch input:checked + .slider { background: #336AEA; }
+.gdpr-switch input:checked + .slider:before { transform: translateX(20px); }
+.gdpr-switch.disabled { cursor: not-allowed; opacity: 0.7; }
+.gdpr-always { font-size: 10px; color: #10B981; font-weight: 600; white-space: nowrap; }
+
+/* Footer */
+.gdpr-footer { padding: 20px 25px; border-top: 1px solid #f0f0f0; background: #fafafa; border-radius: 0 0 20px 20px; }
+.gdpr-links { display: flex; justify-content: center; gap: 15px; margin-bottom: 15px; flex-wrap: wrap; }
+.gdpr-links a { font-size: 11px; color: #5A6A85; text-decoration: none; }
+.gdpr-links a:hover { color: #336AEA; }
+.gdpr-buttons { display: flex; gap: 10px; flex-wrap: wrap; }
+.gdpr-btn {
+    flex: 1;
+    min-width: 120px;
+    padding: 12px 16px;
+    border: none;
+    border-radius: 10px;
+    font-size: 13px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.3s;
+}
+.gdpr-btn-reject { background: #f0f0f0; color: #5A6A85; }
+.gdpr-btn-reject:hover { background: #e0e0e0; }
+.gdpr-btn-settings { background: #fff; color: #336AEA; border: 2px solid #336AEA; }
+.gdpr-btn-settings:hover { background: #336AEA10; }
+.gdpr-btn-accept { background: linear-gradient(135deg, #336AEA, #10B981); color: #fff; }
+.gdpr-btn-accept:hover { transform: translateY(-2px); box-shadow: 0 5px 20px rgba(51, 106, 234, 0.3); }
+
+@media (max-width: 576px) {
+    .gdpr-content { margin: 10px; border-radius: 16px; }
+    .gdpr-header, .gdpr-body, .gdpr-footer { padding: 15px; }
+    .gdpr-buttons { flex-direction: column; }
+    .gdpr-btn { min-width: 100%; }
+}
+.gdpr-logo .logo_first {
+    color: rgb(42, 53, 71);
+    font-size: 24px;
+    font-weight: 700;
+}
+.gdpr-logo .logo_last {
+    color: #336AEA;
+    font-size: 24px;
+    font-weight: 700;
+    font-style: italic;
+}
+</style>
+<script>
+(function() {
+    const CONSENT_KEY = 'blisterperpost_gdpr_consent';
+    const CONSENT_VERSION = '1.0';
+    
+    // Проверяем, давал ли пользователь согласие
+    function hasConsent() {
+        const consent = localStorage.getItem(CONSENT_KEY);
+        if (!consent) return false;
+        try {
+            const data = JSON.parse(consent);
+            return data.version === CONSENT_VERSION;
+        } catch (e) {
+            return false;
+        }
+    }
+    
+    // Сохраняем согласие
+    function saveConsent(settings) {
+        const data = {
+            version: CONSENT_VERSION,
+            timestamp: new Date().toISOString(),
+            necessary: true,
+            functional: settings.functional || false,
+            analytics: settings.analytics || false,
+            medical: settings.medical || false
+        };
+        localStorage.setItem(CONSENT_KEY, JSON.stringify(data));
+        document.cookie = 'gdpr_consent=' + JSON.stringify(data) + ';path=/;max-age=31536000;SameSite=Lax';
+        hideModal();
+        applyConsent(data);
+    }
+    
+    // Применяем настройки (загрузка скриптов аналитики и т.д.)
+    function applyConsent(data) {
+        if (data.analytics) {
+            // Здесь можно загрузить Google Analytics
+            // loadGoogleAnalytics();
+        }
+    }
+    
+    // Показать/скрыть модал
+    function showModal() {
+        document.getElementById('gdprModal').style.display = 'flex';
+        document.body.style.overflow = 'hidden';
+    }
+    
+    function hideModal() {
+        document.getElementById('gdprModal').style.display = 'none';
+        document.body.style.overflow = '';
+    }
+    
+    // Инициализация при загрузке страницы
+    document.addEventListener('DOMContentLoaded', function() {
+        if (!hasConsent()) {
+            showModal();
+        } else {
+            const data = JSON.parse(localStorage.getItem(CONSENT_KEY));
+            applyConsent(data);
+        }
+        
+        // Все принять
+        document.getElementById('gdprAccept').addEventListener('click', function() {
+            saveConsent({ functional: true, analytics: true, medical: true });
+        });
+        
+        // Только необходимые
+        document.getElementById('gdprReject').addEventListener('click', function() {
+            saveConsent({ functional: false, analytics: false, medical: false });
+        });
+        
+        // Сохранить выбор
+        document.getElementById('gdprSettings').addEventListener('click', function() {
+            saveConsent({
+                functional: document.getElementById('gdpr-functional').checked,
+                analytics: document.getElementById('gdpr-analytics').checked,
+                medical: document.getElementById('gdpr-medical').checked
+            });
+        });
+    });
+    
+    // Глобальная функция для повторного открытия (из footer)
+    window.openGdprSettings = function() {
+        const consent = localStorage.getItem(CONSENT_KEY);
+        if (consent) {
+            const data = JSON.parse(consent);
+            document.getElementById('gdpr-functional').checked = data.functional;
+            document.getElementById('gdpr-analytics').checked = data.analytics;
+            document.getElementById('gdpr-medical').checked = data.medical;
+        }
+        showModal();
+    };
+})();
+</script>

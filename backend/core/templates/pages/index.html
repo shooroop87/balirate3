@@ -1,0 +1,142 @@
+{% extends "base.html" %}
+{% load static i18n %}
+
+{% block title %}Blister-Service für Medikamente | BlisterPerPost{% endblock %}
+{% block meta_description %}Individuelle Blisterpackungen für Ihre Medikamente. Apothekergeprüft, nach Tageszeiten sortiert, alle 7-28 Tage per DHL geliefert. Ab 8,90€/Woche.{% endblock %}
+
+{% block og_title %}BlisterPerPost – Ihr Blister-Service für Medikamente{% endblock %}
+{% block og_description %}Wir verblistern Ihre Medikamente, prüfen sie in der Apotheke und liefern alle 7, 14 oder 28 Tage direkt nach Hause.{% endblock %}
+
+{% block schema_org %}
+{{ block.super }}
+<script type="application/ld+json">
+{
+    "@context": "https://schema.org",
+    "@type": "HealthcareService",
+    "@id": "https://balirate.com/#service",
+    "name": "BlisterPerPost Medikamenten-Blister-Service",
+    "description": "Individuelle Blisterverpackung für Medikamente. Apothekergeprüft, nach Tageszeiten sortiert, alle 7-28 Tage per DHL geliefert.",
+    "provider": {"@id": "https://balirate.com/#pharmacy"},
+    "serviceType": "Medication Blister Packaging",
+    "areaServed": [
+        {"@type": "Country", "name": "Germany"},
+        {"@type": "Country", "name": "Austria"}
+    ],
+    "audience": {
+        "@type": "PeopleAudience",
+        "audienceType": "Senioren, Pflegeeinrichtungen, Angehörige, chronisch Kranke"
+    },
+    "offers": [
+        {
+            "@type": "Offer",
+            "name": "Wöchentlicher Blisterplan",
+            "price": "8.90",
+            "priceCurrency": "EUR",
+            "priceSpecification": {
+                "@type": "UnitPriceSpecification",
+                "price": "8.90",
+                "priceCurrency": "EUR",
+                "unitText": "Woche"
+            }
+        },
+        {
+            "@type": "Offer",
+            "name": "Monatlicher Blisterplan",
+            "price": "34.90",
+            "priceCurrency": "EUR",
+            "priceSpecification": {
+                "@type": "UnitPriceSpecification",
+                "price": "34.90",
+                "priceCurrency": "EUR",
+                "unitText": "Monat"
+            }
+        },
+        {
+            "@type": "Offer",
+            "name": "Vierteljährlicher Blisterplan",
+            "price": "99.00",
+            "priceCurrency": "EUR",
+            "priceSpecification": {
+                "@type": "UnitPriceSpecification",
+                "price": "99.00",
+                "priceCurrency": "EUR",
+                "unitText": "Quartal"
+            }
+        }
+    ]
+}
+</script>
+<script type="application/ld+json">
+{
+    "@context": "https://schema.org",
+    "@type": "FAQPage",
+    "mainEntity": [
+        {
+            "@type": "Question",
+            "name": "Was ist BlisterPerPost?",
+            "acceptedAnswer": {
+                "@type": "Answer",
+                "text": "BlisterPerPost ist ein Apotheken-Service, der Ihre Medikamente individuell nach Datum und Uhrzeit in praktische Blisterkarten sortiert. Jede Dosis ist klar beschriftet – für sichere, einfache und stressfreie Medikamenteneinnahme."
+            }
+        },
+        {
+            "@type": "Question",
+            "name": "Wie funktioniert das mit dem E-Rezept?",
+            "acceptedAnswer": {
+                "@type": "Answer",
+                "text": "Ihr Arzt stellt Ihnen ein E-Rezept aus – digital oder auf Papier. Laden Sie den QR-Code in Ihrer App (z.B. Gesund.de) hoch und wählen Sie BlisterPerPost als Ihre Apotheke."
+            }
+        },
+        {
+            "@type": "Question",
+            "name": "Was kostet der Service?",
+            "acceptedAnswer": {
+                "@type": "Answer",
+                "text": "Der Service kostet 8,90 € pro Woche inkl. Versand. Viele Krankenkassen erstatten diese Gebühr teilweise oder vollständig."
+            }
+        },
+        {
+            "@type": "Question",
+            "name": "Für wen ist BlisterPerPost gedacht?",
+            "acceptedAnswer": {
+                "@type": "Answer",
+                "text": "Für Senior:innen, Angehörige die aus der Ferne unterstützen, und Pflegeeinrichtungen die Zeit sparen möchten."
+            }
+        },
+        {
+            "@type": "Question",
+            "name": "Wie läuft die Lieferung ab?",
+            "acceptedAnswer": {
+                "@type": "Answer",
+                "text": "Alle 7, 14 oder 28 Tage erhalten Sie Ihre Blisterkarte per DHL nach Hause. Sie werden per E-Mail informiert, sobald Ihr Paket unterwegs ist."
+            }
+        },
+        {
+            "@type": "Question",
+            "name": "Wer prüft meine Medikamente?",
+            "acceptedAnswer": {
+                "@type": "Answer",
+                "text": "Alle Verordnungen werden von zertifizierten Apotheker:innen auf Wechselwirkungen und Dosierungen geprüft – kostenlos über Ihre Krankenkasse."
+            }
+        }
+    ]
+}
+</script>
+{% endblock %}
+
+{% block content %}
+    
+    {% include "mainpage/hero.html" %}
+    {% include "mainpage/how_it_works.html" %}
+    {% include "mainpage/benefits.html" %}
+    {% include "mainpage/about.html" %}
+    {% include "mainpage/services.html" %}
+    {% include "mainpage/feedback.html" %}
+    
+    {% include "mainpage/pricing.html" %}
+    {% include "mainpage/faq.html" %}
+    {% include "mainpage/app.html" %}
+    {% include "mainpage/blog.html" %}
+    {% include "mainpage/overview.html" %}
+
+{% endblock %}

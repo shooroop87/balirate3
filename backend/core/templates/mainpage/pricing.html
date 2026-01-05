@@ -1,0 +1,133 @@
+{% load static i18n %}
+<div class="pricing-area ptb-140" id="pricing">
+  <div class="container">
+    <div class="section-title">
+      <div class="row justify-content-center align-items-center g-4">
+        <div class="col-lg-7 col-md-12">
+          <div class="left">
+            <span class="sub">Unsere Preise</span>
+            <h3>Einfach, transparent – für Familien und Pflegeeinrichtungen</h3>
+          </div>
+        </div>
+        <div class="col-lg-5 col-md-12">
+          <div class="right">
+            <p>
+              Ob für Ihre Eltern, Großeltern oder eine ganze Senioreneinrichtung –  
+              BlisterPerPost liefert klar strukturierte <strong>wöchentliche Blisterkarten</strong>,  
+              fachgerecht vorbereitet und von approbierten Apotheker:innen geprüft.  
+              Sicher, bequem und über Ihre Krankenkasse abrechenbar.
+            </p>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="row justify-content-center g-4">
+
+      <!-- Weekly Plan -->
+      <div class="col-xl-4 col-md-12">
+        <div class="pricing-card" style="background-color: #f2f7ff;">
+          <div class="head">
+            <h3>Wöchentlicher Blisterplan</h3>
+            <p>Ideal zum Testen oder für kurzfristige Therapien</p>
+          </div>
+
+          <ul class="list">
+            <li><span>Apothekengeprüfte Blisterkarte für 7 Tage</span></li>
+            <li><span>Klar getrennte Tageszeiten: morgens, mittags, abends, nachts</span></li>
+            <li><span>Pharmazeutische Prüfung auf Wechselwirkungen (Kasse übernimmt)</span></li>
+          </ul>
+
+          <div class="price mt-3">
+            <h3>8,90 €<span> / pro Woche</span></h3>
+          </div>
+
+          <!-- Weekly Plan -->
+          <div class="price-btn">
+  {% if user.is_authenticated %}
+  <a class="default-btn" href="{% url 'subscriptions' %}">
+  {% else %}
+  <a class="default-btn" href="#" data-bs-toggle="modal" data-bs-target="#authModal">
+  {% endif %}
+    1 Woche testen
+  </a>
+</div>
+        </div>
+      </div>
+
+      <!-- Monthly Plan -->
+      <div class="col-xl-4 col-md-12">
+        <div class="pricing-card featured" style="background-color: #e9f7ef;">
+          <div class="head">
+            <h3>Monatlicher Blisterplan</h3>
+            <p>Unser beliebtester Service – sicher, einfach und automatisch</p>
+          </div>
+
+          <ul class="list">
+            <li><span>4 wöchentliche Blisterkarten pro Monat vorbereitet und geliefert</span></li>
+            <li><span>Pharmazeutische Kontrolle und Verträglichkeitsprüfung</span></li>
+            <li><span>Erster Monat: Blisterkarten kostenlos inklusive Lieferung</span></li>
+          </ul>
+
+          <div class="price mt-3">
+            <h3>34,90 €<span> / pro Monat</span></h3>
+          </div>
+
+          <!-- Monthly Plan -->
+<div class="price-btn">
+  {% if user.is_authenticated %}
+  <a class="default-btn" href="{% url 'subscriptions' %}">
+  {% else %}
+  <a class="default-btn" href="#" data-bs-toggle="modal" data-bs-target="#authModal">
+  {% endif %}
+    Monat starten
+  </a>
+</div>
+        </div>
+      </div>
+
+      <!-- Quarterly Plan -->
+      <div class="col-xl-4 col-md-12">
+        <div class="pricing-card">
+          <div class="head">
+            <h3>Vierteljährlicher Blisterplan</h3>
+            <p>Optimal für Langzeittherapien und Pflegeeinrichtungen</p>
+          </div>
+
+          <ul class="list">
+            <li><span>12 Blisterkarten sorgfältig im Voraus vorbereitet</span></li>
+            <li><span>Direkte Abstimmung mit Ärzt:innen und Pflegepersonal</span></li>
+            <li><span>Kostenloser Austausch bei Therapieänderungen</span></li>
+          </ul>
+
+          <div class="price mt-3">
+            <h3>99,00 €<span> / pro Quartal</span></h3>
+          </div>
+
+          <!-- Quarterly Plan -->
+<div class="price-btn">
+  {% if user.is_authenticated %}
+  <a class="default-btn" href="{% url 'subscriptions' %}">
+  {% else %}
+  <a class="default-btn" href="#" data-bs-toggle="modal" data-bs-target="#authModal">
+  {% endif %}
+    Quartalsplan abonnieren
+  </a>
+</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Optional note -->
+    <div class="row mt-5">
+      <div class="col-lg-8 mx-auto text-center">
+        <p class="small text-muted">
+          *Alle Preise beinhalten pharmazeutische Kontrolle, Verpackung und Versand per DHL.  
+          Medikamentenkosten werden wie gewohnt über Ihre Krankenkasse abgerechnet.  
+          <strong>Erster Monat mit kostenlosen Blisterkarten – gültig für Monats- und Quartalspläne.</strong><br>
+          Ideal für Familien, die Eltern oder Großeltern unterstützen, sowie für Senioreneinrichtungen.
+        </p>
+      </div>
+    </div>
+  </div>
+</div>

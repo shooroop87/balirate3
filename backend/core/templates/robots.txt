@@ -1,0 +1,20 @@
+User-agent: *
+Allow: /
+
+# Личный кабинет и данные пользователей
+Disallow: /account/
+Disallow: /dashboard/
+Disallow: /subscriptions/
+Disallow: /deliveries/
+
+# Админка и служебные
+Disallow: /admin/
+Disallow: /webhooks/
+Disallow: /set-language/
+Disallow: /tinymce/
+Disallow: /filer/
+
+# Статика и медиа (опционально)
+Disallow: /media/uploads/
+
+Sitemap: https://balirate.com/sitemap.xml

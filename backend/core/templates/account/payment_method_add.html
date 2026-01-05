@@ -1,0 +1,83 @@
+{% extends "base.html" %}
+{% load static i18n %}
+
+{% block title %}{% trans "Zahlungsmethode" %}{% endblock %}
+
+{% block content %}
+<div class="doctor-profile-area pb-140">
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-3 mb-4">
+                {% include "account/includes/sidebar.html" %}
+            </div>
+
+            <div class="col-lg-9">
+                <div class="profile-card">
+                    <div class="card-header">
+                        <h2>{% trans "Zahlungsmethode" %}</h2>
+                    </div>
+                    <div class="card-body">
+                        {% if subscription and paypal_method %}
+                            <!-- Есть активная подписка с PayPal -->
+                            <div class="payment-info">
+                                <div class="d-flex align-items-center mb-3">
+                                    <div class="paypal-icon me-3">
+                                        <svg xmlns="http://www.w3.org/2000/svg" width="48" height="48" viewBox="0 0 24 24" fill="#003087">
+                                            <path d="M7.076 21.337H2.47a.641.641 0 0 1-.633-.74L4.944.901C5.026.382 5.474 0 5.998 0h7.46c2.57 0 4.578.543 5.69 1.81 1.01 1.15 1.304 2.42 1.012 4.287-.023.143-.047.288-.077.437-.983 5.05-4.349 6.797-8.647 6.797H9.216c-.527 0-.975.382-1.057.901L7.076 21.337z"/>
+                                        </svg>
+                                    </div>
+                                    <div>
+                                        <h5 class="mb-1">PayPal</h5>
+                                        <p class="text-muted mb-0">{{ paypal_method.paypal_email }}</p>
+                                    </div>
+                                    {% if paypal_method.is_default %}
+                                    <span class="badge bg-success ms-auto">{% trans "Standard" %}</span>
+                                    {% endif %}
+                                </div>
+                                
+                                <div class="alert alert-info">
+                                    <i class="fas fa-info-circle me-2"></i>
+                                    {% trans "Ihre Zahlungen werden automatisch über PayPal abgewickelt. Um die Zahlungsmethode zu ändern, verwalten Sie Ihr Abonnement direkt bei PayPal." %}
+                                </div>
+                            </div>
+                        {% else %}
+                            <!-- Нет активной подписки -->
+                            <div class="text-center py-4">
+                                <div class="mb-4">
+                                    <svg xmlns="http://www.w3.org/2000/svg" width="64" height="64" viewBox="0 0 24 24" fill="none" stroke="#6c757d" stroke-width="1.5">
+                                        <rect x="1" y="4" width="22" height="16" rx="2" ry="2"/>
+                                        <line x1="1" y1="10" x2="23" y2="10"/>
+                                    </svg>
+                                </div>
+                                <h5 class="text-muted mb-3">{% trans "Keine Zahlungsmethode hinterlegt" %}</h5>
+                                <p class="text-muted mb-4">
+                                    {% trans "Ihre Zahlungsmethode wird automatisch hinzugefügt, wenn Sie ein Abonnement abschließen." %}
+                                </p>
+                                <a href="{% url 'subscriptions' %}" class="default-btn">
+                                    {% trans "Abonnement wählen" %}
+                                </a>
+                            </div>
+                        {% endif %}
+                        
+                        <div class="mt-4">
+                            <a href="{% url 'account_payment_methods' %}" class="btn btn-outline-secondary">
+                                <i class="fas fa-arrow-left me-2"></i>{% trans "Zurück" %}
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+{% block extra_css %}
+<style>
+.profile-card { background: #fff; border-radius: 15px; box-shadow: 0 5px 20px rgba(0,0,0,0.05); overflow: hidden; }
+.profile-card .card-header { background: transparent; border-bottom: 1px solid #f0f0f0; padding: 20px 25px; }
+.profile-card .card-header h2 { font-size: 20px; margin: 0; }
+.profile-card .card-body { padding: 25px; }
+.paypal-icon { width: 60px; height: 60px; background: #f5f7fa; border-radius: 10px; display: flex; align-items: center; justify-content: center; }
+</style>
+{% endblock %}

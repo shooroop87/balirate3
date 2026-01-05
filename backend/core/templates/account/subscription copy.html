@@ -1,0 +1,284 @@
+{% extends "base.html" %}
+{% load static i18n %}
+
+{% block title %}{% trans "Mein Abonnement" %}{% endblock %}
+
+{% block content %}
+<div class="doctor-profile-area pb-140">
+    <div class="container">
+        <div class="row">
+            <!-- Sidebar -->
+            <div class="col-lg-3 mb-4">
+                {% include "account/includes/sidebar.html" %}
+            </div>
+
+            <!-- Main Content -->
+            <div class="col-lg-9">
+                {% if subscription %}
+                <!-- Active Subscription -->
+                <div class="profile-card">
+                    <div class="card-header d-flex justify-content-between align-items-center">
+                        <h2>{% trans "Ihr Abonnement" %}</h2>
+                        <span class="badge 
+                            {% if subscription.status == 'active' %}bg-success
+                            {% elif subscription.status == 'trialing' %}bg-info
+                            {% elif subscription.status == 'paused' %}bg-warning
+                            {% else %}bg-secondary{% endif %}">
+                            {{ subscription.get_status_display }}
+                        </span>
+                    </div>
+                    
+                    <div class="card-body">
+                        <div class="subscription-details">
+                            <div class="row">
+                                <div class="col-md-4 mb-4">
+                                    <div class="detail-box">
+                                        <label>{% trans "Aktueller Tarif" %}</label>
+                                        <h3>{{ subscription.plan.name }}</h3>
+                                        <p>{{ subscription.plan.get_interval_days_display }}</p>
+                                    </div>
+                                </div>
+                                <div class="col-md-4 mb-4">
+                                    <div class="detail-box">
+                                        <label>{% trans "Preis" %}</label>
+                                        <h3>{{ subscription.plan.price }} €</h3>
+                                        <p>{% trans "pro Lieferung" %}</p>
+                                    </div>
+                                </div>
+                                <div class="col-md-4 mb-4">
+                                    <div class="detail-box">
+                                        <label>{% trans "Nächste Lieferung" %}</label>
+                                        <h3>{{ subscription.current_period_end|date:"d.m.Y" }}</h3>
+                                        <p>{% trans "voraussichtlich" %}</p>
+                                    </div>
+                                </div>
+                            </div>
+
+                            {% if subscription.cancel_at_period_end %}
+                            <div class="alert alert-warning">
+                                <strong>{% trans "Kündigung vorgemerkt" %}</strong><br>
+                                {% blocktrans with date=subscription.current_period_end|date:"d.m.Y" %}
+                                Ihr Abonnement endet am {{ date }}.
+                                {% endblocktrans %}
+                            </div>
+                            {% endif %}
+                        </div>
+
+                        <hr>
+
+                        <div class="subscription-actions">
+                            <h4>{% trans "Abonnement verwalten" %}</h4>
+                            <div class="d-flex flex-wrap gap-2">
+                                <a href="{% url 'subscription_change' %}" class="btn btn-outline-primary">
+                                    {% trans "Tarif wechseln" %}
+                                </a>
+                                {% if subscription.status == 'active' %}
+                                <a href="{% url 'subscription_pause' %}" class="default-btn">
+                                    {% trans "Pausieren" %}
+                                </a>
+                                {% endif %}
+                                {% if not subscription.cancel_at_period_end %}
+                                <a href="{% url 'subscription_cancel' %}" class="btn btn-outline-danger">
+                                    {% trans "Kündigen" %}
+                                </a>
+                                {% endif %}
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                {% else %}
+                <!-- No Subscription -->
+                <div class="profile-card">
+                    <div class="card-body text-center py-5">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="80" height="80" viewBox="0 0 24 24" fill="none" stroke="#ccc" stroke-width="1.5" class="mb-4">
+                            <path d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z"/>
+                        </svg>
+                        <h3>{% trans "Kein aktives Abonnement" %}</h3>
+                        <p class="text-muted mb-4">{% trans "Wählen Sie einen Tarif, um mit Ihrem Blister-Service zu starten." %}</p>
+                    </div>
+                </div>
+                {% endif %}
+
+<!-- Available Plans -->
+<div class="profile-card mt-4">
+    <div class="card-header">
+        <h2>{% trans "Verfügbare Tarife" %}</h2>
+    </div>
+    <div class="card-body">
+        <div class="row">
+            <!-- Weekly Plan -->
+            <div class="col-md-4 mb-3">
+                <div class="plan-box {% if subscription and subscription.plan.slug == 'woechentlich' %}current{% endif %}">
+                    {% if subscription and subscription.plan.slug == 'woechentlich' %}
+                    <span class="current-badge">{% trans "Aktuell" %}</span>
+                    {% endif %}
+                    <h4>{% trans "Wöchentlicher Blisterplan" %}</h4>
+                    <div class="price">
+                        <span class="amount">8,90</span>
+                        <span class="currency">€</span>
+                    </div>
+                    <p>{% trans "pro Woche" %}</p>
+                    <ul class="features">
+                        <li>{% trans "Apothekengeprüfte Blisterkarte für 7 Tage" %}</li>
+                        <li>{% trans "Klar getrennte Tageszeiten für jeden Tag" %}</li>
+                        <li>{% trans "Pharmazeutische Prüfung auf Wechselwirkungen" %}</li>
+                    </ul>
+                </div>
+            </div>
+            <!-- Monthly Plan -->
+            <div class="col-md-4 mb-3">
+                <div class="plan-box {% if subscription and subscription.plan.slug == 'monatlich' %}current{% endif %}">
+                    {% if subscription and subscription.plan.slug == 'monatlich' %}
+                    <span class="current-badge">{% trans "Aktuell" %}</span>
+                    {% endif %}
+                    <h4>{% trans "Monatlicher Blisterplan" %}</h4>
+                    <div class="price">
+                        <span class="amount">34,90</span>
+                        <span class="currency">€</span>
+                    </div>
+                    <p>{% trans "pro Monat" %}</p>
+                    <ul class="features">
+                        <li>{% trans "4 wöchentliche Blisterkarten pro Monat" %}</li>
+                        <li>{% trans "Pharmazeutische Kontrolle und Verträglichkeitsprüfung" %}</li>
+                        <li>{% trans "Erster Monat kostenlos inkl. Lieferung" %}</li>
+                    </ul>
+                </div>
+            </div>
+            <!-- Quarterly Plan -->
+            <div class="col-md-4 mb-3">
+                <div class="plan-box {% if subscription and subscription.plan.slug == 'vierteljaehrlich' %}current{% endif %}">
+                    {% if subscription and subscription.plan.slug == 'vierteljaehrlich' %}
+                    <span class="current-badge">{% trans "Aktuell" %}</span>
+                    {% endif %}
+                    <h4>{% trans "Vierteljährlicher Blisterplan" %}</h4>
+                    <div class="price">
+                        <span class="amount">99,00</span>
+                        <span class="currency">€</span>
+                    </div>
+                    <p>{% trans "pro Quartal" %}</p>
+                    <ul class="features">
+                        <li>{% trans "12 Blisterkarten sorgfältig vorbereitet" %}</li>
+                        <li>{% trans "Direkte Abstimmung mit Ärzt:innen" %}</li>
+                        <li>{% trans "Kostenloser Austausch bei Therapieänderungen" %}</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+{% block extra_css %}
+<style>
+.profile-card {
+    background: #fff;
+    border-radius: 15px;
+    box-shadow: 0 5px 20px rgba(0,0,0,0.05);
+    overflow: hidden;
+}
+.profile-card .card-header {
+    background: transparent;
+    border-bottom: 1px solid #f0f0f0;
+    padding: 20px 25px;
+}
+.profile-card .card-header h2 {
+    font-size: 20px;
+    margin: 0;
+}
+.profile-card .card-body {
+    padding: 25px;
+}
+.detail-box {
+    background: #f8f9fa;
+    border-radius: 12px;
+    padding: 20px;
+    text-align: center;
+}
+.detail-box label {
+    display: block;
+    font-size: 13px;
+    color: #5A6A85;
+    margin-bottom: 10px;
+}
+.detail-box h3 {
+    font-size: 24px;
+    margin-bottom: 5px;
+}
+.detail-box p {
+    margin: 0;
+    color: #5A6A85;
+    font-size: 14px;
+}
+.subscription-actions h4 {
+    font-size: 16px;
+    margin-bottom: 15px;
+}
+.plan-box {
+    background: #f8f9fa;
+    border-radius: 12px;
+    padding: 25px;
+    text-align: center;
+    position: relative;
+    border: 2px solid transparent;
+    transition: all 0.3s ease;
+}
+.plan-box:hover {
+    border-color: #336AEA;
+}
+.plan-box.current {
+    border-color: #10B981;
+    background: rgba(16, 185, 129, 0.05);
+}
+.plan-box .current-badge {
+    position: absolute;
+    top: -10px;
+    right: 15px;
+    background: #10B981;
+    color: #fff;
+    padding: 3px 12px;
+    border-radius: 15px;
+    font-size: 12px;
+}
+.plan-box h4 {
+    font-size: 18px;
+    margin-bottom: 15px;
+}
+.plan-box .price {
+    margin-bottom: 10px;
+}
+.plan-box .price .amount {
+    font-size: 36px;
+    font-weight: 700;
+    color: #336AEA;
+}
+.plan-box .price .currency {
+    font-size: 18px;
+    color: #5A6A85;
+}
+.plan-box .features {
+    list-style: none;
+    padding: 0;
+    margin: 15px 0 0;
+    text-align: left;
+    font-size: 14px;
+}
+.plan-box .features li {
+    padding: 5px 0;
+    padding-left: 20px;
+    position: relative;
+}
+.plan-box .features li::before {
+    content: "✓";
+    position: absolute;
+    left: 0;
+    color: #10B981;
+}
+</style>
+{% endblock %}

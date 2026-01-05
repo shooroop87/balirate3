@@ -1,0 +1,139 @@
+{% extends "account/base.html" %}
+{% load static i18n socialaccount %}
+
+{% block title %}{% trans "Registrieren" %}{% endblock %}
+
+{% block auth_content %}
+<h1>{% trans "Konto erstellen" %}</h1>
+<p class="subtitle">{% trans "Starten Sie mit Ihrem persönlichen Blister-Service" %}</p>
+
+{% if form.errors %}
+<div class="alert alert-danger">
+    {% trans "Bitte überprüfen Sie Ihre Eingaben." %}
+</div>
+{% endif %}
+
+<!-- Social Login -->
+<div class="social-login">
+    {% get_providers as socialaccount_providers %}
+    {% if socialaccount_providers %}
+        {% for provider in socialaccount_providers %}
+            {% if provider.id == 'google' %}
+            <a href="{% provider_login_url 'google' %}" class="btn">
+                <svg width="20" height="20" viewBox="0 0 24 24"><path fill="#4285F4" d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z"/><path fill="#34A853" d="M12 23c2.97 0 5.46-.98 7.28-2.66l-3.57-2.77c-.98.66-2.23 1.06-3.71 1.06-2.86 0-5.29-1.93-6.16-4.53H2.18v2.84C3.99 20.53 7.7 23 12 23z"/><path fill="#FBBC05" d="M5.84 14.09c-.22-.66-.35-1.36-.35-2.09s.13-1.43.35-2.09V7.07H2.18C1.43 8.55 1 10.22 1 12s.43 3.45 1.18 4.93l2.85-2.22.81-.62z"/><path fill="#EA4335" d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.07l3.66 2.84c.87-2.6 3.3-4.53 6.16-4.53z"/></svg>
+                {% trans "Mit Google registrieren" %}
+            </a>
+            {% endif %}
+        {% endfor %}
+    {% endif %}
+</div>
+
+<div class="divider"><span>{% trans "oder" %}</span></div>
+
+<!-- Signup Form -->
+<form method="post" action="{% url 'account_signup' %}">
+    {% csrf_token %}
+    
+    <div class="row">
+        <div class="col-6 mb-3">
+            <label for="id_first_name" class="form-label">{% trans "Vorname" %} *</label>
+            <input type="text" 
+                   name="first_name" 
+                   id="id_first_name" 
+                   class="form-control {% if form.first_name.errors %}is-invalid{% endif %}"
+                   value="{{ form.first_name.value|default:'' }}"
+                   required>
+        </div>
+        <div class="col-6 mb-3">
+            <label for="id_last_name" class="form-label">{% trans "Nachname" %} *</label>
+            <input type="text" 
+                   name="last_name" 
+                   id="id_last_name" 
+                   class="form-control {% if form.last_name.errors %}is-invalid{% endif %}"
+                   value="{{ form.last_name.value|default:'' }}"
+                   required>
+        </div>
+    </div>
+    
+    <div class="mb-3">
+        <label for="id_email" class="form-label">{% trans "E-Mail-Adresse" %} *</label>
+        <input type="email" 
+               name="email" 
+               id="id_email" 
+               class="form-control {% if form.email.errors %}is-invalid{% endif %}"
+               value="{{ form.email.value|default:'' }}"
+               placeholder="name@beispiel.de"
+               required>
+        {% if form.email.errors %}
+        <div class="invalid-feedback">{{ form.email.errors.0 }}</div>
+        {% endif %}
+    </div>
+    
+    <div class="mb-3">
+        <label for="id_password1" class="form-label">{% trans "Passwort" %} *</label>
+        <input type="password" 
+               name="password1" 
+               id="id_password1" 
+               class="form-control {% if form.password1.errors %}is-invalid{% endif %}"
+               placeholder="{% trans 'Mindestens 8 Zeichen' %}"
+               required>
+        {% if form.password1.errors %}
+        <div class="invalid-feedback">{{ form.password1.errors.0 }}</div>
+        {% endif %}
+    </div>
+    
+    <div class="mb-3">
+        <label for="id_password2" class="form-label">{% trans "Passwort bestätigen" %} *</label>
+        <input type="password" 
+               name="password2" 
+               id="id_password2" 
+               class="form-control {% if form.password2.errors %}is-invalid{% endif %}"
+               placeholder="{% trans 'Passwort wiederholen' %}"
+               required>
+        {% if form.password2.errors %}
+        <div class="invalid-feedback">{{ form.password2.errors.0 }}</div>
+        {% endif %}
+    </div>
+    
+    <div class="mb-3">
+        <div class="form-check">
+            <input type="checkbox" 
+                   name="terms_accepted" 
+                   id="id_terms" 
+                   class="form-check-input"
+                   required>
+            <label for="id_terms" class="form-check-label">
+                {% trans "Ich akzeptiere die" %}
+                <a href="{% url 'terms' %}" target="_blank">{% trans "AGB" %}</a>
+                {% trans "und die" %}
+                <a href="{% url 'privacy' %}" target="_blank">{% trans "Datenschutzerklärung" %}</a>. *
+            </label>
+        </div>
+    </div>
+    
+    <div class="mb-4">
+        <div class="form-check">
+            <input type="checkbox" 
+                   name="marketing_consent" 
+                   id="id_marketing" 
+                   class="form-check-input">
+            <label for="id_marketing" class="form-check-label">
+                {% trans "Ich möchte über Neuigkeiten und Angebote informiert werden." %}
+            </label>
+        </div>
+    </div>
+    
+    {% if redirect_field_value %}
+    <input type="hidden" name="{{ redirect_field_name }}" value="{{ redirect_field_value }}">
+    {% endif %}
+    
+    <button type="submit" class="default-btn">
+        {% trans "Konto erstellen" %}
+    </button>
+</form>
+
+<div class="auth-links">
+    {% trans "Bereits ein Konto?" %}
+    <a href="#" onclick="openAuthModal(); return false;">{% trans "Jetzt anmelden" %}</a>
+</div>
+{% endblock %}

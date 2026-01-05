@@ -1,0 +1,18 @@
+Hallo{% if user.first_name %} {{ user.first_name }}{% endif %},
+
+vielen Dank für Ihre Registrierung bei BlisterPerPost!
+
+Bitte bestätigen Sie Ihre E-Mail-Adresse, indem Sie auf den folgenden Link klicken:
+
+{{ activate_url }}
+
+Dieser Link ist 2 Stunden gültig.
+
+Falls Sie sich nicht bei BlisterPerPost registriert haben, ignorieren Sie diese E-Mail bitte.
+
+Mit freundlichen Grüßen,
+Ihr BlisterPerPost-Team
+
+--
+balirate.com
+https://balirate.com

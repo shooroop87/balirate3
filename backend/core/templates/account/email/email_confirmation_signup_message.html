@@ -1,0 +1,21 @@
+{% extends "account/email/base_message.html" %}
+
+{% block subject %}Bestätigen Sie Ihre E-Mail-Adresse - BlisterPerPost{% endblock %}
+
+{% block preview %}Willkommen bei BlisterPerPost – bitte bestätigen Sie Ihre E-Mail-Adresse{% endblock %}
+
+{% block icon %}
+<div style="background:rgba( 51 , 106 , 234 , 0.1 );border-radius:50%;display:inline-block;height:80px;line-height:80px;width:80px">
+<span style="font-size:36px">✉️</span>
+</div>
+{% endblock %}
+
+{% block heading %}Willkommen bei BlisterPerPost!{% endblock %}
+
+{% block subheading %}Nur noch ein Schritt – bestätigen Sie Ihre E-Mail-Adresse{% endblock %}
+
+{% block content %}Vielen Dank für Ihre Registrierung bei BlisterPerPost. Klicken Sie auf den Button unten, um Ihr Konto zu aktivieren und alle Vorteile unseres Blister-Services zu nutzen.{% endblock %}
+
+{% block button_url %}{{ activate_url }}{% endblock %}
+
+{% block button_text %}E-Mail bestätigen{% endblock %}

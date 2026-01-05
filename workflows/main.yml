@@ -1,0 +1,243 @@
+name: Main balirate workflow
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  tests:
+    runs-on: ubuntu-latest
+    # Блок services аналогичен docker-compose.yml
+    services:
+      postgres:
+        image: postgres:13.10
+        # Указываем имя тестовой базы, имя и пароль пользователя в открытом виде,
+        # ведь эта база будет работать только во время прогона тестов
+        env:
+          POSTGRES_USER: balirate_user
+          POSTGRES_PASSWORD: balirate_password
+          POSTGRES_DB: balirate
+        ports:
+          - 5432:5432
+        # Эта конструкция описывает проверку готовности сервиса postgres
+        # Если её не будет, то тесты могут запуститься раньше, чем сервер PostgreSQL
+        # В результате тесты опять решат, что базы нет, — и упадут
+        options: --health-cmd pg_isready --health-interval 10s --health-timeout 5s --health-retries 5
+
+      redis:
+        image: redis:7
+        ports:
+          - 6379:6379
+        options: --health-cmd "redis-cli ping" --health-interval 10s --health-timeout 5s --health-retries 5
+    steps:
+    - uses: actions/checkout@v3
+    - name: Set up Python
+      uses: actions/setup-python@v4
+      with:
+        python-version: 3.9
+
+    - name: Install dependencies
+      run: |
+        python -m pip install --upgrade pip 
+        pip install flake8==6.0.0 flake8-isort==6.0.0
+        pip install -r ./backend/requirements.txt 
+    # Этот шаг дополним переменными для доступа к БД
+    - name: Test with flake8 and django tests
+      # Добавляем env-переменные для доступа к БД
+      env:
+        POSTGRES_USER: balirate_user
+        POSTGRES_PASSWORD: balirate_password
+        POSTGRES_DB: balirate
+        # Сервер БД запущен в Docker, но его порт проброшен на хост
+        # Поэтому подключаемся к 127.0.0.1:5432
+        DB_HOST: 127.0.0.1
+        DB_PORT: 5432
+      run: |
+        cd backend/
+        # Создаем и применяем миграции для блога перед тестами
+        python manage.py migrate
+        python manage.py test
+
+  build:
+    runs-on: ubuntu-latest
+    needs: tests # Запускается только после успешного выполнения тестов
+    steps:
+    - name: Prune old Docker images
+      run: |
+        docker system prune -f --all
+    # Очищает неиспользуемые образы, контейнеры и сети. Томов не касается.
+
+# Добавляем новую задачу: деплой приложения
+  build_and_push_to_docker_hub:
+    name: Push Docker image to DockerHub
+    runs-on: ubuntu-latest
+    needs: tests
+    steps:
+      - name: Check out the repo
+        # Получение исходного кода из репозитория
+        uses: actions/checkout@v3
+      - name: Set up Docker Buildx
+        # Установка сборщика контейнеров Docker
+        uses: docker/setup-buildx-action@v2
+      - name: Login to Docker 
+        # Авторизация на Docker Hub
+        uses: docker/login-action@v2
+        # При помощи with передаём в action параметры username и password
+        with:
+          username: ${{ secrets.DOCKER_USERNAME }}
+          password: ${{ secrets.DOCKER_PASSWORD }}
+          # Хорошо ли держать логин и пароль прямо в коде workflow?
+          # Нет, это нехорошо
+      - name: Push to DockerHub
+        # Одновременный билд и пуш образа в Docker Hub
+        uses: docker/build-push-action@v4
+        with:
+          # Параметр context: ./backend/ указывает, что нужный Dockerfile 
+          # находится в ./backend/
+          context: ./backend/
+          # Параметр push: true указывает, что образ нужно не только собрать,
+          # но и отправить на Docker Hub
+          push: true
+          # В параметре tags задаётся название и тег для образа.
+          # Для каждого пересобранного образа 
+          # устанавливаем тег latest, чтобы потом
+          # на сервере и в docker-compose.yml не указывать версию
+          tags: egorovdocker/balirate_backend:latest
+  frontend_tests:
+    runs-on: ubuntu-latest
+
+    steps:
+    - uses: actions/checkout@v3
+    - name: Set up nodeJS
+      # Это готовый воркфлоу для установки Node.js на раннер
+      uses: actions/setup-node@v3
+      with:
+        # Это параметр воркфлоу, указывающий нужную версию Node.js
+        node-version: 18
+
+#Workflow для Nginx образ с конфигом и отправить его на Docker Hub
+  build_gateway_and_push_to_docker_hub:
+    name: Push gateway Docker image to DockerHub
+    runs-on: ubuntu-latest
+    steps:
+      - name: Check out the repo
+        uses: actions/checkout@v3
+      - name: Set up Docker Buildx
+        uses: docker/setup-buildx-action@v2
+      - name: Login to Docker 
+        uses: docker/login-action@v2
+        with:
+          username: ${{ secrets.DOCKER_USERNAME }}
+          password: ${{ secrets.DOCKER_PASSWORD }}
+      - name: Push to DockerHub
+        uses: docker/build-push-action@v4
+        with:
+          context: ./gateway/
+          push: true
+          # Тут вместо username должен быть ваш логин на Docker Hub
+          tags: egorovdocker/balirate_gateway:latest
+
+#Workflow для обновления проекта на боевом сервере
+  deploy:
+    runs-on: ubuntu-latest
+    needs: 
+      # Дождёмся билда всех образов Taski
+      - build_and_push_to_docker_hub
+      - build_gateway_and_push_to_docker_hub
+    steps:
+    - name: Checkout repo
+      uses: actions/checkout@v3
+    # Копируем docker-compose.production.yml на продакшен-сервер
+    - name: Copy docker-compose.yml via ssh
+      uses: appleboy/scp-action@master
+    # Передаём параметры для action appleboy/scp-action:
+      with:
+        host: ${{ secrets.HOST }}
+        username: ${{ secrets.USER }}
+        key: ${{ secrets.SSH_KEY }}
+        passphrase: ${{ secrets.SSH_PASSPHRASE }}
+        source: "docker-compose.production.yml"
+        target: "balirate"
+    - name: Executing remote ssh commands to deploy
+      uses: appleboy/ssh-action@master
+      with:
+        host: ${{ secrets.HOST }}
+        username: ${{ secrets.USER }}
+        key: ${{ secrets.SSH_KEY }}
+        passphrase: ${{ secrets.SSH_PASSPHRASE }}
+        # Параметр script передаёт в action appleboy/ssh-action команды,
+        # которые нужно выполнить на сервере, 
+        # с которым установлено соединение
+        script: |
+          cd balirate
+          # Так как Docker Hub private, то нужно авторизоваться
+          echo "${{ secrets.DOCKER_PASSWORD }}" | docker login -u "${{ secrets.DOCKER_USERNAME }}" --password-stdin
+          # Выполняет pull образов с Docker Hub
+          sudo docker compose -f docker-compose.production.yml pull
+          # Перезапускает все контейнеры в Docker Compose
+          sudo docker compose -f docker-compose.production.yml down
+          sudo docker compose -f docker-compose.production.yml up -d
+          
+          # Ожидание запуска всех сервисов (важно для миграций)
+          echo "⏳ Waiting for services to start..."
+          sleep 30
+          
+          # Проверка статуса контейнеров
+          sudo docker compose -f docker-compose.production.yml ps
+          
+          # Очистка Docker
+          sudo docker container prune -f
+          sudo docker image prune -af
+          sudo docker volume prune -f
+          
+          # Очистка Redis
+          sudo docker compose -f docker-compose.production.yml exec redis redis-cli FLUSHALL
+
+          # Применение всех миграций
+          echo "🔄 Running all migrations..."
+          sudo docker compose -f docker-compose.production.yml exec backend python manage.py migrate
+          
+          # 🌐 Компиляция переводов
+          echo "🌍 Compiling messages..."
+          sudo docker compose -f docker-compose.production.yml exec backend python manage.py compilemessages
+          
+          # 📁 Сбор статических файлов
+          echo "📁 Collecting static files..."
+          sudo docker compose -f docker-compose.production.yml exec backend python manage.py collectstatic --noinput
+          
+          # 👤 СОЗДАНИЕ СУПЕРПОЛЬЗОВАТЕЛЯ (если не существует)
+          echo "👤 Creating admin user..."
+          sudo docker compose -f docker-compose.production.yml exec \
+            -e DJANGO_SUPERUSER_USERNAME="${{ secrets.ADMIN_USERNAME }}" \
+            -e DJANGO_SUPERUSER_EMAIL="${{ secrets.ADMIN_EMAIL }}" \
+            -e DJANGO_SUPERUSER_PASSWORD="${{ secrets.ADMIN_PASSWORD }}" \
+            backend python manage.py create_admin || echo "ℹ️ Admin user creation skipped (may already exist)"
+          
+          # 🎯 Финальная проверка
+          echo "✅ Deployment completed! Checking final status..."
+          sudo docker compose -f docker-compose.production.yml ps
+          
+          # Проверка логов (последние 20 строк)
+          echo "📋 Recent backend logs:"
+          sudo docker compose -f docker-compose.production.yml logs --tail=20 backend
+
+#Workflow Telegram	  
+  send_message:
+    runs-on: ubuntu-latest
+    needs: deploy
+    steps:
+    - name: Send message
+      uses: appleboy/telegram-action@master
+      with:
+        to: ${{ secrets.TELEGRAM_TO }}
+        token: ${{ secrets.TELEGRAM_TOKEN }}
+        message: |
+          🎉 Деплой balirate успешно завершен!
+          
+          ✅ Новый блог развернут
+          ✅ Миграции применены  
+          ✅ Админ пользователь создан
+          ✅ Статика собрана
+          
+          🌐 Сайт готов к работе

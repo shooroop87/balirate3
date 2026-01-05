@@ -1,0 +1,213 @@
+{% extends "base.html" %}
+{% load static i18n %}
+
+{% block title %}{% trans "Kontakt" %} - BlisterPerPost{% endblock %}
+
+{% block content %}
+<div class="page-banner-area">
+    <div class="container">
+        <div class="row justify-content-center align-items-center g-0">
+            <div class="col-lg-10 col-md-12">
+                <div class="page-banner-content section-title-animation animation-style2">
+                    <ul class="meta">
+                        <li><a href="{% url 'index' %}">{% trans "Startseite" %}</a></li>
+                        <li>{% trans "Kontakt" %}</li>
+                    </ul>
+                    <h2>{% trans "Wir sind für Sie da" %}</h2>
+                    <p>{% trans "Haben Sie Fragen zu unseren Leistungen oder benötigen Sie Unterstützung? Kontaktieren Sie uns – wir helfen Ihnen gerne weiter." %}</p>
+                </div>
+            </div>
+            <div class="col-lg-2 col-md-12">
+                <div class="page-banner-image">
+                    
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="contact-info-area pt-140">
+    <div class="container">
+        <div class="row justify-content-center g-4">
+            <div class="col-lg-4 col-sm-6">
+                <div class="contact-info-card">
+                    <div class="icon">
+                        <img alt="Email Support" loading="lazy" width="30" height="30" src="{% static 'images/icons/mail.svg' %}">
+                    </div>
+                    <div class="content">
+                        <span>{% trans "E-Mail-Support" %}</span>
+                        <a href="mailto:support@balirate.com">support@balirate.com</a>
+                    </div>
+                </div>
+            </div>
+            <div class="col-lg-4 col-sm-6">
+                <div class="contact-info-card">
+                    <div class="icon">
+                        <img alt="Phone Support" loading="lazy" width="30" height="30" src="{% static 'images/icons/phone.svg' %}">
+                    </div>
+                    <div class="content">
+                        <span>{% trans "Telefon (Mo.-Fr. 8-18 Uhr)" %}</span>
+                        <a href="tel:+4906151712323">+4906151712323</a>
+                    </div>
+                </div>
+            </div>
+            <div class="col-lg-4 col-sm-6">
+                <div class="contact-info-card">
+                    <div class="icon">
+                        <img alt="Head Office" loading="lazy" width="30" height="30" src="{% static 'images/icons/map.svg' %}">
+                    </div>
+                    <div class="content">
+                        <span>{% trans "Adresse" %}</span>
+                        <strong>Siemensstraße 4, 64289 Darmstadt</strong>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="contact-us-area pb-140">
+    <div class="container">
+        <div class="row justify-content-center g-4">
+            <div class="col-lg-6 col-md-12">
+                <div class="contact-us-image" style="background-image: url('{% static 'images/hero_slider4.webp' %}');">
+                    <div class="wrap-content">
+                    </div>
+                </div>
+            </div>
+            <div class="col-lg-6 col-md-12">
+                <div class="contact-us-form">
+                    <div class="content">
+                        <h2>{% trans "Schreiben Sie uns" %}</h2>
+                        <p>{% trans "Haben Sie eine Frage oder benötigen Sie Hilfe? Senden Sie uns eine Nachricht und wir melden uns schnellstmöglich bei Ihnen." %}</p>
+                    </div>
+                    <form method="post">
+                        {% csrf_token %}
+                        <div class="form-group">
+                            <label>{% trans "Vollständiger Name" %}</label>
+                            <input class="form-control" placeholder="{% trans 'z.B. Max Mustermann' %}" required type="text" name="name">
+                        </div>
+                        <div class="form-group">
+                            <label>{% trans "E-Mail-Adresse" %}</label>
+                            <input class="form-control" placeholder="{% trans 'z.B. max@beispiel.de' %}" required type="email" name="email">
+                        </div>
+                        <div class="form-group">
+                            <label>{% trans "Betreff" %}</label>
+                            <select class="form-control" name="subject" required>
+                                <option value="">{% trans "Bitte wählen" %}</option>
+                                <option value="general">{% trans "Allgemeine Anfrage" %}</option>
+                                <option value="order">{% trans "Frage zur Bestellung" %}</option>
+                                <option value="delivery">{% trans "Lieferung & Versand" %}</option>
+                                <option value="prescription">{% trans "Rezept-Fragen" %}</option>
+                                <option value="technical">{% trans "Technische Probleme" %}</option>
+                                <option value="complaint">{% trans "Beschwerde" %}</option>
+                                <option value="other">{% trans "Sonstiges" %}</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label>{% trans "Telefonnummer" %}</label>
+                            <input class="form-control" placeholder="{% trans 'z.B. +49 170 1234567' %}" type="text" name="phone">
+                        </div>
+                        <div class="form-group">
+                            <label>{% trans "Nachricht" %}</label>
+                            <textarea name="message" cols="30" rows="6" class="form-control" placeholder="{% trans 'Beschreiben Sie Ihr Anliegen...' %}" required></textarea>
+                        </div>
+                        <div class="form-group">
+                            <div class="form-check">
+                                <input class="form-check-input" id="checkDefault" type="checkbox" name="privacy" required>
+                                <label class="form-check-label" for="checkDefault">
+                                    {% trans "Ich habe die" %} <a href="{% url 'privacy' %}">{% trans "Datenschutzerklärung" %}</a> {% trans "gelesen und akzeptiere sie." %}
+                                </label>
+                            </div>
+                        </div>
+                        <button type="submit" class="default-btn">
+                            <span class="left">
+                                <svg xmlns="http://www.w3.org/2000/svg" width="19" height="19" viewBox="0 0 19 19" fill="none">
+                                    <path d="M17.8077 0.98584H1.19231C0.810154 0.98584 0.5 1.29599 0.5 1.67815C0.5 2.0603 0.810154 2.37046 1.19231 2.37046H16.1361L0.702846 17.8041C0.4325 18.0744 0.4325 18.5126 0.702846 18.783C0.838192 18.9183 1.01508 18.9858 1.19231 18.9858C1.36954 18.9858 1.54677 18.9183 1.68177 18.783L17.1154 3.34938V18.2935C17.1154 18.6757 17.4255 18.9858 17.8077 18.9858C18.1898 18.9858 18.5 18.6757 18.5 18.2935V1.67815C18.5 1.29599 18.1898 0.98584 17.8077 0.98584Z" fill="white"></path>
+                                </svg>
+                            </span>
+                            {% trans "Nachricht senden" %}
+                            <span class="right">
+                                <svg xmlns="http://www.w3.org/2000/svg" width="19" height="19" viewBox="0 0 19 19" fill="none">
+                                    <path d="M17.8077 0.98584H1.19231C0.810154 0.98584 0.5 1.29599 0.5 1.67815C0.5 2.0603 0.810154 2.37046 1.19231 2.37046H16.1361L0.702846 17.8041C0.4325 18.0744 0.4325 18.5126 0.702846 18.783C0.838192 18.9183 1.01508 18.9858 1.19231 18.9858C1.36954 18.9858 1.54677 18.9183 1.68177 18.783L17.1154 3.34938V18.2935C17.1154 18.6757 17.4255 18.9858 17.8077 18.9858C18.1898 18.9858 18.5 18.6757 18.5 18.2935V1.67815C18.5 1.29599 18.1898 0.98584 17.8077 0.98584Z" fill="white"></path>
+                                </svg>
+                            </span>
+                        </button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="linear-gradient-inner">
+    <div class="faq-area ptb-140">
+        <div class="container">
+            <div class="section-title">
+                <div class="left text-center" style="max-width: 637px; margin: auto;">
+                    <span class="sub wrap2">{% trans "Häufig gestellte Fragen" %}</span>
+                    <h2>{% trans "Schnelle Antworten auf Ihre Fragen" %}</h2>
+                </div>
+            </div>
+            <div class="faq-accordion wrap-style2">
+                <div class="accordion">
+                    <div class="accordion-item wrap2">
+                        <button class="accordion-button" type="button">{% trans "Was ist BlisterPerPost?" %}</button>
+                        <div class="accordion-collapse collapse show">
+                            <div class="accordion-body">
+                                <p>{% trans "BlisterPerPost ist ein Apotheken-Service, der Ihre Medikamente individuell nach Datum und Uhrzeit in praktische Blisterkarten sortiert. Jede Dosis ist klar beschriftet – für sichere, einfache und stressfreie Medikamenteneinnahme." %}</p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="accordion-item wrap2">
+                        <button class="accordion-button collapsed" type="button">{% trans "Wie funktioniert das mit dem E-Rezept?" %}</button>
+                        <div class="accordion-collapse collapse">
+                            <div class="accordion-body">
+                                <p>{% trans "Ihr Arzt stellt Ihnen ein E-Rezept aus – digital oder auf Papier. Laden Sie den QR-Code in Ihrer App (z. B. Gesund.de) hoch und wählen Sie BlisterPerPost als Ihre Apotheke. Danach erhalten wir Ihr Rezept digital, prüfen es pharmazeutisch und beginnen mit der Blisterung." %}</p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="accordion-item wrap2">
+                        <button class="accordion-button collapsed" type="button">{% trans "Wie melde ich mich an?" %}</button>
+                        <div class="accordion-collapse collapse">
+                            <div class="accordion-body">
+                                <p>{% trans "Sie können sich direkt online registrieren oder unser Anmeldeformular (PDF) ausfüllen. Alternativ senden wir Ihnen das Formular samt Freiumschlag per Post zu. Nach Ihrer Freigabe kümmern wir uns um alles Weitere mit Ihrem Arzt." %}</p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="accordion-item wrap2">
+                        <button class="accordion-button collapsed" type="button">{% trans "Was kostet der Service?" %}</button>
+                        <div class="accordion-collapse collapse">
+                            <div class="accordion-body">
+                                <p>{% trans "Der Service kostet 8,90 € pro Woche inkl. Versand (Medikamente ausgenommen). Viele Krankenkassen erstatten diese Gebühr teilweise oder vollständig. Ihre Medikamente werden wie gewohnt über Ihre Versicherung abgerechnet." %}</p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="accordion-item wrap2">
+                        <button class="accordion-button collapsed" type="button">{% trans "Für wen ist BlisterPerPost gedacht?" %}</button>
+                        <div class="accordion-collapse collapse">
+                            <div class="accordion-body">
+                                <p>{% trans "Für alle, die regelmäßig Medikamente einnehmen: Senior:innen, die Sicherheit und Übersicht wünschen. Kinder & Enkel, die Angehörige aus der Ferne unterstützen. Pflegeeinrichtungen, die Zeit und Aufwand sparen möchten." %}</p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="accordion-item wrap2">
+                        <button class="accordion-button collapsed" type="button">{% trans "Wie läuft die Lieferung ab?" %}</button>
+                        <div class="accordion-collapse collapse">
+                            <div class="accordion-body">
+                                <p>{% trans "Alle 14 Tage erhalten Sie Ihre persönliche Blisterkarte direkt per DHL-Versand nach Hause. Sie werden per E-Mail oder SMS informiert, sobald Ihr Paket unterwegs ist. Änderungen oder Pausen können Sie jederzeit beantragen." %}</p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="accordion-item wrap2">
+                        <button class="accordion-button collapsed" type="button">{% trans "Wer prüft meine Medikamente?" %}</button>
+                        <div class="accordion-collapse collapse">
+                            <div class="accordion-body">
+                                <p>{% trans "Alle Verordnungen werden von zertifizierten Apotheker:innen geprüft. Dabei erfolgt ein umfassender Check auf Wechselwirkungen und Dosierungen – diese Leistung ist kostenlos und wird von Ihrer Krankenkasse übernommen." %}</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

@@ -1,0 +1,309 @@
+/* ========== Базовые элементы ========== */
+/* Контейнеры: без дублей */
+.container,
+.container-fluid,
+.container-xxl,
+.container-xl,
+.container-lg,
+.container-md,
+.container-sm{
+  --bs-gutter-x:1.5rem;
+  --bs-gutter-y:0;
+  width:100%;
+  padding-right:calc(var(--bs-gutter-x)*.5);
+  padding-left:calc(var(--bs-gutter-x)*.5);
+  margin-left:auto;
+  margin-right:auto;
+}
+
+.main-banner-area .container-fluid,
+.main-banner-area .container-sm,
+.main-banner-area .container-md,
+.main-banner-area .container-lg,
+.main-banner-area .container-xl,
+.main-banner-area .container-xxl{
+  padding-left:20px;
+  padding-right:20px;
+}
+
+@media only screen and (min-width:1900px){
+  .container-fluid,
+  .navbar .container-fluid,
+  .main-banner-area .container-fluid{
+    padding-left:120px;
+    padding-right:120px;
+  }
+}
+
+/* ========== Accordion: переменные и стили ========== */
+.accordion{
+  /* Bootstrap-переменные */
+  --bs-accordion-color:var(--bs-body-color);
+  --bs-accordion-bg:var(--bs-body-bg);
+  --bs-accordion-transition:color .15s ease-in-out, background-color .15s ease-in-out, border-color .15s ease-in-out, box-shadow .15s ease-in-out, border-radius .15s ease;
+  --bs-accordion-border-color:var(--bs-border-color);
+  --bs-accordion-border-width:var(--bs-border-width);
+  --bs-accordion-border-radius:var(--bs-border-radius);
+  --bs-accordion-inner-border-radius:calc(var(--bs-border-radius) - (var(--bs-border-width)));
+  --bs-accordion-btn-padding-x:1.25rem;
+  --bs-accordion-btn-padding-y:1rem;
+  --bs-accordion-btn-color:var(--bs-body-color);
+  --bs-accordion-btn-bg:var(--bs-accordion-bg);
+  --bs-accordion-btn-icon:url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16' fill='none' stroke='%23212529' stroke-linecap='round' stroke-linejoin='round'%3e%3cpath d='m2 5 6 6 6-6'/%3e%3c/svg%3e");
+  --bs-accordion-btn-icon-width:1.25rem;
+  --bs-accordion-btn-icon-transform:rotate(-180deg);
+  --bs-accordion-btn-icon-transition:transform .2s ease-in-out;
+  --bs-accordion-btn-active-icon:url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16' fill='none' stroke='%23ffffff' stroke-linecap='round' stroke-linejoin='round'%3e%3cpath d='m2 5 6 6 6-6'/%3e%3c/svg%3e");
+  --bs-accordion-btn-focus-box-shadow:0 0 0 .25rem rgba(51,106,234,.25);
+  --bs-accordion-body-padding-x:1.25rem;
+  --bs-accordion-body-padding-y:1rem;
+  --bs-accordion-active-color:var(--bs-primary-text-emphasis);
+  --bs-accordion-active-bg:var(--bs-primary-bg-subtle);
+
+  /* Твои кастомные переменные (опционально). Переопредели их где нужно. */
+  --ar-accordion-btn-icon: var(--bs-accordion-btn-icon);
+  --ar-accordion-btn-active-icon: var(--bs-accordion-btn-active-icon);
+  --ar-accordion-btn-icon-width: var(--bs-accordion-btn-icon-width);
+  --ar-accordion-btn-icon-transition: var(--bs-accordion-btn-icon-transition);
+}
+
+/* Кнопка */
+.accordion-button{
+  position:relative;
+  display:flex;
+  align-items:center;
+  width:100%;
+  padding:var(--bs-accordion-btn-padding-y) var(--bs-accordion-btn-padding-x);
+  font-size:1rem;
+  color:var(--bs-accordion-btn-color);
+  text-align:left;
+  background-color:var(--bs-accordion-btn-bg);
+  border:0;
+  border-radius:0;
+  overflow-anchor:none;
+  transition:var(--bs-accordion-transition);
+}
+@media (prefers-reduced-motion:reduce){
+  .accordion-button{ transition:none; }
+}
+
+.accordion-button:hover{ z-index:2; }
+.accordion-button:focus{
+  z-index:3;
+  outline:0;
+  box-shadow:var(--bs-accordion-btn-focus-box-shadow);
+}
+
+/* Иконка-стрелка справа */
+.accordion-button::after{
+  content:"";
+  flex-shrink:0;
+  width:var(--ar-accordion-btn-icon-width);
+  height:var(--ar-accordion-btn-icon-width);
+  margin-left:auto;
+  background-image:var(--ar-accordion-btn-icon);
+  background-repeat:no-repeat;
+  background-size:var(--ar-accordion-btn-icon-width);
+  transition:var(--ar-accordion-btn-icon-transition);
+}
+
+.accordion-button:not(.collapsed){
+  color:var(--bs-accordion-active-color);
+  background-color:var(--bs-accordion-active-bg);
+  box-shadow:inset 0 calc(-1 * var(--bs-accordion-border-width)) 0 var(--bs-accordion-border-color);
+}
+.accordion-button:not(.collapsed)::after{
+  background-image:var(--ar-accordion-btn-active-icon);
+  transform:var(--bs-accordion-btn-icon-transform);
+}
+
+/* Заголовки и айтемы */
+.accordion-header{ margin-bottom:0; }
+
+.accordion-item{
+  color:var(--bs-accordion-color);
+  background-color:var(--bs-accordion-bg);
+  border:var(--bs-accordion-border-width) solid var(--bs-accordion-border-color);
+}
+.accordion-item:first-of-type{
+  border-top-left-radius:var(--bs-accordion-border-radius);
+  border-top-right-radius:var(--bs-accordion-border-radius);
+}
+.accordion-item:first-of-type > .accordion-header .accordion-button{
+  border-top-left-radius:var(--bs-accordion-inner-border-radius);
+  border-top-right-radius:var(--bs-accordion-inner-border-radius);
+}
+.accordion-item:not(:first-of-type){ border-top:0; }
+.accordion-item:last-of-type{
+  border-bottom-right-radius:var(--bs-accordion-border-radius);
+  border-bottom-left-radius:var(--bs-accordion-border-radius);
+}
+.accordion-item:last-of-type > .accordion-header .accordion-button.collapsed{
+  border-bottom-right-radius:var(--bs-accordion-inner-border-radius);
+  border-bottom-left-radius:var(--bs-accordion-inner-border-radius);
+}
+.accordion-item:last-of-type > .accordion-collapse{
+  border-bottom-right-radius:var(--bs-accordion-border-radius);
+  border-bottom-left-radius:var(--bs-accordion-border-radius);
+}
+
+.accordion-body{
+  padding:var(--bs-accordion-body-padding-y) var(--bs-accordion-body-padding-x);
+}
+
+/* Вариант flush */
+.accordion-flush > .accordion-item{
+  border-right:0;
+  border-left:0;
+  border-radius:0;
+}
+.accordion-flush > .accordion-item:first-child{ border-top:0; }
+.accordion-flush > .accordion-item:last-child{ border-bottom:0; }
+.accordion-flush > .accordion-item > .accordion-collapse,
+.accordion-flush > .accordion-item > .accordion-header .accordion-button,
+.accordion-flush > .accordion-item > .accordion-header .accordion-button.collapsed{
+  border-radius:0;
+}
+
+/* Иконка слева для FAQ (если нужна) */
+.faq-accordion .accordion .accordion-item .accordion-button::before{
+  content:"";
+  flex-shrink:0;
+  width:var(--ar-accordion-btn-icon-width);
+  height:var(--ar-accordion-btn-icon-width);
+  margin-right:.5rem;           /* слева от текста */
+  background-image:var(--ar-accordion-btn-icon);
+  background-repeat:no-repeat;
+  background-size:var(--ar-accordion-btn-icon-width);
+  transition:var(--ar-accordion-btn-icon-transition);
+}
+.faq-accordion .accordion .accordion-item .accordion-button:not(.collapsed)::before{
+  background-image:var(--ar-accordion-btn-active-icon);
+}
+
+/* === ИКОНКИ: круглый фон у обёртки === */
+
+.work-items .item .icon img{
+  object-fit:contain;
+  background:transparent;       /* на всякий случай — если где-то задавался фон у img */
+}
+
+/* === РЯД С КАРТИНКОЙ: тянем левую колонку по высоте === */
+/* растягиваем колонки, чтобы левая имела высоту строки */
+.work-area .row.g-5{
+  align-items:stretch !important;
+}
+
+/* контейнер картинки получает собственную высоту */
+.work-image{
+  position:relative;
+  width:100%;
+  height: 100%!important;
+}
+
+/* изображение заполняет контейнер полностью */
+.work-image img{
+  position:absolute;
+  inset:0;               /* top/right/bottom/left: 0 */
+  width:100%;
+  height:100% !important;/* перебиваем bootstrap height:auto */
+  object-fit:cover;
+  border-radius:16px;
+  display:block;
+}
+
+/* круг у контейнера */
+.work-items .item .icon{
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 72px;
+  background: #f5f5f5 !important;
+  border-radius: 50% !important;
+  z-index: 1; /* на всякий */
+}
+/* у img ничего не красим */
+.work-items .item .icon img{
+  object-fit: contain;
+  background: transparent !important;
+  border-radius: 0 !important;
+  padding: 0 !important;
+}
+
+/* в теме часто рисуют «пилюлю» через псевдо-элементы */
+.work-items .item .icon::before,
+.work-items .item .icon::after{
+  content: none !important;
+}
+
+.work-items .item{
+  position: relative;
+  display:flex;
+  gap:16px;
+  align-items:flex-start;
+  padding:16px 0;
+}
+
+.work-items .icon{
+  flex:0 0 56px;
+  width:56px; height:56px;
+  border-radius:9999px;
+  background:#F3F6FF;
+  display:grid; place-items:center;
+}
+
+.work-items .icon svg{
+  width:30px;
+  height:32px;
+  color:#4C6FFF;
+}
+
+.work-items .content h3{ margin:0 0 6px; }
+.work-items .content p{ margin:0; }
+
+.work-items .vector{
+  position:absolute;
+  right:12px; 
+  top:100%;
+  transform:translateY(-50%);
+  pointer-events:none;
+}
+body > div.app-area > div.container > div > div.col-lg-5.col-md-12 > div > img {
+  width: 85%!important;
+}
+/* Растянуть колонки по одинаковой высоте */
+#how-it-works .row.align-items-center.g-5 {
+  align-items: stretch;                /* переопределяем align-items-center */
+}
+
+/* Делаем колонки флекс-контейнерами с полной высотой */
+@media (min-width: 992px) {
+  #how-it-works .col-lg-6 {
+    display: flex;
+  }
+}
+
+/* Левая картинка заполняет колонку целиком */
+#how-it-works .work-image {
+  display: flex;
+  width: 100%;
+  height: 100%;
+  overflow: hidden;
+  border-radius: 16px;
+}
+
+/* Само изображение растягиваем по высоте колонки */
+#how-it-works .work-image img {
+  display: block;
+  width: 100%;
+  height: 100% !important;             /* перекрываем html-атрибут height */
+  object-fit: cover;                   /* заполняет без искажений, обрезая лишнее */
+}
+
+/* Чтобы правая колонка могла быть высокой без схлопывания внутренних блоков */
+#how-it-works .work-items {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}

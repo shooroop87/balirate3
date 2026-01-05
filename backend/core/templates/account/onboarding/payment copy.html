@@ -1,0 +1,339 @@
+{% extends "account/onboarding/base_onboarding.html" %}
+{% load static i18n %}
+
+{% block onboarding_content %}
+<!-- Plan Summary -->
+<div class="plan-summary">
+    <div class="plan-summary-header">
+        <span class="label">{% trans "Gewählter Tarif" %}</span>
+        <a href="{% url 'onboarding_plan' %}" class="change-link">{% trans "Ändern" %}</a>
+    </div>
+    <div class="plan-name">{{ plan.name }}</div>
+    <div class="plan-details">
+        <span>{{ plan.get_interval_days_display }}</span>
+        <span class="plan-price">{{ plan.price }} €/{{ plan.get_interval_days_display }}</span>
+    </div>
+</div>
+
+<!-- Security Notice -->
+<div class="security-notice">
+    <div class="security-icon">
+        <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="11" width="18" height="11" rx="2" ry="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg>
+    </div>
+    <div class="security-text">
+        <strong>{% trans "Sichere Zahlung" %}</strong>
+        <span>{% trans "Ihre Daten werden verschlüsselt übertragen. Keine Abbuchung ohne Ihre Zustimmung." %}</span>
+    </div>
+</div>
+
+<!-- Payment Form -->
+<div class="payment-form">
+    <div class="form-section-title">{% trans "Zahlungsmethode" %}</div>
+    <div id="payment-element"></div>
+    <div id="payment-errors" class="payment-errors"></div>
+</div>
+
+<!-- What happens next -->
+<div class="next-steps">
+    <h4>{% trans "Was passiert als Nächstes?" %}</h4>
+    <div class="next-steps-list">
+        <div class="next-step">
+            <div class="step-icon">📋</div>
+            <div class="step-text">
+                <strong>{% trans "Dokumentenprüfung" %}</strong>
+                <span>{% trans "Unsere Apotheker prüfen Ihre Rezepte" %}</span>
+            </div>
+        </div>
+        <div class="next-step">
+            <div class="step-icon">📧</div>
+            <div class="step-text">
+                <strong>{% trans "E-Mail-Benachrichtigung" %}</strong>
+                <span>{% trans "Sie erhalten eine Bestätigung per E-Mail" %}</span>
+            </div>
+        </div>
+        <div class="next-step">
+            <div class="step-icon">💳</div>
+            <div class="step-text">
+                <strong>{% trans "Erste Zahlung" %}</strong>
+                <span>{% trans "Erst wenn alles bereit ist und wir versenden" %}</span>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="onboarding-actions">
+    <a href="{% url 'onboarding_plan' %}" class="btn-onboarding secondary">
+        <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M19 12H5M12 19l-7-7 7-7"/></svg>
+        {% trans "Zurück" %}
+    </a>
+    <button type="button" id="submit-btn" class="btn-onboarding primary">
+        <span id="btn-text">{% trans "Zahlungsmethode speichern" %}</span>
+        <span id="btn-loading" style="display:none;">
+            <svg class="spinner" width="20" height="20" viewBox="0 0 24 24"><circle cx="12" cy="12" r="10" stroke="currentColor" stroke-width="3" fill="none" stroke-dasharray="60" stroke-linecap="round"><animateTransform attributeName="transform" type="rotate" from="0 12 12" to="360 12 12" dur="1s" repeatCount="indefinite"/></circle></svg>
+            {% trans "Wird verarbeitet..." %}
+        </span>
+    </button>
+</div>
+
+<div class="terms-note">
+    <p>
+        {% trans "Mit dem Klick auf 'Zahlungsmethode speichern' akzeptieren Sie unsere" %}
+        <a href="{% url 'terms' %}" target="_blank">{% trans "AGB" %}</a>
+        {% trans "und bestätigen, dass Sie die" %}
+        <a href="{% url 'privacy' %}" target="_blank">{% trans "Datenschutzerklärung" %}</a>
+        {% trans "gelesen haben." %}
+    </p>
+</div>
+{% endblock %}
+
+{% block onboarding_css %}
+<style>
+/* Plan Summary */
+.plan-summary {
+    background: #f8fafc;
+    border-radius: 16px;
+    padding: 20px;
+    margin-bottom: 25px;
+}
+.plan-summary-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 12px;
+}
+.plan-summary-header .label {
+    font-size: 12px;
+    color: #64748b;
+    text-transform: uppercase;
+    font-weight: 600;
+}
+.change-link {
+    font-size: 13px;
+    color: #336AEA;
+    text-decoration: none;
+}
+.change-link:hover {
+    text-decoration: underline;
+}
+.plan-name {
+    font-size: 18px;
+    font-weight: 700;
+    color: #1e293b;
+    margin-bottom: 5px;
+}
+.plan-details {
+    display: flex;
+    justify-content: space-between;
+    font-size: 14px;
+    color: #64748b;
+}
+.plan-details .plan-price {
+    font-weight: 600;
+    color: #336AEA;
+}
+
+/* Security Notice */
+.security-notice {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+    background: #ecfdf5;
+    border: 1px solid #a7f3d0;
+    border-radius: 12px;
+    padding: 15px 20px;
+    margin-bottom: 30px;
+}
+.security-icon {
+    width: 40px;
+    height: 40px;
+    background: #10B981;
+    border-radius: 10px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: #fff;
+    flex-shrink: 0;
+}
+.security-text {
+    flex: 1;
+}
+.security-text strong {
+    display: block;
+    font-size: 14px;
+    color: #065f46;
+    margin-bottom: 2px;
+}
+.security-text span {
+    font-size: 13px;
+    color: #047857;
+}
+
+/* Payment Form */
+.payment-form {
+    margin-bottom: 30px;
+}
+.form-section-title {
+    font-size: 14px;
+    font-weight: 600;
+    color: #336AEA;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    margin-bottom: 15px;
+}
+#payment-element {
+    padding: 20px;
+    border: 2px solid #e5e7eb;
+    border-radius: 12px;
+    background: #fff;
+    min-height: 150px;
+}
+.payment-errors {
+    color: #dc2626;
+    font-size: 14px;
+    margin-top: 15px;
+    padding: 12px 15px;
+    background: #fef2f2;
+    border-radius: 10px;
+    display: none;
+}
+.payment-errors:not(:empty) {
+    display: block;
+}
+
+/* Next Steps */
+.next-steps {
+    background: #f8fafc;
+    border-radius: 16px;
+    padding: 25px;
+    margin-bottom: 30px;
+}
+.next-steps h4 {
+    font-size: 15px;
+    margin: 0 0 20px;
+    color: #1e293b;
+}
+.next-steps-list {
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+}
+.next-step {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+}
+.step-icon {
+    width: 40px;
+    height: 40px;
+    background: #fff;
+    border-radius: 10px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 20px;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.05);
+}
+.step-text strong {
+    display: block;
+    font-size: 14px;
+    color: #1e293b;
+    margin-bottom: 2px;
+}
+.step-text span {
+    font-size: 13px;
+    color: #64748b;
+}
+
+/* Terms */
+.terms-note {
+    text-align: center;
+    margin-top: 20px;
+}
+.terms-note p {
+    font-size: 12px;
+    color: #94a3b8;
+    margin: 0;
+}
+.terms-note a {
+    color: #336AEA;
+}
+
+/* Spinner */
+.spinner {
+    animation: rotate 1s linear infinite;
+}
+@keyframes rotate {
+    100% { transform: rotate(360deg); }
+}
+</style>
+{% endblock %}
+
+{% block onboarding_js %}
+<script src="https://js.stripe.com/v3/"></script>
+<script>
+document.addEventListener('DOMContentLoaded', async function() {
+    const stripe = Stripe('{{ stripe_public_key }}');
+    const clientSecret = '{{ setup_intent.client_secret }}';
+    
+    // Create Elements
+    const elements = stripe.elements({
+        clientSecret: clientSecret,
+        appearance: {
+            theme: 'stripe',
+            variables: {
+                colorPrimary: '#336AEA',
+                colorBackground: '#ffffff',
+                colorText: '#1e293b',
+                colorDanger: '#dc2626',
+                fontFamily: 'system-ui, -apple-system, sans-serif',
+                spacingUnit: '4px',
+                borderRadius: '10px',
+            },
+            rules: {
+                '.Input': {
+                    border: '2px solid #e5e7eb',
+                    padding: '14px',
+                },
+                '.Input:focus': {
+                    border: '2px solid #336AEA',
+                    boxShadow: '0 0 0 4px rgba(51, 106, 234, 0.1)',
+                },
+            }
+        }
+    });
+    
+    const paymentElement = elements.create('payment', {
+        layout: 'tabs',
+        paymentMethodOrder: ['card', 'sepa_debit'],
+    });
+    paymentElement.mount('#payment-element');
+    
+    // Handle submit
+    const submitBtn = document.getElementById('submit-btn');
+    const btnText = document.getElementById('btn-text');
+    const btnLoading = document.getElementById('btn-loading');
+    const errorsDiv = document.getElementById('payment-errors');
+    
+    submitBtn.addEventListener('click', async function() {
+        submitBtn.disabled = true;
+        btnText.style.display = 'none';
+        btnLoading.style.display = 'inline-flex';
+        errorsDiv.textContent = '';
+        
+        const { error } = await stripe.confirmSetup({
+            elements,
+            confirmParams: {
+                return_url: window.location.origin + '{% url "onboarding_complete" %}',
+            },
+        });
+        
+        if (error) {
+            errorsDiv.textContent = error.message;
+            submitBtn.disabled = false;
+            btnText.style.display = 'inline';
+            btnLoading.style.display = 'none';
+        }
+    });
+});
+</script>
+{% endblock %}

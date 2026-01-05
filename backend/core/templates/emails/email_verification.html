@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title>E-Mail bestätigen - BlisterPerPost</title>
+    <style>
+        body { margin: 0; padding: 0; background-color: #f0f4f8; font-family: Arial, sans-serif; }
+        a { text-decoration: none; }
+        .container { max-width: 600px; margin: 0 auto; }
+        .header { background: linear-gradient(135deg, #336AEA 0%, #5b8def 100%); padding: 30px; text-align: center; border-radius: 12px 12px 0 0; }
+        .header img { max-width: 180px; }
+        .content { background: #ffffff; padding: 40px 30px; }
+        .icon-box { text-align: center; margin-bottom: 24px; }
+        .icon-circle { display: inline-block; width: 80px; height: 80px; background: rgba(51, 106, 234, 0.1); border-radius: 50%; line-height: 80px; }
+        h1 { color: #1f2937; font-size: 26px; text-align: center; margin: 0 0 16px; }
+        .subtitle { color: #6b7280; font-size: 16px; text-align: center; line-height: 1.6; margin: 0 0 30px; }
+        .btn-primary { display: block; width: 100%; max-width: 280px; margin: 0 auto 30px; padding: 16px 32px; background: linear-gradient(135deg, #336AEA 0%, #5b8def 100%); color: #ffffff !important; font-size: 16px; font-weight: bold; text-align: center; border-radius: 10px; }
+        .info-box { background: #f8fafc; border-radius: 10px; padding: 20px; margin-bottom: 24px; }
+        .info-box p { margin: 0; color: #6b7280; font-size: 14px; line-height: 1.6; }
+        .footer { background: #f8fafc; padding: 24px 30px; text-align: center; border-radius: 0 0 12px 12px; border-top: 1px solid #e5e7eb; }
+        .footer p { margin: 0 0 8px; color: #9ca3af; font-size: 12px; }
+        .footer a { color: #336AEA; }
+        @media (max-width: 600px) {
+            .content { padding: 30px 20px; }
+            h1 { font-size: 22px; }
+        }
+    </style>
+</head>
+<body>
+    <div style="padding: 20px 10px;">
+        <table class="container" width="100%" cellspacing="0" cellpadding="0" border="0">
+            <tr>
+                <td class="header">
+                    <img src="https://balirate.com/static/images/email_logo.png" alt="BlisterPerPost" style="max-width: 180px;">
+                </td>
+            </tr>
+            <tr>
+                <td class="content">
+{% block icon %}
+<div style="background:rgba(51,106,234,0.1);border-radius:50%;display:inline-block;height:80px;width:80px;text-align:center;padding-top:16px;box-sizing:border-box;">
+<img src="data:image/svg+xml;base64,PHN2ZyBmaWxsPSIjMzM2YWVhIiB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSI0OCIgaGVpZ2h0PSI0OCIgdmlld0JveD0iMCAwIDUyOC42MzMgNTI4LjYzMiI+PHBhdGggZD0iTTI2NC4zMTcgMzI2LjIzNWMtMTMuNzM5IDAtMjYuNjU5LTUuMzQ5LTM2LjM3MS0xNS4wNjdMMC42OTIgODMuOTE0djM1Ni44NjNjMCAxNi44OTcgMTMuNzAzIDMwLjYwMSAzMC42IDMwLjYwMWg0NjYuMDQ0YzE2Ljg5NiAwIDMwLjYtMTMuNzAzIDMwLjYtMzAuNjAxVjgzLjkyTDMwMC42OTMgMzExLjE2N2MtOS43MTYgOS43MTktMjIuNjM2IDE1LjA2OC0zNi4zNzYgMTUuMDY4eiIvPjxwYXRoIGQ9Ik0wLjY5MiA1Ny4yNTVIMGwuNjk4LjY5NyAyNDAuMjI5IDI0MC4yMzRjNi40NjMgNi40NTcgMTQuOTI3IDkuNjg4IDIzLjM5MSA5LjY4OCA4LjQ2NCAwIDE2LjkzMy0zLjIzMSAyMy4zOS05LjY4OGwyNDAuMjI4LTI0MC4yMzMuNjk3LS42OTdoLS42OTdILjY5MnoiLz48L3N2Zz4=" width="48" height="48" alt="" style="vertical-align:middle;border:0;">
+</div>
+{% endblock %}
+                    <h1>Willkommen bei BlisterPerPost!</h1>
+                    <p class="subtitle">Hallo {{ first_name }},<br>vielen Dank für Ihre Registrierung. Bitte bestätigen Sie Ihre E-Mail-Adresse.</p>
+                    
+                    <a href="{{ verification_url }}" class="btn-primary">E-Mail bestätigen</a>
+                    
+                    <div class="info-box">
+                        <p><strong>Hinweis:</strong> Dieser Link ist 24 Stunden gültig. Falls Sie sich nicht registriert haben, können Sie diese E-Mail ignorieren.</p>
+                    </div>
+                </td>
+            </tr>
+            <tr>
+                <td class="footer">
+                    <p>BlisterPerPost – Ihre Medikamente sicher verpackt</p>
+                    <p>Kranich-Apotheke Darmstadt</p>
+                    <p><a href="https://balirate.com">balirate.com</a> · <a href="https://balirate.com/datenschutz/">Datenschutz</a> · <a href="https://balirate.com/impressum/">Impressum</a></p>
+                </td>
+            </tr>
+        </table>
+    </div>
+</body>
+</html>

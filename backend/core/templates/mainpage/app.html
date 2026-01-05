@@ -1,0 +1,67 @@
+{% load static i18n %}
+<div class="app-area">
+   <div class="container">
+      <div class="row justify-content-center align-items-center g-4">
+         
+         <!-- TEXT SECTION -->
+         <div class="col-lg-7 col-md-12">
+            <div class="app-content">
+               <span class="sub">Für Familien, Senioren &amp; Pflegeeinrichtungen</span>
+               <h2>Einfach starten – Medikamente sicher organisiert</h2>
+               <p>
+                  Ob für Eltern, Großeltern oder Bewohner in Pflegeeinrichtungen –  
+                  mit <strong>BlisterPerPost</strong> behalten Sie Medikamente jederzeit im Blick.  
+                  Laden Sie Ihr E-Rezept hoch, wir kümmern uns um Prüfung,  
+                  Krankenkassenabrechnung und Lieferung direkt nach Hause oder ins Heim.  
+                  Sicher, übersichtlich und von Apotheker:innen geprüft.
+               </p>
+
+               <!-- CTA BUTTON -->
+               <div class="banner-btn d-flex flex-wrap gap-3 mt-4">
+                  {% if user.is_authenticated %}
+<a class="default-btn" href="{% url 'account_documents' %}">
+   <span class="left">
+      <svg xmlns="http://www.w3.org/2000/svg" width="19" height="19" viewBox="0 0 19 19" fill="none">
+         <path d="M17.8077 0.98584H1.19231C0.810154 0.98584 0.5 1.29599 0.5 1.67815C0.5 2.0603 0.810154 2.37046 1.19231 2.37046H16.1361L0.702846 17.8041C0.4325 18.0744 0.4325 18.5126 0.702846 18.783C0.838192 18.9183 1.01508 18.9858 1.19231 18.9858C1.36954 18.9858 1.54677 18.9183 1.68177 18.783L17.1154 3.34938V18.2935C17.1154 18.6757 17.4255 18.9858 17.8077 18.9858C18.1898 18.9858 18.5 18.6757 18.5 18.2935V1.67815C18.5 1.29599 18.1898 0.98584 17.8077 0.98584Z" fill="white"></path>
+      </svg>
+   </span>
+   <strong>Meine E-Rezepte verwalten</strong>
+   <span class="right">
+      <svg xmlns="http://www.w3.org/2000/svg" width="19" height="19" viewBox="0 0 19 19" fill="none">
+         <path d="M17.8077 0.98584H1.19231C0.810154 0.98584 0.5 1.29599 0.5 1.67815C0.5 2.0603 0.810154 2.37046 1.19231 2.37046H16.1361L0.702846 17.8041C0.4325 18.0744 0.4325 18.5126 0.702846 18.783C0.838192 18.9183 1.01508 18.9858 1.19231 18.9858C1.36954 18.9858 1.54677 18.9183 1.68177 18.783L17.1154 3.34938V18.2935C17.1154 18.6757 17.4255 18.9858 17.8077 18.9858C18.1898 18.9858 18.5 18.6757 18.5 18.2935V1.67815C18.5 1.29599 18.1898 0.98584 17.8077 0.98584Z" fill="white"></path>
+      </svg>
+   </span>
+</a>
+{% else %}
+<a class="default-btn" href="#" data-bs-toggle="modal" data-bs-target="#authModal">
+   <span class="left">
+      <svg xmlns="http://www.w3.org/2000/svg" width="19" height="19" viewBox="0 0 19 19" fill="none">
+         <path d="M17.8077 0.98584H1.19231C0.810154 0.98584 0.5 1.29599 0.5 1.67815C0.5 2.0603 0.810154 2.37046 1.19231 2.37046H16.1361L0.702846 17.8041C0.4325 18.0744 0.4325 18.5126 0.702846 18.783C0.838192 18.9183 1.01508 18.9858 1.19231 18.9858C1.36954 18.9858 1.54677 18.9183 1.68177 18.783L17.1154 3.34938V18.2935C17.1154 18.6757 17.4255 18.9858 17.8077 18.9858C18.1898 18.9858 18.5 18.6757 18.5 18.2935V1.67815C18.5 1.29599 18.1898 0.98584 17.8077 0.98584Z" fill="white"></path>
+      </svg>
+   </span>
+   <strong>E-Rezept jetzt hochladen</strong>
+   <span class="right">
+      <svg xmlns="http://www.w3.org/2000/svg" width="19" height="19" viewBox="0 0 19 19" fill="none">
+         <path d="M17.8077 0.98584H1.19231C0.810154 0.98584 0.5 1.29599 0.5 1.67815C0.5 2.0603 0.810154 2.37046 1.19231 2.37046H16.1361L0.702846 17.8041C0.4325 18.0744 0.4325 18.5126 0.702846 18.783C0.838192 18.9183 1.01508 18.9858 1.19231 18.9858C1.36954 18.9858 1.54677 18.9183 1.68177 18.783L17.1154 3.34938V18.2935C17.1154 18.6757 17.4255 18.9858 17.8077 18.9858C18.1898 18.9858 18.5 18.6757 18.5 18.2935V1.67815C18.5 1.29599 18.1898 0.98584 17.8077 0.98584Z" fill="white"></path>
+      </svg>
+   </span>
+</a>
+{% endif %}
+               </div>
+               <!-- /CTA BUTTON -->
+            </div>
+         </div>
+         
+         <!-- IMAGE SECTION -->
+         <div class="col-lg-5 col-md-12">
+            <div class="app-image">
+               <img alt="BlisterPerPost App-Vorschau: E-Rezept hochladen, Lieferung verfolgen, Einnahmeerinnerungen" loading="lazy" width="1053" height="1013" src="{% static 'images/iphone.webp' %}">
+            </div>
+         </div>
+
+      </div>
+   </div>
+</div>
+<div class="app-shape">
+    <img alt="shape" loading="lazy" width="174" height="136" decoding="async" data-nimg="1" src="{% static 'images/shape.png' %}" style="color: transparent;">
+</div>

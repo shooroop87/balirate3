@@ -1,0 +1,620 @@
+{% load static i18n %}
+<style>.ssBtnDefault{
+    position:absolute;
+    z-index:100000000;
+    background:none;
+    border:none;
+    outline:none;
+    right:0;
+    cursor:pointer;
+    width:26px;
+    height:26px;
+    margin:0;
+    padding:0;
+    top:8px;
+    right:8px;
+    opacity:.6;
+    pointer-events:all;
+    transition-duration:.25s
+}
+.ssBtnDefault:hover{
+    opacity:1 !important;
+    transition-duration:.25s
+}
+.ssBtnDefault .fade{
+    transition-duration:5s;
+    opacity:0
+}
+.ssBtnYouTube{
+    background:none;
+    border:none
+}
+ytd-watch-flexy .ytp-right-controls-left .ssBtnYouTube svg{
+    margin:1px auto;
+    width:22px;
+    height:auto
+}
+.ytp-embed .ytp-right-controls .ssBtnYouTube{
+    width:20px !important;
+    margin-right:15px !important
+}
+.ssBtnVimeo{
+    height:2rem !important;
+    width:2rem !important;
+    margin-top:8px !important
+}
+.ssBtnVimeo button{
+    width:100% !important;
+    height:100% !important
+}
+.ssBtnVimeo button svg{
+    width:19px
+}
+.ssBtnNetflix{
+    background:none;
+    border:none;
+    cursor:pointer;
+    width:4rem;
+    margin:0 .5rem;
+    display:inline-block;
+    flex-shrink:0
+}
+.ssBtnNetflix>svg{
+    transform:translateY(-0.5rem)
+}
+.ssBtnNetflix:hover{
+    transform:scale(1.2);
+    transition-duration:.25s
+}
+.ssBtnHulu{
+    width:27px;
+    margin-top:4px;
+    margin-right:10px;
+    opacity:.7;
+    cursor:pointer
+}
+.ssBtnHulu:hover{
+    opacity:1
+}
+.ssBtnAmazon{
+    margin-left:1.5vw;
+    outline:none;
+    cursor:pointer;
+    opacity:.8
+}
+.ssBtnAmazon:hover{
+    opacity:1
+}
+@media(min-width: 1200px){
+    .ssBtnAmazon{
+        width:1.6666666667vw;
+        height:1.6666666667vw
+    }
+}
+@media(max-width: 1199px){
+    .ssBtnAmazon{
+        width:20px;
+        height:20px
+    }
+}
+.ssBtnMax{
+    width:24px;
+    height:24px;
+    margin:4px;
+    padding:12px;
+    box-sizing:content-box;
+    position:relative;
+    opacity:.7;
+    cursor:pointer;
+    display:flex;
+    justify-content:center;
+    align-items:center
+}
+.ssBtnMax:hover{
+    opacity:1;
+    transform:scale(1.2)
+}
+.ssBtnMax svg{
+    width:24px;
+    height:24px
+}
+.ssBtnDisney{
+    opacity:.7
+}
+.ssBtnDisney:hover{
+    opacity:1
+}
+.ssBtnDisney svg{
+    width:25px !important;
+    height:31px !important;
+    padding-top:4px;
+    margin-right:7px
+}
+.ssBtnApple{
+    cursor:pointer;
+    opacity:.7
+}
+.ssBtnApple:hover{
+    opacity:1
+}
+.ssBtnApple svg{
+    width:22px !important;
+    height:22px !important;
+    margin-right:2px !important
+}
+body .vsNotification{
+    display:flex;
+    width:100%;
+    height:4rem;
+    justify-content:center;
+    align-items:center;
+    position:fixed;
+    z-index:1000000000;
+    top:-4rem;
+    padding:.75rem 1.25em;
+    border:1px solid rgba(0,0,0,0);
+    border-radius:.25em;
+    font-size:12px;
+    height:fit-content;
+    justify-self:center;
+    width:auto;
+    animation-name:notification;
+    animation-iteration-count:1;
+    animation-duration:2s
+}
+@keyframes notification{
+    0%{
+        top:-4rem
+    }
+    25%{
+        top:3rem
+    }
+    85%{
+        top:3rem
+    }
+    100%{
+        top:-4rem
+    }
+}
+body .vsNotification.persist{
+    top:3rem;
+    animation-name:notification-persist;
+    animation-iteration-count:1;
+    animation-duration:1s
+}
+@keyframes notification-persist{
+    0%{
+        top:-4rem
+    }
+    100%{
+        top:3rem
+    }
+}
+body .vsNotification.success{
+    background-color:#d4edda;
+    border-color:#c3e6cb;
+    color:#155724
+}
+body .vsNotification.fail{
+    background-color:#edd4d4;
+    border-color:#e6c3c3;
+    color:#b62424
+}
+body .vsNotification .vsNotificationClose{
+    color:#b62424;
+    border:none;
+    background-color:rgba(0,0,0,0);
+    padding:0;
+    line-height:0;
+    position:relative;
+    left:.5rem;
+    cursor:pointer
+}
+body .vsNotification .vsNContent{
+    position:absolute;
+    z-index:1000000000;
+    margin-bottom:1em;
+    padding:.75rem 1.25em;
+    border:1px solid rgba(0,0,0,0);
+    border-radius:.25em;
+    font-size:12px;
+    height:fit-content;
+    top:0
+}
+body .vsNotification a{
+    color:#b62424
+}
+.ssModal{
+    display:none;
+    position:fixed;
+    z-index:100000000;
+    right:20px;
+    opacity:0;
+    background-color:#fffefa;
+    border-radius:3px;
+    padding:25px;
+    color:#525252;
+    font-family:muli,sans-serif;
+    box-shadow:0px 4px 8px 0px rgba(0,0,0,.15);
+    animation-name:animateOn;
+    animation-duration:.2s;
+    animation-fill-mode:forwards
+}
+.ssModal.visible{
+    display:block
+}
+.ssModal *{
+    vertical-align:middle;
+    line-height:normal;
+    font-weight:normal
+}
+@keyframes animateOn{
+    from{
+        opacity:0;
+        top:0px
+    }
+    to{
+        opacity:1;
+        top:20px
+    }
+}
+.ssModal .close{
+    position:absolute;
+    right:10px;
+    top:10px;
+    cursor:pointer;
+    opacity:.5;
+    background-image:url(data:image/svg+xml;
+    base64,PD94bWwgdmVyc2lvbj0iMS4wIiBlbmNvZGluZz0idXRmLTgiPz4KPCEtLSBHZW5lcmF0b3I6IEFkb2JlIElsbHVzdHJhdG9yIDI3LjAuMCwgU1ZHIEV4cG9ydCBQbHVnLUluIC4gU1ZHIFZlcnNpb246IDYuMDAgQnVpbGQgMCkgIC0tPgo8c3ZnIHZlcnNpb249IjEuMSIgaWQ9IkxheWVyXzEiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyIgeG1sbnM6eGxpbms9Imh0dHA6Ly93d3cudzMub3JnLzE5OTkveGxpbmsiIHg9IjBweCIgeT0iMHB4IgoJIHZpZXdCb3g9IjAgMCA0NDMuNCA0NDMuNCIgc3R5bGU9ImVuYWJsZS1iYWNrZ3JvdW5kOm5ldyAwIDAgNDQzLjQgNDQzLjQ7IiB4bWw6c3BhY2U9InByZXNlcnZlIj4KPHBhdGggZD0iTTYuOCw0MDMuNWwxODEuOC0xODEuOEw2LjgsMzkuOWMtNS45LTUuOS04LjItMTQuNS02LTIyLjZDMyw5LjIsOS4yLDMsMTcuMywwLjhjOC4xLTIuMiwxNi43LDAuMSwyMi42LDZsMTgxLjgsMTgxLjgKCUw0MDMuNSw2LjhjNS45LTUuOSwxNC41LTguMiwyMi42LTZjOC4xLDIuMiwxNC40LDguNCwxNi41LDE2LjVjMi4yLDguMS0wLjEsMTYuNy02LDIyLjZMMjU0LjcsMjIxLjdsMTgxLjgsMTgxLjgKCWM1LjksNS45LDguMiwxNC41LDYsMjIuNmMtMi4yLDguMS04LjQsMTQuNC0xNi41LDE2LjVjLTguMSwyLjItMTYuNy0wLjEtMjIuNi02TDIyMS43LDI1NC43TDM5LjksNDM2LjVjLTUuOSw1LjktMTQuNSw4LjItMjIuNiw2CglDOS4yLDQ0MC40LDMsNDM0LjEsMC44LDQyNkMtMS40LDQxOCwwLjksNDA5LjQsNi44LDQwMy41TDYuOCw0MDMuNXoiLz4KPC9zdmc+Cg==);
+    width:10px;
+    height:10px
+}
+.ssModal .ssButtons{
+    margin-top:25px;
+    text-align:right
+}
+.ssModal .ssButtons .ssButton,.ssModal .ssButtons a .ssButton{
+    display:inline-block;
+    height:20px;
+    padding:3px 12px 3px;
+    margin-left:14px;
+    border-radius:4px;
+    box-shadow:0px 4px 8px 0px rgba(0,0,0,.15);
+    background-color:#fff;
+    font-size:12px;
+    color:#525252;
+    line-height:20px;
+    font-weight:normal;
+    cursor:pointer;
+    text-decoration:none
+}
+.ssModal .ssButtons .ssButton .emoji,.ssModal .ssButtons a .ssButton .emoji{
+    font-size:15px;
+    vertical-align:bottom
+}
+.ssModal .ssButtons .ssButton.blue,.ssModal .ssButtons a .ssButton.blue{
+    background-color:#19acef;
+    color:#fff
+}
+.ssModal .icon{
+    background-image:url(data:image/svg+xml;
+    base64,PD94bWwgdmVyc2lvbj0iMS4wIiBlbmNvZGluZz0idXRmLTgiPz4KPCEtLSBHZW5lcmF0b3I6IEFkb2JlIElsbHVzdHJhdG9yIDI1LjIuMywgU1ZHIEV4cG9ydCBQbHVnLUluIC4gU1ZHIFZlcnNpb246IDYuMDAgQnVpbGQgMCkgIC0tPgo8c3ZnIHZlcnNpb249IjEuMSIKCSBpZD0iTGF5ZXJfMSIgeG1sbnM6Y2M9Imh0dHA6Ly9jcmVhdGl2ZWNvbW1vbnMub3JnL25zIyIgeG1sbnM6ZGM9Imh0dHA6Ly9wdXJsLm9yZy9kYy9lbGVtZW50cy8xLjEvIiB4bWxuczppbmtzY2FwZT0iaHR0cDovL3d3dy5pbmtzY2FwZS5vcmcvbmFtZXNwYWNlcy9pbmtzY2FwZSIgeG1sbnM6cmRmPSJodHRwOi8vd3d3LnczLm9yZy8xOTk5LzAyLzIyLXJkZi1zeW50YXgtbnMjIiB4bWxuczpzb2RpcG9kaT0iaHR0cDovL3NvZGlwb2RpLnNvdXJjZWZvcmdlLm5ldC9EVEQvc29kaXBvZGktMC5kdGQiIHhtbG5zOnN2Zz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciCgkgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIiB4bWxuczp4bGluaz0iaHR0cDovL3d3dy53My5vcmcvMTk5OS94bGluayIgeD0iMHB4IiB5PSIwcHgiIHZpZXdCb3g9IjAgMCAxMDAgODMuOSIKCSBzdHlsZT0iZW5hYmxlLWJhY2tncm91bmQ6bmV3IDAgMCAxMDAgODMuOTsiIHhtbDpzcGFjZT0icHJlc2VydmUiPgo8c3R5bGUgdHlwZT0idGV4dC9jc3MiPgoJLnN0MHtmaWxsOiMwMEFERUY7fQo8L3N0eWxlPgo8ZyB0cmFuc2Zvcm09InRyYW5zbGF0ZSgwLC05NTIuMzYyMTgpIj4KCTxwYXRoIGNsYXNzPSJzdDAiIGQ9Ik0zNS42LDk1Mi40Yy0xLjMsMC0yLjQsMS0yLjksMS44bC01LjYsMTEuMUgxMWMtNiwwLTExLDUtMTEsMTF2NDljMCw2LDUsMTEsMTEsMTFoNzhjNiwwLDExLTUsMTEtMTF2LTQ5CgkJYzAtNi01LTExLTExLTExSDcyLjlsLTUuNi0xMS4xYy0wLjUtMS4xLTEuNi0xLjgtMi45LTEuOEwzNS42LDk1Mi40TDM1LjYsOTUyLjR6IE0zNy42LDk1OC44aDI1LjJsNS41LDExLjEKCQljMC41LDEuMSwxLjYsMS44LDIuOSwxLjhoMTguMWMyLjYsMCw0LjUsMS45LDQuNSw0LjV2NDljMCwyLjYtMS45LDQuNS00LjUsNC41SDExLjFjLTIuNiwwLTQuNS0xLjktNC41LTQuNXYtNDkKCQljMC0yLjYsMS45LTQuNSw0LjUtNC41aDE4LjFjMS4xLDAsMi40LTAuOCwyLjktMS44TDM3LjYsOTU4Ljh6IE01MC4yLDk3OS44Yy0xMS42LDAtMjEsOS40LTIxLDIxczkuNCwyMSwyMSwyMXMyMS05LjQsMjEtMjEKCQlTNjEuOCw5NzkuOCw1MC4yLDk3OS44eiBNNTAuMiw5ODYuMmM4LjEsMCwxNC41LDYuNSwxNC41LDE0LjVzLTYuNSwxNC41LTE0LjUsMTQuNXMtMTQuNS02LjUtMTQuNS0xNC41UzQyLjEsOTg2LjIsNTAuMiw5ODYuMnoiLz4KPC9nPgo8L3N2Zz4K);
+    background-repeat:no-repeat;
+    width:30px;
+    height:30px;
+    vertical-align:top;
+    margin-right:22px;
+    margin-top:2px;
+    display:inline-block
+}
+.ssModal .body{
+    display:inline-block;
+    width:315px
+}
+.ssModal .body .title{
+    font-size:15px;
+    font-weight:600;
+    margin-bottom:7px
+}
+.ssModal .body .description{
+    font-size:13px;
+    font-weight:lighter
+}
+body #ssTempHolder{
+    position:fixed;
+    z-index:1000000000000;
+    width:100%;
+    height:100%;
+    top:0;
+    pointer-events:none
+}
+body #ssTempHolder video{
+    width:auto !important;
+    height:auto !important;
+    max-width:100% !important;
+    max-height:100% !important;
+    top:0 !important;
+    left:0 !important;
+    transform:none !important
+}
+body.ssTakeScreenshot .ssElement{
+    z-index:100000000000 !important
+}
+body.ssTakeScreenshot.ssNetflix [data-uia=video-canvas]{
+    z-index:10000000
+}
+body.ssTakeScreenshot.ssNetflix video{
+    background-color:#000
+}
+body.ssTakeScreenshot.ssNetflix .player-timedtext{
+    display:none !important
+}
+body.ssTakeScreenshot.ssNetflix.showSubs .player-timedtext{
+    display:block !important
+}
+body.ssTakeScreenshot.ssAmazon .dv-player-fullscreen video{
+    z-index:99999999 !important
+}
+body.ssTakeScreenshot.ssDisney .btm-media-overlays-container{
+    display:none
+}
+body.ssTakeScreenshot.ssDisney .TimedTextOverlay{
+    display:none
+}
+body.ssTakeScreenshot.ssDisney.showSubs .TimedTextOverlay{
+    display:block
+}
+body.ssTakeScreenshot.ssHulu .ContentPlayer__contentArea{
+    z-index:10000000000;
+    position:relative
+}
+body.ssTakeScreenshot.ssHulu .ClosedCaption{
+    display:none
+}
+body.ssTakeScreenshot.ssHulu.showSubs .ClosedCaption{
+    display:block
+}
+body.ssTakeScreenshot.ssMax video{
+    z-index:99999999;
+    position:relative
+}
+body.ssTakeScreenshot.ssYoutube .html5-video-container,body.ssTakeScreenshot.ssYoutube .ytp-caption-window-container{
+    z-index:999999999 !important
+}
+body.ssTakeScreenshot.ssApple #apple-music-video-player{
+    z-index:999999999 !important
+}
+body.ssTakeScreenshot.ssApple .video-player-scrim{
+    display:none
+}
+body .ssWrapper{
+    overflow:hidden
+}
+</style>
+<style>
+.navbar .navbar-brand .logo_first {
+    color: rgb(42, 53, 71);
+    font-size: 24px;
+    font-weight: 700;
+}
+.navbar .navbar-brand .logo_last {
+    color: #336AEA;
+    font-size: 24px;
+    font-weight: 700;
+    font-style: italic;
+}
+</style>
+<nav class="navbar navbar-expand-xl" id="navbar">
+   <div class="container-fluid">
+      <a class="navbar-brand" href="{% url 'index' %}">
+        <svg width="35" height="35" viewBox="0 0 35 35" fill="none" xmlns="http://www.w3.org/2000/svg">
+<g clip-path="url(#clip0_10166_162)">
+<path d="M31.1503 8.44942C30.705 7.75915 30.0844 7.19806 29.3511 6.82289L18.7287 0.719574C17.8995 0.24519 16.9596 -0.00429206 16.0031 -0.0039058C15.0465 -0.00351954 14.1068 0.246721 13.2781 0.721775L2.65566 6.82289C1.81694 7.30271 0.690518 8.19411 0.601998 9.31441C0.393976 11.982 3.84626 13.6459 6.15442 14.8719C10.1378 16.976 12.6983 18.1954 14.6391 20.1718C15.0706 20.612 15.7456 21.3802 16.0045 21.9855C16.2568 21.3802 16.9384 20.6098 17.3677 20.1718C19.3085 18.191 21.88 16.976 25.8546 14.8719C28.1273 13.6701 31.4667 12.1427 31.4026 9.32101C31.3845 9.01547 31.2983 8.71776 31.1503 8.44942ZM16.0045 15.8469C15.3381 15.8469 14.6868 15.6503 14.1328 15.2821C13.5788 14.9138 13.1471 14.3903 12.8923 13.778C12.6375 13.1656 12.571 12.4918 12.7013 11.8419C12.8317 11.1919 13.1529 10.5951 13.6244 10.1267C14.0959 9.65842 14.6964 9.33972 15.3501 9.21096C16.0038 9.0822 16.6811 9.14917 17.2965 9.40339C17.9119 9.65761 18.4376 10.0877 18.8072 10.6391C19.1768 11.1906 19.3736 11.8387 19.3727 12.5014C19.3724 12.9411 19.285 13.3763 19.1156 13.7824C18.9462 14.1884 18.698 14.5573 18.3852 14.868C18.0725 15.1786 17.7013 15.425 17.2928 15.5929C16.8843 15.7609 16.4465 15.8472 16.0045 15.8469Z" fill="url(#paint0_linear_10166_162)"></path>
+<path d="M25.8678 16.633C21.143 19.1289 17.8279 20.2932 16.54 24.3364C16.3087 24.982 16.1275 25.6442 15.9978 26.3173C15.8705 25.6441 15.6907 24.9818 15.46 24.3364C14.1632 20.3042 10.857 19.1487 6.13223 16.644C1.23043 14.0534 0.183679 12.7658 0 12.209V23.7157C0.0014291 24.6635 0.252969 25.5943 0.729475 26.415C1.20598 27.2358 1.89076 27.9178 2.71535 28.3928L13.3378 34.4873C13.6863 34.6981 14.0574 34.8694 14.4443 34.998C14.3159 34.5445 14.1654 34.0647 13.9817 33.5541C10.6622 24.31 4.79779 22.0386 4.79779 22.0386C4.79779 22.0386 7.53084 22.2587 11.4368 26.2689C13.3289 28.2145 14.816 30.541 16.0022 32.9642C16.0022 32.9642 18.6091 28.2762 20.5721 26.2579C24.478 22.2455 27.2111 22.0276 27.2111 22.0276C27.2111 22.0276 21.3422 24.3012 18.0271 33.5431C17.8434 34.0559 17.6907 34.5335 17.5624 34.9891C17.9486 34.859 18.3196 34.6878 18.6689 34.4785L29.2824 28.3928C30.1075 27.9175 30.7926 27.2352 31.2695 26.4141C31.7464 25.593 31.9983 24.6618 32 23.7135V12.2002C31.8141 12.746 30.7607 14.0446 25.8678 16.633Z" fill="url(#paint1_linear_10166_162)"></path>
+</g>
+<defs>
+<lineargradient id="paint0_linear_10166_162" x1="0.595359" y1="10.9916" x2="31.4048" y2="10.9916" gradientUnits="userSpaceOnUse">
+<stop stop-color="#336AEA"></stop>
+<stop offset="1" stop-color="#87ABFF"></stop>
+</lineargradient>
+<lineargradient id="paint1_linear_10166_162" x1="19.7488" y1="7.15555" x2="9.62465" y2="37.8394" gradientUnits="userSpaceOnUse">
+<stop stop-color="#2A3547"></stop>
+<stop offset="1" stop-color="#707070"></stop>
+</lineargradient>
+<clippath id="clip0_10166_162">
+<rect width="32" height="35" fill="white"></rect>
+</clippath>
+</defs>
+</svg>
+<span class="logo_first">Blister</span><span class="logo_last">PerPost</span>
+      </a>
+
+<!-- Mobile User + Menu -->
+<div class="d-flex d-xl-none align-items-center gap-2">
+   {% if user.is_authenticated %}
+   <a href="{% url 'dashboard' %}" class="mobile-user-btn">
+      <div class="user-avatar-small">{{ user.first_name|slice:":1"|upper }}{{ user.last_name|slice:":1"|upper }}</div>
+   </a>
+   {% else %}
+   <button class="mobile-user-btn" onclick="openAuthModal('login'); return false;">
+      <img src="{% static 'images/user.svg' %}" alt="Login" width="24" height="24">
+   </button>
+   {% endif %}
+   
+   <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-label="Navigationsmenü öffnen">
+      <span class="burger-menu">
+         <span class="icon-bar top-bar"></span>
+         <span class="icon-bar middle-bar"></span>
+         <span class="icon-bar bottom-bar"></span>
+      </span>
+   </button>
+</div>
+
+      <div class="collapse navbar-collapse" id="navbarNav">
+         <ul class="navbar-nav mx-auto text-center">
+    <li class="nav-item">
+        <a class="nav-link" href="{% url 'index' %}#about">{% trans "Über uns" %}</a>
+    </li>
+    <li class="nav-item">
+        <a class="nav-link" href="{% url 'index' %}#benefits">{% trans "Vorteile" %}</a>
+    </li>
+    <li class="nav-item">
+        <a class="nav-link" href="{% url 'index' %}#how-it-works">{% trans "So funktioniert's" %}</a>
+    </li>
+    <li class="nav-item">
+        <a class="nav-link" href="{% url 'index' %}#for-whom">{% trans "Für wen" %}</a>
+    </li>
+    <li class="nav-item">
+        <a class="nav-link" href="{% url 'index' %}#pricing">{% trans "Kosten" %}</a>
+    </li>
+    <li class="nav-item">
+        <a class="nav-link" href="{% url 'index' %}#feedback">{% trans "Erfahrungen" %}</a>
+    </li>
+    <li class="nav-item">
+        <a class="nav-link" href="{% url 'index' %}#faq">{% trans "FAQ" %}</a>
+    </li>
+</ul>
+      </div>
+
+<div class="others-option align-items-center overflow-hidden d-none d-sm-flex">
+   {% if user.is_authenticated %}
+   <!-- Авторизованный пользователь -->
+   <div class="option-item">
+      <a class="login-btn" href="{% url 'dashboard' %}">
+         <div class="user-avatar-small">{{ user.first_name|slice:":1"|upper }}{{ user.last_name|slice:":1"|upper }}</div>
+         <span>{{ user.first_name }}</span>
+      </a>
+   </div>
+   <div class="option-item">
+      <a class="default-btn" href="{% url 'account_logout' %}">
+         <strong>{% trans "Abmelden" %}</strong>
+      </a>
+   </div>
+   {% else %}
+   <!-- Гость -->
+   <div class="option-item">
+      <a class="login-btn" href="#" onclick="openAuthModal('login'); return false;">
+         <img alt="user" loading="lazy" width="20" height="20" src="{% static 'images/user.svg' %}">
+         <span>Login</span>
+      </a>
+   </div>
+   <div class="option-item">
+      <a class="default-btn" href="#" onclick="openAuthModal('register'); return false;">
+         <span class="left">
+            <svg xmlns="http://www.w3.org/2000/svg" width="12" height="12" viewBox="0 0 12 12" fill="none">
+               <path d="M11.5385 0H0.461538C0.206769 0 0 0.206769 0 0.461538C0 0.716308 0.206769 0.923077 0.461538 0.923077H10.4241L0.135231 11.2122C-0.045 11.3924 -0.045 11.6845 0.135231 11.8648C0.225462 11.955 0.343385 12 0.461538 12C0.579692 12 0.697846 11.955 0.787846 11.8648L11.0769 1.57569V11.5385C11.0769 11.7932 11.2837 12 11.5385 12C11.7932 12 12 11.7932 12 11.5385V0.461538C12 0.206769 11.7932 0 11.5385 0Z" fill="white"></path>
+            </svg>
+         </span>
+         <strong>Jetzt registrieren</strong>
+         <span class="d-none d-xxl-inline">– kostenlos</span>
+         <span class="right">
+            <svg xmlns="http://www.w3.org/2000/svg" width="12" height="12" viewBox="0 0 12 12" fill="none">
+               <path d="M11.5385 0H0.461538C0.206769 0 0 0.206769 0 0.461538C0 0.716308 0.206769 0.923077 0.461538 0.923077H10.4241L0.135231 11.2122C-0.045 11.3924 -0.045 11.6845 0.135231 11.8648C0.225462 11.955 0.343385 12 0.461538 12C0.579692 12 0.697846 11.955 0.787846 11.8648L11.0769 1.57569V11.5385C11.0769 11.7932 11.2837 12 11.5385 12C11.7932 12 12 11.7932 12 11.5385V0.461538C12 0.206769 11.7932 0 11.5385 0Z" fill="white"></path>
+            </svg>
+         </span>
+      </a>
+   </div>
+   {% endif %}
+</div>
+
+   </div>
+</nav>
+<style>
+.mobile-user-btn {
+    background: none;
+    border: none;
+    padding: 8px;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+.mobile-user-btn .user-avatar-small {
+    margin-right: 0;
+}
+/* Burger Menu Animation */
+.navbar-toggler {
+    border: none;
+    padding: 10px;
+    background: transparent;
+}
+.navbar-toggler:focus {
+    box-shadow: none;
+}
+.burger-menu {
+    display: flex;
+    flex-direction: column;
+    width: 24px;
+    cursor: pointer;
+}
+.icon-bar {
+    display: block;
+    width: 100%;
+    height: 2px;
+    background-color: #2A3547;
+    margin: 3px 0;
+    transition: all 0.3s ease;
+}
+
+.user-avatar-small {
+    width: 32px;
+    height: 32px;
+    background: linear-gradient(135deg, #336AEA, #10B981);
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: #fff;
+    font-size: 12px;
+    font-weight: 600;
+    margin-right: 8px;
+}
+.login-btn {
+    display: flex;
+    align-items: center;
+}
+
+/* Открытое состояние */
+.navbar-toggler[aria-expanded="true"] .top-bar {
+    transform: rotate(45deg) translate(5px, 5px);
+}
+.navbar-toggler[aria-expanded="true"] .middle-bar {
+    opacity: 0;
+}
+.navbar-toggler[aria-expanded="true"] .bottom-bar {
+    transform: rotate(-45deg) translate(6px, -6px);
+}
+</style>
+<script>
+(function() {
+    function initNavbar() {
+        const toggler = document.querySelector('.navbar-toggler');
+        const navbarCollapse = document.getElementById('navbarNav');
+        
+        if (!toggler || !navbarCollapse) return;
+        
+        // Убираем стандартный Bootstrap обработчик и делаем свой
+        toggler.removeAttribute('data-bs-toggle');
+        
+        toggler.addEventListener('click', function(e) {
+            e.preventDefault();
+            const isOpen = navbarCollapse.classList.contains('show');
+            
+            if (isOpen) {
+                navbarCollapse.classList.remove('show');
+                toggler.setAttribute('aria-expanded', 'false');
+            } else {
+                navbarCollapse.classList.add('show');
+                toggler.setAttribute('aria-expanded', 'true');
+            }
+        });
+    }
+    
+    // Запускаем после загрузки DOM
+    if (document.readyState === 'loading') {
+        document.addEventListener('DOMContentLoaded', initNavbar);
+    } else {
+        initNavbar();
+    }
+})();
+</script>

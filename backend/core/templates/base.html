@@ -1,0 +1,190 @@
+{% load static i18n %}
+<!DOCTYPE html>
+<html lang="{{ LANGUAGE_CODE|default:'de' }}">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:ital,wght@0,200..800;1,200..800&display=swap" rel="stylesheet">
+    
+    <title>{% block title %}BlisterPerPost{% endblock %}</title>
+    <meta name="description" content="{% block meta_description %}Pharmacy-verified blister packaging for your daily medications.{% endblock %}">
+
+    <!-- FontAwesome (v4.7.0) -->
+    <link rel="preload" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/fonts/fontawesome-webfont.woff2?v=4.7.0" as="font" type="font/woff2" crossorigin>
+    <link rel="preload" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/fonts/fontawesome-webfont.woff?v=4.7.0" as="font" type="font/woff" crossorigin>
+
+    <!-- Vendor CSS -->
+    <link href="{% static 'css/bootstrap.min.css' %}" rel="stylesheet">
+    <link rel="stylesheet" href="{% static 'css/swiper-bundle.min.css' %}">
+    
+    <!-- Custom CSS -->
+    <link rel="stylesheet" href="{% static 'css/icons.css' %}">
+    <link rel="stylesheet" href="{% static 'css/animate.min.css' %}">
+    <link rel="stylesheet" href="{% static 'css/style.css' %}">
+    <link rel="stylesheet" href="{% static 'css/responsive.css' %}">
+    <link rel="stylesheet" href="{% static 'css/custom.css' %}">
+    
+    <meta name="google-site-verification" content="fkt7p8H6_nUvRjWDbkWUxxGJ6_UeBAYbsvMquxYFw9g" />
+    <meta name="msvalidate.01" content="C3286943E80B2AB5C23157A41CE2F520" />
+
+    <!-- Canonical & Language -->
+    <link rel="canonical" href="{% block canonical_url %}https://balirate.com{{ request.path }}{% endblock %}">
+    <link rel="alternate" hreflang="de" href="https://balirate.com{{ request.path }}">
+    <link rel="alternate" hreflang="de-AT" href="https://balirate.com{{ request.path }}">
+    <link rel="alternate" hreflang="x-default" href="https://balirate.com{{ request.path }}">
+    
+    <!-- Favicon -->
+    <link rel="icon" type="image/x-icon" href="{% static 'images/favicon.png' %}">
+    <link rel="icon" type="image/png" sizes="32x32" href="{% static 'images/favicon-32x32.svg' %}">
+    <link rel="icon" type="image/png" sizes="16x16" href="{% static 'images/favicon-16x16.svg' %}">
+    <link rel="apple-touch-icon" sizes="180x180" href="{% static 'images/apple-touch-icon.svg' %}">
+    
+    <!-- Open Graph -->
+    <meta property="og:type" content="{% block og_type %}website{% endblock %}">
+    <meta property="og:site_name" content="BlisterPerPost">
+    <meta property="og:locale" content="de_DE">
+    <meta property="og:title" content="{% block og_title %}{{ block.super }}{% endblock %}">
+    <meta property="og:description" content="{% block og_description %}Individuelle Blisterpackungen für Ihre Medikamente. Apothekergeprüft, alle 7-28 Tage geliefert.{% endblock %}">
+    <meta property="og:url" content="https://balirate.com{{ request.path }}">
+    <meta property="og:image" content="{% block og_image %}https://balirate.com{% static 'images/og-image.jpg' %}{% endblock %}">
+    <meta property="og:image:width" content="1200">
+    <meta property="og:image:height" content="630">
+
+    <!-- Twitter Card -->
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:site" content="@blisterperpost">
+    <meta name="twitter:title" content="{% block twitter_title %}{{ block.super }}{% endblock %}">
+    <meta name="twitter:description" content="{% block twitter_description %}Individuelle Blisterpackungen für Ihre Medikamente. Apothekergeprüft, alle 7-28 Tage geliefert.{% endblock %}">
+    <meta name="twitter:image" content="{% block twitter_image %}https://balirate.com{% static 'images/og-image.jpg' %}{% endblock %}">
+    
+    <!-- Additional SEO -->
+    <meta name="robots" content="{% block robots %}index, follow{% endblock %}">
+    <meta name="author" content="BlisterPerPost - Kranich-Apotheke Darmstadt">
+    <meta name="geo.region" content="DE-HE">
+    <meta name="geo.placename" content="Darmstadt">
+    <meta name="geo.position" content="49.8728;8.6512">
+    <meta name="ICBM" content="49.8728, 8.6512">
+    
+    <!-- Schema.org JSON-LD -->
+    {% block schema_org %}
+    <script type="application/ld+json">
+    {
+        "@context": "https://schema.org",
+        "@graph": [
+            {
+                "@type": "Organization",
+                "@id": "https://balirate.com/#organization",
+                "name": "BlisterPerPost",
+                "url": "https://balirate.com",
+                "logo": {
+                    "@type": "ImageObject",
+                    "url": "https://balirate.com{% static 'images/logo.png' %}"
+                },
+                "contactPoint": {
+                    "@type": "ContactPoint",
+                    "telephone": "+49-6151-712323",
+                    "contactType": "customer service",
+                    "availableLanguage": ["German"],
+                    "areaServed": ["DE", "AT"]
+                },
+                "sameAs": [
+                    "https://www.facebook.com/blisterperpost",
+                    "https://www.instagram.com/blisterperpost",
+                    "https://www.linkedin.com/company/blisterperpost"
+                ]
+            },
+            {
+                "@type": "LocalBusiness",
+                "@id": "https://balirate.com/#pharmacy",
+                "name": "Kranich-Apotheke Darmstadt",
+                "image": "https://balirate.com{% static 'images/pharmacy.jpg' %}",
+                "address": {
+                    "@type": "PostalAddress",
+                    "streetAddress": "Siemensstraße 4",
+                    "addressLocality": "Darmstadt",
+                    "postalCode": "64289",
+                    "addressCountry": "DE"
+                },
+                "telephone": "+49-6151-712323",
+                "email": "service@balirate.com",
+                "openingHoursSpecification": [
+                    {
+                        "@type": "OpeningHoursSpecification",
+                        "dayOfWeek": ["Monday","Tuesday","Wednesday","Thursday","Friday"],
+                        "opens": "08:00",
+                        "closes": "18:00"
+                    },
+                    {
+                        "@type": "OpeningHoursSpecification",
+                        "dayOfWeek": "Saturday",
+                        "opens": "09:00",
+                        "closes": "12:00"
+                    }
+                ],
+                "priceRange": "€€"
+            }
+        ]
+    }
+    </script>
+    {% endblock %}
+    {% block extra_css %}{% endblock %}
+</head>
+<body class="plus_jakarta_sans_cac814cd-module__4QBjTW__variable">
+    
+    {% include 'includes/navbar.html' %}
+    
+    {% block content %}{% endblock %}
+    
+    {% include 'includes/footer.html' %}
+    
+    {% if not user.is_authenticated %}
+    {% include 'includes/auth_modal.html' %}
+    {% endif %}
+    
+    {% block extra_js %}{% endblock %}
+
+
+<!-- Google tag (gtag.js) -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-5VTCE2MQDN"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+
+  gtag('config', 'G-5VTCE2MQDN');
+</script>
+    <!-- Yandex.Metrika counter -->
+<script type="text/javascript">
+    (function(m,e,t,r,i,k,a){
+        m[i]=m[i]||function(){(m[i].a=m[i].a||[]).push(arguments)};
+        m[i].l=1*new Date();
+        for (var j = 0; j < document.scripts.length; j++) {if (document.scripts[j].src === r) { return; }}
+        k=e.createElement(t),a=e.getElementsByTagName(t)[0],k.async=1,k.src=r,a.parentNode.insertBefore(k,a)
+    })(window, document,'script','https://mc.yandex.ru/metrika/tag.js?id=105948994', 'ym');
+
+    ym(105948994, 'init', {ssr:true, webvisor:true, clickmap:true, ecommerce:"dataLayer", accurateTrackBounce:true, trackLinks:true});
+</script>
+<noscript><div><img src="https://mc.yandex.ru/watch/105948994" style="position:absolute; left:-9999px;" alt="" /></div></noscript>
+<!-- /Yandex.Metrika counter -->
+<!-- BlisterPerPost Analytics -->
+<script src="{% static 'js/analytics.js' %}"></script>
+{% block analytics_events %}{% endblock %}
+<script>
+// Auto-open login modal from URL parameter
+document.addEventListener('DOMContentLoaded', function() {
+    const urlParams = new URLSearchParams(window.location.search);
+    if (urlParams.get('login') === '1') {
+        if (typeof openAuthModal === 'function') {
+            openAuthModal('login');
+        }
+        window.history.replaceState({}, document.title, window.location.pathname);
+    }
+});
+</script>
+{% include "includes/gdpr_modal.html" %}
+</body>
+</html>

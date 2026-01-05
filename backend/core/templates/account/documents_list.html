@@ -1,0 +1,99 @@
+{% extends "base.html" %}
+{% load static i18n %}
+
+{% block title %}{% trans "Meine Dokumente" %}{% endblock %}
+
+{% block content %}
+<div class="doctor-profile-area pb-140">
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-3 mb-4">
+                {% include "account/includes/sidebar.html" %}
+            </div>
+
+            <div class="col-lg-9">
+                <div class="profile-card">
+                    <div class="card-header d-flex justify-content-between align-items-center">
+                        <h2>{% trans "Meine Dokumente" %}</h2>
+                        <a href="{% url 'account_document_upload' %}" class="btn btn-primary btn-sm">
+                            + {% trans "Hochladen" %}
+                        </a>
+                    </div>
+                    <div class="card-body">
+                        {% if documents %}
+                        <div class="documents-grid">
+                            {% for doc in documents %}
+                            <div class="document-card">
+                                <div class="doc-icon">
+                                    {% if doc.document_type == 'prescription' %}
+                                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#336AEA" stroke-width="2"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/></svg>
+                                    {% elif doc.document_type == 'insurance_card' %}
+                                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#10B981" stroke-width="2"><rect x="1" y="4" width="22" height="16" rx="2" ry="2"/><line x1="1" y1="10" x2="23" y2="10"/></svg>
+                                    {% else %}
+                                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#F59E0B" stroke-width="2"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/></svg>
+                                    {% endif %}
+                                </div>
+                                <div class="doc-info">
+                                    <h4>{{ doc.get_document_type_display }}</h4>
+                                    <span class="filename">{{ doc.original_filename|truncatechars:30 }}</span>
+                                    <span class="date">{{ doc.created_at|date:"d.m.Y" }}</span>
+                                </div>
+                                <div class="doc-actions">
+                                    <span class="doc-status {% if doc.status == 'approved' %}approved{% elif doc.status == 'rejected' %}rejected{% else %}pending{% endif %}">
+                                        {{ doc.get_status_display }}
+                                    </span>
+                                    <form method="post" action="{% url 'account_document_delete' doc.pk %}" class="d-inline" onsubmit="return confirm('{% trans "Dokument wirklich löschen?" %}');">
+                                        {% csrf_token %}
+                                        <button type="submit" class="btn-delete" title="{% trans 'Löschen' %}">
+                                            <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="3 6 5 6 21 6"/><path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"/></svg>
+                                        </button>
+                                    </form>
+                                </div>
+                            </div>
+                            {% endfor %}
+                        </div>
+                        {% else %}
+                        <div class="empty-state">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="60" height="60" viewBox="0 0 24 24" fill="none" stroke="#ccc" stroke-width="1.5"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/></svg>
+                            <h4>{% trans "Keine Dokumente" %}</h4>
+                            <p>{% trans "Laden Sie Rezepte, Versichertenkarte oder andere Dokumente hoch." %}</p>
+                            <a href="{% url 'account_document_upload' %}" class="btn btn-primary">{% trans "Erstes Dokument hochladen" %}</a>
+                        </div>
+                        {% endif %}
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+{% block extra_css %}
+<style>
+.profile-card { background: #fff; border-radius: 20px; box-shadow: 0 10px 40px rgba(0,0,0,0.08); overflow: hidden; }
+.profile-card .card-header { background: transparent; border-bottom: 1px solid #f0f0f0; padding: 25px 30px; }
+.profile-card .card-header h2 { font-size: 20px; margin: 0; }
+.profile-card .card-body { padding: 30px; }
+
+.documents-grid { display: flex; flex-direction: column; gap: 15px; }
+.document-card { display: flex; align-items: center; gap: 15px; background: #f8f9fa; border-radius: 12px; padding: 20px; transition: all 0.3s; }
+.document-card:hover { box-shadow: 0 5px 15px rgba(0,0,0,0.08); }
+.doc-icon { width: 50px; height: 50px; background: #fff; border-radius: 10px; display: flex; align-items: center; justify-content: center; flex-shrink: 0; }
+.doc-info { flex: 1; min-width: 0; }
+.doc-info h4 { font-size: 16px; margin: 0 0 5px; }
+.doc-info .filename { display: block; font-size: 13px; color: #5A6A85; margin-bottom: 3px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.doc-info .date { font-size: 12px; color: #9CA3AF; }
+.doc-actions { display: flex; align-items: center; gap: 15px; flex-shrink: 0; }
+.doc-status { padding: 6px 14px; border-radius: 20px; font-size: 12px; font-weight: 500; }
+.doc-status.approved { background: #D1FAE5; color: #065F46; }
+.doc-status.rejected { background: #FEE2E2; color: #991B1B; }
+.doc-status.pending { background: #FEF3C7; color: #92400E; }
+.btn-delete { background: none; border: none; color: #9CA3AF; cursor: pointer; padding: 5px; transition: color 0.3s; }
+.btn-delete:hover { color: #dc3545; }
+
+.empty-state { text-align: center; padding: 60px 20px; }
+.empty-state svg { margin-bottom: 20px; }
+.empty-state h4 { margin-bottom: 10px; font-size: 18px; }
+.empty-state p { color: #5A6A85; margin-bottom: 25px; }
+</style>
+{% endblock %}

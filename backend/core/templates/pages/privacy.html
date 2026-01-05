@@ -1,0 +1,171 @@
+{% extends "base.html" %}
+{% load i18n static %}
+
+{% block title %}{% trans "Datenschutzerklärung" %} | BlisterPerPost{% endblock %}
+
+{% block content %}
+<!-- Page Banner -->
+<div class="page-banner-area">
+    <div class="container">
+        <div class="page-banner-content section-title-animation animation-style2">
+            <div class="col-lg-10 col-md-12">
+                <div class="page-banner-content">
+                    <ul class="meta">
+                        <li><a href="{% url 'index' %}">{% trans "Home" %}</a></li>
+                        <li>{% trans "Datenschutzerklärung" %}</li>
+                    </ul>
+                    <h1>{% trans "Datenschutzerklärung" %}</h1>
+                    <p>{% trans "Wir nehmen den Schutz Ihrer persönlichen Daten sehr ernst." %}</p>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Privacy Policy Content -->
+<div class="privacy-policy-area ptb-100">
+    <div class="container">
+        <div class="privacy-policy-content">
+
+            <h2>{% trans "1. Datenschutz auf einen Blick" %}</h2>
+            
+            <h3>{% trans "Allgemeine Hinweise" %}</h3>
+            <p>{% trans "Die folgenden Hinweise geben einen einfachen Überblick darüber, was mit Ihren personenbezogenen Daten passiert, wenn Sie diese Website besuchen. Personenbezogene Daten sind alle Daten, mit denen Sie persönlich identifiziert werden können." %}</p>
+
+            <h3>{% trans "Datenerfassung auf dieser Website" %}</h3>
+            
+            <h4>{% trans "Wer ist verantwortlich für die Datenerfassung auf dieser Website?" %}</h4>
+            <p>{% trans "Die Datenverarbeitung auf dieser Website erfolgt durch den Websitebetreiber:" %}</p>
+            <p>
+                <strong>BlisterPerPost</strong><br>
+                {% trans "Ein Service der" %} Kranich Apotheke<br>
+                Siemensstraße 4<br>
+                64289 Darmstadt<br>
+                {% trans "Telefon:" %} +49 (0) 6151 712323<br>
+                {% trans "E-Mail:" %} service@balirate.com
+            </p>
+
+            <h4>{% trans "Wie erfassen wir Ihre Daten?" %}</h4>
+            <p>{% trans "Ihre Daten werden zum einen dadurch erhoben, dass Sie uns diese mitteilen. Hierbei kann es sich z.B. um Daten handeln, die Sie bei der Registrierung, Bestellung oder in ein Kontaktformular eingeben." %}</p>
+            <p>{% trans "Andere Daten werden automatisch oder nach Ihrer Einwilligung beim Besuch der Website durch unsere IT-Systeme erfasst. Das sind vor allem technische Daten (z.B. Internetbrowser, Betriebssystem oder Uhrzeit des Seitenaufrufs)." %}</p>
+
+            <h4>{% trans "Wofür nutzen wir Ihre Daten?" %}</h4>
+            <p>{% trans "Ein Teil der Daten wird erhoben, um eine fehlerfreie Bereitstellung der Website zu gewährleisten. Andere Daten werden für die Erbringung unserer Apothekendienstleistungen (patientenindividuelle Verblisterung) verwendet." %}</p>
+
+            <h4>{% trans "Welche Rechte haben Sie bezüglich Ihrer Daten?" %}</h4>
+            <p>{% trans "Sie haben jederzeit das Recht auf unentgeltliche Auskunft über Herkunft, Empfänger und Zweck Ihrer gespeicherten personenbezogenen Daten. Sie haben außerdem ein Recht auf Berichtigung oder Löschung dieser Daten. Wenn Sie eine Einwilligung zur Datenverarbeitung erteilt haben, können Sie diese jederzeit widerrufen." %}</p>
+
+            <h2>{% trans "2. Hosting" %}</h2>
+            <p>{% trans "Wir hosten die Inhalte unserer Website bei folgendem Anbieter:" %}</p>
+            
+            <h3>IONOS</h3>
+            <p>{% trans "Anbieter ist die IONOS SE, Elgendorfer Str. 57, 56410 Montabaur, Deutschland." %}</p>
+            <p>
+                {% trans "Wenn Sie unsere Website besuchen, erfasst IONOS verschiedene Logfiles inklusive Ihrer IP-Adressen. Details entnehmen Sie der Datenschutzerklärung von IONOS:" %}<br>
+                <a href="https://www.ionos.de/terms-gtc/datenschutzerklaerung/" target="_blank" rel="noopener">https://www.ionos.de/terms-gtc/datenschutzerklaerung/</a>
+            </p>
+            <p>{% trans "Die Verwendung von IONOS erfolgt auf Grundlage von Art. 6 Abs. 1 lit. f DSGVO. Wir haben ein berechtigtes Interesse an einer möglichst zuverlässigen Darstellung unserer Website. Sofern eine entsprechende Einwilligung abgefragt wurde, erfolgt die Verarbeitung ausschließlich auf Grundlage von Art. 6 Abs. 1 lit. a DSGVO." %}</p>
+
+            <h4>{% trans "Auftragsverarbeitung" %}</h4>
+            <p>{% trans "Wir haben einen Vertrag über Auftragsverarbeitung (AVV) mit IONOS geschlossen. Hierbei handelt es sich um einen datenschutzrechtlich vorgeschriebenen Vertrag, der gewährleistet, dass dieser die personenbezogenen Daten unserer Websitebesucher nur nach unseren Weisungen und unter Einhaltung der DSGVO verarbeitet." %}</p>
+
+            <h2>{% trans "3. Allgemeine Hinweise und Pflichtinformationen" %}</h2>
+
+            <h3>{% trans "Datenschutz" %}</h3>
+            <p>{% trans "Die Betreiber dieser Seiten nehmen den Schutz Ihrer persönlichen Daten sehr ernst. Wir behandeln Ihre personenbezogenen Daten vertraulich und entsprechend den gesetzlichen Datenschutzvorschriften sowie dieser Datenschutzerklärung." %}</p>
+            <p>{% trans "Wir weisen darauf hin, dass die Datenübertragung im Internet (z.B. bei der Kommunikation per E-Mail) Sicherheitslücken aufweisen kann. Ein lückenloser Schutz der Daten vor dem Zugriff durch Dritte ist nicht möglich." %}</p>
+
+            <h3>{% trans "Hinweis zur verantwortlichen Stelle" %}</h3>
+            <p>{% trans "Die verantwortliche Stelle für die Datenverarbeitung auf dieser Website ist:" %}</p>
+            <p>
+                Kranich Apotheke<br>
+                Siemensstraße 4<br>
+                64289 Darmstadt<br>
+                {% trans "Telefon:" %} +49 (0) 6151 712323<br>
+                {% trans "E-Mail:" %} service@balirate.com
+            </p>
+            <p>{% trans "Verantwortliche Stelle ist die natürliche oder juristische Person, die allein oder gemeinsam mit anderen über die Zwecke und Mittel der Verarbeitung von personenbezogenen Daten entscheidet." %}</p>
+
+            <h3>{% trans "Speicherdauer" %}</h3>
+            <p>{% trans "Soweit innerhalb dieser Datenschutzerklärung keine speziellere Speicherdauer genannt wurde, verbleiben Ihre personenbezogenen Daten bei uns, bis der Zweck für die Datenverarbeitung entfällt." %}</p>
+            <ul>
+                <li>{% trans "Rezeptdaten: 10 Jahre (gemäß § 17 Abs. 6 ApBetrO)" %}</li>
+                <li>{% trans "Dokumentation der Verblisterung: 10 Jahre" %}</li>
+                <li>{% trans "Vertragsdaten: 10 Jahre (handels- und steuerrechtliche Aufbewahrungspflichten)" %}</li>
+                <li>{% trans "Nicht verifizierte Konten: 2 Stunden nach Registrierung" %}</li>
+            </ul>
+
+            <h3>{% trans "Widerruf Ihrer Einwilligung zur Datenverarbeitung" %}</h3>
+            <p>{% trans "Viele Datenverarbeitungsvorgänge sind nur mit Ihrer ausdrücklichen Einwilligung möglich. Sie können eine bereits erteilte Einwilligung jederzeit widerrufen. Die Rechtmäßigkeit der bis zum Widerruf erfolgten Datenverarbeitung bleibt vom Widerruf unberührt." %}</p>
+
+            <h3>{% trans "Beschwerderecht bei der zuständigen Aufsichtsbehörde" %}</h3>
+            <p>{% trans "Im Falle von Verstößen gegen die DSGVO steht den Betroffenen ein Beschwerderecht bei einer Aufsichtsbehörde zu:" %}</p>
+            <p>
+                Der Hessische Beauftragte für Datenschutz und Informationsfreiheit<br>
+                Postfach 3163<br>
+                65021 Wiesbaden<br>
+                {% trans "Telefon:" %} +49 611 1408-0<br>
+                {% trans "E-Mail:" %} poststelle@datenschutz.hessen.de
+            </p>
+
+            <h3>{% trans "Recht auf Datenübertragbarkeit" %}</h3>
+            <p>{% trans "Sie haben das Recht, Daten, die wir auf Grundlage Ihrer Einwilligung oder in Erfüllung eines Vertrags automatisiert verarbeiten, an sich oder an einen Dritten in einem gängigen, maschinenlesbaren Format aushändigen zu lassen." %}</p>
+
+            <h3>{% trans "SSL- bzw. TLS-Verschlüsselung" %}</h3>
+            <p>{% trans "Diese Seite nutzt aus Sicherheitsgründen und zum Schutz der Übertragung vertraulicher Inhalte eine SSL- bzw. TLS-Verschlüsselung. Eine verschlüsselte Verbindung erkennen Sie daran, dass die Adresszeile des Browsers von 'http://' auf 'https://' wechselt und an dem Schloss-Symbol in Ihrer Browserzeile." %}</p>
+
+            <h3>{% trans "Auskunft, Löschung und Berichtigung" %}</h3>
+            <p>{% trans "Sie haben im Rahmen der geltenden gesetzlichen Bestimmungen jederzeit das Recht auf unentgeltliche Auskunft über Ihre gespeicherten personenbezogenen Daten, deren Herkunft und Empfänger und den Zweck der Datenverarbeitung und ggf. ein Recht auf Berichtigung oder Löschung dieser Daten." %}</p>
+
+            <h2>{% trans "4. Datenerfassung auf dieser Website" %}</h2>
+
+            <h3>{% trans "Cookies" %}</h3>
+            <p>{% trans "Unsere Internetseiten verwenden so genannte 'Cookies'. Cookies sind kleine Datenpakete und richten auf Ihrem Endgerät keinen Schaden an. Sie werden entweder vorübergehend für die Dauer einer Sitzung (Session-Cookies) oder dauerhaft (permanente Cookies) auf Ihrem Endgerät gespeichert." %}</p>
+            <p>{% trans "Sie können Ihren Browser so einstellen, dass Sie über das Setzen von Cookies informiert werden und Cookies nur im Einzelfall erlauben." %}</p>
+
+            <h3>{% trans "Server-Log-Dateien" %}</h3>
+            <p>{% trans "Der Provider der Seiten erhebt und speichert automatisch Informationen in so genannten Server-Log-Dateien, die Ihr Browser automatisch an uns übermittelt. Dies sind:" %}</p>
+            <ul>
+                <li>{% trans "Browsertyp und Browserversion" %}</li>
+                <li>{% trans "verwendetes Betriebssystem" %}</li>
+                <li>{% trans "Referrer URL" %}</li>
+                <li>{% trans "Hostname des zugreifenden Rechners" %}</li>
+                <li>{% trans "Uhrzeit der Serveranfrage" %}</li>
+                <li>{% trans "IP-Adresse" %}</li>
+            </ul>
+            <p>{% trans "Eine Zusammenführung dieser Daten mit anderen Datenquellen wird nicht vorgenommen. Die Erfassung dieser Daten erfolgt auf Grundlage von Art. 6 Abs. 1 lit. f DSGVO." %}</p>
+
+            <h3>{% trans "Kontaktformular" %}</h3>
+            <p>{% trans "Wenn Sie uns per Kontaktformular Anfragen zukommen lassen, werden Ihre Angaben aus dem Anfrageformular inklusive der von Ihnen dort angegebenen Kontaktdaten zwecks Bearbeitung der Anfrage und für den Fall von Anschlussfragen bei uns gespeichert." %}</p>
+            <p>{% trans "Die Verarbeitung dieser Daten erfolgt auf Grundlage von Art. 6 Abs. 1 lit. b DSGVO, sofern Ihre Anfrage mit der Erfüllung eines Vertrags zusammenhängt oder zur Durchführung vorvertraglicher Maßnahmen erforderlich ist." %}</p>
+
+            <h3>{% trans "Registrierung auf dieser Website" %}</h3>
+            <p>{% trans "Sie können sich auf dieser Website registrieren, um zusätzliche Funktionen auf der Seite zu nutzen. Die dazu eingegebenen Daten verwenden wir nur zum Zwecke der Nutzung des jeweiligen Angebotes oder Dienstes, für den Sie sich registriert haben." %}</p>
+            <p>{% trans "Die bei der Registrierung abgefragten Pflichtangaben müssen vollständig angegeben werden. Anderenfalls werden wir die Registrierung ablehnen." %}</p>
+
+            <h2>{% trans "5. Besondere Kategorien personenbezogener Daten (Gesundheitsdaten)" %}</h2>
+            <p>{% trans "Für die Erbringung unserer Apothekendienstleistungen (patientenindividuelle Verblisterung) verarbeiten wir auch Gesundheitsdaten. Die Verarbeitung erfolgt auf Grundlage von:" %}</p>
+            <ul>
+                <li><strong>Art. 9 Abs. 2 lit. a DSGVO:</strong> {% trans "Ihre ausdrückliche Einwilligung" %}</li>
+                <li><strong>Art. 9 Abs. 2 lit. h DSGVO:</strong> {% trans "Gesundheitsversorgung und -verwaltung" %}</li>
+            </ul>
+            <p>{% trans "Details zur Verarbeitung Ihrer Gesundheitsdaten finden Sie in unserer" %} <a href="{% url 'consent' %}">{% trans "Patienteneinwilligung" %}</a>.</p>
+
+            <h2>{% trans "6. Empfänger der Daten" %}</h2>
+            <p>{% trans "Ihre Daten werden nur an folgende Empfänger weitergegeben:" %}</p>
+            <ul>
+                <li><strong>{% trans "Apothekenpersonal:" %}</strong> {% trans "Approbierte Apotheker und pharmazeutisches Personal der Kranich Apotheke" %}</li>
+                <li><strong>{% trans "DHL:" %}</strong> {% trans "Für den Versand Ihrer Blister (Name, Adresse)" %}</li>
+                <li><strong>{% trans "PayPal:" %}</strong> {% trans "Für die Zahlungsabwicklung" %}</li>
+                <li><strong>{% trans "Google (OAuth):" %}</strong> {% trans "Optional für die Anmeldung" %}</li>
+            </ul>
+
+            <h2>{% trans "7. Änderungen dieser Datenschutzerklärung" %}</h2>
+            <p>{% trans "Wir behalten uns vor, diese Datenschutzerklärung anzupassen, um sie an geänderte Rechtslagen oder Änderungen unseres Dienstes anzupassen. Die aktuelle Version finden Sie stets auf dieser Seite." %}</p>
+
+        </div>
+    </div>
+</div>
+
+{% include "mainpage/overview.html" %}
+{% endblock %}

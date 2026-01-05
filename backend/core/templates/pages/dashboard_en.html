@@ -1,0 +1,564 @@
+{% extends "base.html" %}
+{% load static i18n %}
+
+{% block title %}Dashboard{% endblock %}
+
+{% block content %}
+<div class="doctor-profile-area pb-140">
+    <div class="container">
+        <div class="row justify-content-center g-4">
+            <!-- Sidebar -->
+            <div class="col-lg-3 col-md-12">
+                <div class="profile-sidebar">
+                    <div class="user-avatar-large">
+                        {{ user.first_name|slice:":1"|upper }}{{ user.last_name|slice:":1"|upper }}
+                    </div>
+                    <div class="user-details">
+                        <h3>{{ user.first_name }} {{ user.last_name }}</h3>
+                        <span class="email">{{ user.email }}</span>
+                        {% if subscription %}
+                        <span class="tag active">{{ subscription.plan.name }}</span>
+                        {% else %}
+                        <span class="tag inactive">No Subscription</span>
+                        {% endif %}
+                    </div>
+                    
+                    <div class="quick-stats">
+                        <div class="stat-item">
+                            <span class="number">{{ medications.count }}</span>
+                            <span class="label">Medications</span>
+                        </div>
+                        <div class="stat-item">
+                            <span class="number">{{ recent_orders.count }}</span>
+                            <span class="label">Orders</span>
+                        </div>
+                    </div>
+                    
+                    <div class="quick-access">
+                        <h5>Quick Access</h5>
+                        <ul class="quick-links">
+                            <li><a href="{% url 'account_profile' %}"><i class="ri-user-line"></i> Profile</a></li>
+                            <li><a href="{% url 'account_documents' %}"><i class="ri-file-list-line"></i> Documents</a></li>
+                            <li><a href="{% url 'account_payments' %}"><i class="ri-bank-card-line"></i> Payments</a></li>
+                            <li><a href="{% url 'account_logout' %}"><i class="ri-logout-box-line"></i> Logout</a></li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Main Content -->
+            <div class="col-lg-9 col-md-12">
+                <div class="profile-main">
+                    <div class="profile-header">
+                        <h2>Welcome, {{ user.first_name }}!</h2>
+                        <span class="subtitle">Your personal Blister Dashboard</span>
+                        
+                        {% if subscription %}
+                        <span class="tag active">{{ subscription.get_status_display }}</span>
+                        {% endif %}
+                        
+                        <div class="info-row">
+                            <div class="info-item">
+                                <span class="label">Next Delivery</span>
+                                {% if subscription %}
+                                <strong>{{ subscription.current_period_end|date:"d.m.Y" }}</strong>
+                                {% else %}
+                                <strong>-</strong>
+                                {% endif %}
+                            </div>
+                            <div class="info-item">
+                                <span class="label">Interval</span>
+                                {% if subscription %}
+                                <strong>{{ subscription.plan.get_interval_days_display }}</strong>
+                                {% else %}
+                                <strong>-</strong>
+                                {% endif %}
+                            </div>
+                            <div class="info-item">
+                                <span class="label">Member Since</span>
+                                <strong>{{ user.date_joined|date:"d.m.Y" }}</strong>
+                            </div>
+                            {% if not subscription %}
+                            <div class="info-action">
+                                <a class="default-btn" href="{% url 'subscriptions' %}">
+                                    Start Subscription
+                                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+                                </a>
+                            </div>
+                            {% endif %}
+                        </div>
+                    </div>
+
+                    <!-- Tabs -->
+                    <div class="profile-tabs">
+                        <ul class="nav nav-tabs" id="dashboardTabs" role="tablist">
+                            <li class="nav-item">
+                                <button type="button" class="nav-link active" data-bs-toggle="tab" data-bs-target="#tab-overview">Overview</button>
+                            </li>
+                            <li class="nav-item">
+                                <button type="button" class="nav-link" data-bs-toggle="tab" data-bs-target="#tab-medications">Medications</button>
+                            </li>
+                            <li class="nav-item">
+                                <button type="button" class="nav-link" data-bs-toggle="tab" data-bs-target="#tab-orders">Orders</button>
+                            </li>
+                            <li class="nav-item">
+                                <button type="button" class="nav-link" data-bs-toggle="tab" data-bs-target="#tab-documents">Documents</button>
+                            </li>
+                        </ul>
+                        
+                        <div class="tab-content">
+                            <!-- Tab: Overview -->
+                            <div class="tab-pane fade show active" id="tab-overview">
+                                {% if not subscription %}
+                                <div class="alert-banner">
+                                    <div class="alert-icon">
+                                        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg>
+                                    </div>
+                                    <div class="alert-content">
+                                        <h4>Get Started Now!</h4>
+                                        <p>Choose a plan to activate your Blister service.</p>
+                                    </div>
+                                    <a href="{% url 'subscriptions' %}" class="btn btn-primary">View Plans</a>
+                                </div>
+                                {% endif %}
+                                
+                                <!-- Calendar -->
+                                <div class="calendar-container">
+                                    <div class="month">
+                                        <button id="prev-month">‹</button>
+                                        <span id="month-year"></span>
+                                        <button id="next-month">›</button>
+                                    </div>
+                                    <div class="weekdays">
+                                        <div>SU</div><div>MO</div><div>TU</div><div>WE</div><div>TH</div><div>FR</div><div>SA</div>
+                                    </div>
+                                    <div class="days" id="calendar-days"></div>
+                                    <div class="delivery-info">
+                                        <h4>Your Deliveries</h4>
+                                        <div id="delivery-slots">
+                                            {% if subscription %}
+                                            <div class="slot delivery">Next Delivery: {{ subscription.current_period_end|date:"d.m.Y" }}</div>
+                                            {% else %}
+                                            <div class="slot empty">No scheduled deliveries</div>
+                                            {% endif %}
+                                        </div>
+                                    </div>
+                                </div>
+                                
+                                <!-- Quick Actions -->
+                                <div class="quick-actions">
+                                    <h3>Quick Actions</h3>
+                                    <div class="row g-4">
+                                        <div class="col-lg-6 col-md-6">
+                                            <a href="{% url 'account_medication_add' %}" class="action-card">
+                                                <div class="action-icon med">💊</div>
+                                                <h4>Add Medication</h4>
+                                                <p>Add new medication to your blister</p>
+                                            </a>
+                                        </div>
+                                        <div class="col-lg-6 col-md-6">
+                                            <a href="{% url 'account_document_upload' %}" class="action-card">
+                                                <div class="action-icon doc">📄</div>
+                                                <h4>Upload Prescription</h4>
+                                                <p>Submit document or prescription</p>
+                                            </a>
+                                        </div>
+                                        <div class="col-lg-6 col-md-6">
+                                            <a href="{% url 'deliveries:tracking_form' %}" class="action-card">
+                                                <div class="action-icon track">📦</div>
+                                                <h4>Track Shipment</h4>
+                                                <p>Check delivery status</p>
+                                            </a>
+                                        </div>
+                                        <div class="col-lg-6 col-md-6">
+                                            <a href="{% url 'contact' %}" class="action-card">
+                                                <div class="action-icon help">❓</div>
+                                                <h4>Help & Contact</h4>
+                                                <p>Questions? We're happy to help</p>
+                                            </a>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            
+                            <!-- Tab: Medications -->
+                            <div class="tab-pane fade" id="tab-medications">
+                                <div class="section-header">
+                                    <h3>My Medications</h3>
+                                    <a href="{% url 'account_medication_add' %}" class="btn btn-primary btn-sm">+ Add</a>
+                                </div>
+                                {% if medications %}
+                                <div class="medications-grid">
+                                    {% for med in medications %}
+                                    <div class="medication-card">
+                                        <div class="med-icon">💊</div>
+                                        <div class="med-info">
+                                            <h4>{{ med.name }}</h4>
+                                            <span class="dosage">{{ med.dosage }}</span>
+                                            <div class="schedule">
+                                                {% if med.morning %}<span class="time">🌅 Morning</span>{% endif %}
+                                                {% if med.noon %}<span class="time">☀️ Noon</span>{% endif %}
+                                                {% if med.evening %}<span class="time">🌆 Evening</span>{% endif %}
+                                                {% if med.night %}<span class="time">🌙 Night</span>{% endif %}
+                                            </div>
+                                        </div>
+                                        <a href="{% url 'account_medication_edit' med.pk %}" class="edit-btn">Edit</a>
+                                    </div>
+                                    {% endfor %}
+                                </div>
+                                {% else %}
+                                <div class="empty-state">
+                                    <div class="empty-icon">💊</div>
+                                    <h4>No Medications Yet</h4>
+                                    <p>Add your medications to prepare your blister.</p>
+                                    <a href="{% url 'account_medication_add' %}" class="btn btn-primary">Add First Medication</a>
+                                </div>
+                                {% endif %}
+                            </div>
+                            
+                            <!-- Tab: Orders -->
+                            <div class="tab-pane fade" id="tab-orders">
+                                <div class="section-header">
+                                    <h3>Orders</h3>
+                                </div>
+                                {% if recent_orders %}
+                                <div class="orders-list">
+                                    {% for order in recent_orders %}
+                                    <div class="order-card">
+                                        <div class="order-status {% if order.status == 'delivered' %}delivered{% elif order.status == 'shipped' %}shipped{% else %}pending{% endif %}">
+                                            {% if order.status == 'delivered' %}✓{% elif order.status == 'shipped' %}📦{% else %}⏳{% endif %}
+                                        </div>
+                                        <div class="order-info">
+                                            <h4>{{ order.order_number }}</h4>
+                                            <span class="date">{{ order.created_at|date:"d.m.Y" }}</span>
+                                            <span class="period">{{ order.period_start|date:"d.m" }} - {{ order.period_end|date:"d.m.Y" }}</span>
+                                        </div>
+                                        <span class="badge {% if order.status == 'delivered' %}bg-success{% elif order.status == 'shipped' %}bg-info{% else %}bg-secondary{% endif %}">
+                                            {{ order.get_status_display }}
+                                        </span>
+                                        <a href="{% url 'account_order_detail' order.order_number %}" class="order-link">Details →</a>
+                                    </div>
+                                    {% endfor %}
+                                </div>
+                                <a href="{% url 'account_orders' %}" class="btn btn-outline-primary mt-3">All Orders</a>
+                                {% else %}
+                                <div class="empty-state">
+                                    <div class="empty-icon">📦</div>
+                                    <h4>No Orders Yet</h4>
+                                    <p>Your order history will appear here.</p>
+                                </div>
+                                {% endif %}
+                            </div>
+                            
+                            <!-- Tab: Documents -->
+                            <div class="tab-pane fade" id="tab-documents">
+                                <div class="section-header">
+                                    <h3>Documents</h3>
+                                    <a href="{% url 'account_document_upload' %}" class="btn btn-primary btn-sm">+ Upload</a>
+                                </div>
+                                {% if user.documents.exists %}
+                                <div class="documents-grid">
+                                    {% for doc in user.documents.all %}
+                                    <div class="document-card">
+                                        <div class="doc-icon">📄</div>
+                                        <div class="doc-info">
+                                            <h4>{{ doc.get_document_type_display }}</h4>
+                                            <span class="date">{{ doc.created_at|date:"d.m.Y" }}</span>
+                                        </div>
+                                        <span class="doc-status {% if doc.status == 'approved' %}approved{% elif doc.status == 'rejected' %}rejected{% else %}pending{% endif %}">
+                                            {{ doc.get_status_display }}
+                                        </span>
+                                    </div>
+                                    {% endfor %}
+                                </div>
+                                {% else %}
+                                <div class="empty-state">
+                                    <div class="empty-icon">📄</div>
+                                    <h4>No Documents</h4>
+                                    <p>Upload prescriptions and insurance card.</p>
+                                    <a href="{% url 'account_document_upload' %}" class="btn btn-primary">Upload Document</a>
+                                </div>
+                                {% endif %}
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+{% block extra_css %}
+<style>
+/* Sidebar */
+.profile-sidebar {
+    background: #fff;
+    border-radius: 20px;
+    padding: 30px;
+    box-shadow: 0 10px 40px rgba(0,0,0,0.08);
+}
+.user-avatar-large {
+    width: 100px;
+    height: 100px;
+    background: linear-gradient(135deg, #336AEA, #10B981);
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: #fff;
+    font-size: 32px;
+    font-weight: 700;
+    margin: 0 auto 20px;
+}
+.user-details {
+    text-align: center;
+    margin-bottom: 20px;
+}
+.user-details h3 { font-size: 18px; margin-bottom: 5px; }
+.user-details .email { color: #5A6A85; font-size: 13px; display: block; margin-bottom: 10px; word-break: break-all; }
+.tag { padding: 5px 15px; border-radius: 20px; font-size: 12px; display: inline-block; }
+.tag.active { background: #10B981; color: #fff; }
+.tag.inactive { background: #9CA3AF; color: #fff; }
+
+/* Quick Stats */
+.quick-stats {
+    display: flex;
+    justify-content: center;
+    gap: 30px;
+    padding: 20px 0;
+    border-top: 1px solid #f0f0f0;
+    border-bottom: 1px solid #f0f0f0;
+    margin: 20px 0;
+}
+.stat-item { text-align: center; }
+.stat-item .number { display: block; font-size: 24px; font-weight: 700; color: #336AEA; }
+.stat-item .label { font-size: 12px; color: #5A6A85; }
+
+/* Quick Links */
+.quick-access h5 { font-size: 14px; color: #5A6A85; margin-bottom: 15px; }
+.quick-links { list-style: none; padding: 0; margin: 0; }
+.quick-links li { margin-bottom: 5px; }
+.quick-links a {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding: 10px 15px;
+    border-radius: 10px;
+    color: #5A6A85;
+    text-decoration: none;
+    transition: all 0.3s;
+}
+.quick-links a:hover { background: #f8f9fa; color: #336AEA; }
+
+/* Main Content */
+.profile-main {
+    background: #fff;
+    border-radius: 20px;
+    padding: 30px;
+    box-shadow: 0 10px 40px rgba(0,0,0,0.08);
+}
+.profile-header h2 { font-size: 28px; margin-bottom: 5px; }
+.profile-header .subtitle { color: #5A6A85; display: block; margin-bottom: 15px; }
+.info-row { display: flex; gap: 30px; align-items: center; flex-wrap: wrap; margin-top: 20px; }
+.info-item { text-align: center; }
+.info-item .label { display: block; font-size: 13px; color: #5A6A85; margin-bottom: 5px; }
+.info-item strong { font-size: 16px; }
+.info-action { margin-left: auto; }
+
+/* Tabs */
+.profile-tabs { margin-top: 30px; }
+.profile-tabs .nav-tabs { border-bottom: 2px solid #f0f0f0; gap: 5px; }
+.profile-tabs .nav-link { border: none; color: #5A6A85; padding: 12px 20px; border-radius: 10px 10px 0 0; }
+.profile-tabs .nav-link.active { background: #336AEA; color: #fff; }
+.profile-tabs .tab-content { padding: 30px 0; }
+
+/* Alert Banner */
+.alert-banner {
+    display: flex;
+    align-items: center;
+    gap: 20px;
+    background: linear-gradient(135deg, #FEF3C7, #FDE68A);
+    border-radius: 15px;
+    padding: 20px;
+    margin-bottom: 30px;
+}
+.alert-banner .alert-icon {
+    width: 50px;
+    height: 50px;
+    background: #F59E0B;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: #fff;
+}
+.alert-banner .alert-content { flex: 1; }
+.alert-banner h4 { margin: 0 0 5px; font-size: 16px; }
+.alert-banner p { margin: 0; font-size: 14px; color: #92400E; }
+
+/* Calendar */
+.calendar-container {
+    background: #f8f9fa;
+    border-radius: 15px;
+    padding: 25px;
+    margin-bottom: 30px;
+}
+.calendar-container .month {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 20px;
+}
+.calendar-container .month span { font-size: 18px; font-weight: 600; }
+.calendar-container .month button {
+    background: none;
+    border: none;
+    cursor: pointer;
+    font-size: 20px;
+    padding: 5px 15px;
+    color: #5A6A85;
+}
+.calendar-container .weekdays {
+    display: grid;
+    grid-template-columns: repeat(7, 1fr);
+    text-align: center;
+    font-size: 12px;
+    color: #5A6A85;
+    margin-bottom: 10px;
+}
+.calendar-container .days {
+    display: grid;
+    grid-template-columns: repeat(7, 1fr);
+    gap: 5px;
+}
+.calendar-container .days div {
+    text-align: center;
+    border-radius: 8px;
+    cursor: pointer;
+}
+.calendar-container .days div:hover { background: #e0e0e0; }
+.calendar-container .days div.today { background: #336AEA; color: #fff; }
+.calendar-container .days div.prev-date,
+.calendar-container .days div.next-date { color: #ccc; }
+.delivery-info { margin-top: 20px; padding-top: 20px; border-top: 1px solid #e0e0e0; }
+.delivery-info h4 { font-size: 14px; margin-bottom: 10px; }
+.delivery-info .slot { background: #fff; padding: 10px 15px; border-radius: 8px; font-size: 14px; }
+.delivery-info .slot.delivery { border-left: 3px solid #10B981; }
+
+/* Action Cards */
+.quick-actions h3 { font-size: 18px; margin-bottom: 20px; }
+.action-card {
+    display: block;
+    background: #f8f9fa;
+    border-radius: 15px;
+    padding: 25px;
+    text-decoration: none;
+    color: inherit;
+    transition: all 0.3s;
+    border: 2px solid transparent;
+}
+.action-card:hover { border-color: #336AEA; transform: translateY(-3px); color: inherit; }
+.action-card .action-icon { font-size: 32px; margin-bottom: 15px; }
+.action-card h4 { font-size: 16px; margin-bottom: 5px; }
+.action-card p { font-size: 13px; color: #5A6A85; margin: 0; }
+
+/* Section Header */
+.section-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px; }
+.section-header h3 { font-size: 18px; margin: 0; }
+
+/* Cards Grid */
+.medications-grid,
+.orders-list,
+.documents-grid { display: flex; flex-direction: column; gap: 15px; }
+
+.medication-card,
+.order-card,
+.document-card {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+    background: #f8f9fa;
+    border-radius: 12px;
+    padding: 20px;
+}
+.med-icon, .doc-icon { font-size: 24px; }
+.med-info, .order-info, .doc-info { flex: 1; }
+.med-info h4, .order-info h4, .doc-info h4 { font-size: 15px; margin: 0 0 5px; }
+.dosage, .date, .period { font-size: 13px; color: #5A6A85; }
+.schedule { margin-top: 8px; display: flex; gap: 10px; flex-wrap: wrap; }
+.schedule .time { font-size: 12px; background: #fff; padding: 3px 8px; border-radius: 5px; }
+.edit-btn, .order-link { color: #336AEA; text-decoration: none; font-size: 14px; }
+
+.order-status {
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 18px;
+}
+.order-status.delivered { background: rgba(16, 185, 129, 0.1); }
+.order-status.shipped { background: rgba(59, 130, 246, 0.1); }
+.order-status.pending { background: rgba(156, 163, 175, 0.1); }
+
+.doc-status { padding: 5px 12px; border-radius: 20px; font-size: 12px; }
+.doc-status.approved { background: #D1FAE5; color: #065F46; }
+.doc-status.rejected { background: #FEE2E2; color: #991B1B; }
+.doc-status.pending { background: #FEF3C7; color: #92400E; }
+
+/* Empty State */
+.empty-state { text-align: center; padding: 50px 20px; }
+.empty-state .empty-icon { font-size: 48px; margin-bottom: 20px; }
+.empty-state h4 { margin-bottom: 10px; }
+.empty-state p { color: #5A6A85; margin-bottom: 20px; }
+
+@media (max-width: 991px) {
+    .info-row { gap: 15px; }
+    .quick-stats { gap: 15px; }
+}
+</style>
+{% endblock %}
+
+{% block extra_js %}
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    const monthYear = document.getElementById('month-year');
+    const daysContainer = document.getElementById('calendar-days');
+    const prevBtn = document.getElementById('prev-month');
+    const nextBtn = document.getElementById('next-month');
+    
+    let currentDate = new Date();
+    const months = ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'];
+    
+    function renderCalendar() {
+        const year = currentDate.getFullYear();
+        const month = currentDate.getMonth();
+        const firstDay = new Date(year, month, 1).getDay();
+        const lastDate = new Date(year, month + 1, 0).getDate();
+        const prevLastDate = new Date(year, month, 0).getDate();
+        const today = new Date();
+        
+        monthYear.textContent = months[month] + ' ' + year;
+        daysContainer.innerHTML = '';
+        
+        for (let i = firstDay; i > 0; i--) {
+            daysContainer.innerHTML += `<div class="prev-date">${prevLastDate - i + 1}</div>`;
+        }
+        for (let i = 1; i <= lastDate; i++) {
+            const isToday = i === today.getDate() && month === today.getMonth() && year === today.getFullYear();
+            daysContainer.innerHTML += `<div class="${isToday ? 'today' : ''}">${i}</div>`;
+        }
+        const remaining = 42 - (firstDay + lastDate);
+        for (let i = 1; i <= remaining; i++) {
+            daysContainer.innerHTML += `<div class="next-date">${i}</div>`;
+        }
+    }
+    
+    prevBtn?.addEventListener('click', () => { currentDate.setMonth(currentDate.getMonth() - 1); renderCalendar(); });
+    nextBtn?.addEventListener('click', () => { currentDate.setMonth(currentDate.getMonth() + 1); renderCalendar(); });
+    renderCalendar();
+});
+</script>
+{% endblock %}

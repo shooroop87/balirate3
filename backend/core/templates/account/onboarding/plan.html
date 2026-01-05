@@ -1,0 +1,273 @@
+{% extends "account/onboarding/base_onboarding.html" %}
+{% load static i18n %}
+
+{% block title %}{% trans "Tarif wählen" %}{% endblock %}
+
+{% block onboarding_content %}
+<div class="onboarding-header">
+    <div class="icon">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <rect x="2" y="7" width="20" height="14" rx="2" ry="2"/>
+            <path d="M16 3v4M8 3v4M2 11h20"/>
+        </svg>
+    </div>
+    <h1>{% trans "Wählen Sie Ihren Tarif" %}</h1>
+    <p>{% trans "Flexibel kündbar – keine versteckten Kosten" %}</p>
+</div>
+
+<form method="post">
+    {% csrf_token %}
+    
+    <div class="plans-grid">
+        {% for plan in plans %}
+        <label class="plan-card {% if plan.is_featured %}featured{% endif %} {% if not plan.is_recurring %}one-time{% endif %}">
+            <input type="radio" name="plan_id" value="{{ plan.id }}" {% if plan.is_featured %}checked{% endif %} required>
+            
+            {% if plan.is_featured %}
+            <div class="plan-badge popular">{% trans "Beliebteste Wahl" %}</div>
+            {% elif not plan.is_recurring %}
+            <div class="plan-badge one-time">{% trans "Einmalig" %}</div>
+            {% endif %}
+            
+            <div class="plan-header">
+                <h3>{{ plan.name }}</h3>
+                <div class="plan-price">
+                    <span class="price">{{ plan.price }}€</span>
+                    <span class="interval">
+                        {% if plan.is_recurring %}
+                        / {{ plan.get_interval_days_display }}
+                        {% else %}
+                        {% trans "einmalig" %}
+                        {% endif %}
+                    </span>
+                </div>
+            </div>
+            
+            <p class="plan-description">{{ plan.description }}</p>
+            
+            {% if plan.features %}
+            <ul class="plan-features">
+                {% for feature in plan.features %}
+                <li>
+                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#10B981" stroke-width="3"><polyline points="20 6 9 17 4 12"/></svg>
+                    {{ feature }}
+                </li>
+                {% endfor %}
+            </ul>
+            {% endif %}
+            
+            {% if plan.trial_days > 0 and plan.is_recurring %}
+            <div class="plan-trial">🎁 {{ plan.trial_days }} {% trans "Tage kostenlos testen" %}</div>
+            {% endif %}
+            
+            <div class="plan-type-label">
+                {% if plan.is_recurring %}
+                <span class="subscription-label">{% trans "Abonnement" %}</span>
+                {% else %}
+                <span class="onetime-label">{% trans "Einmalzahlung" %}</span>
+                {% endif %}
+            </div>
+        </label>
+        {% empty %}
+        <p>{% trans "Keine Tarife verfügbar." %}</p>
+        {% endfor %}
+    </div>
+    
+    <div class="onboarding-actions">
+        <a href="{% url 'onboarding_documents' %}" class="btn-onboarding secondary">
+            <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M19 12H5M12 19l-7-7 7-7"/></svg>
+            {% trans "Zurück" %}
+        </a>
+        <button type="submit" class="btn-onboarding primary">
+            {% trans "Weiter" %}
+            <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+        </button>
+    </div>
+</form>
+{% endblock %}
+{% block onboarding_css %}
+<style>
+.plans-grid {
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+    margin-bottom: 30px;
+}
+
+.plan-card {
+    position: relative;
+    background: #fff;
+    border: 2px solid #e2e8f0;
+    border-radius: 16px;
+    padding: 25px;
+    cursor: pointer;
+    transition: all 0.3s;
+}
+
+.plan-card:hover {
+    border-color: #336AEA;
+    box-shadow: 0 4px 20px rgba(51, 106, 234, 0.15);
+}
+
+.plan-card input[type="radio"] {
+    position: absolute;
+    top: 20px;
+    right: 20px;
+    width: 22px;
+    height: 22px;
+    accent-color: #336AEA;
+}
+
+.plan-card:has(input:checked) {
+    border-color: #336AEA;
+    background: linear-gradient(135deg, #f0f7ff 0%, #e8f4fd 100%);
+    box-shadow: 0 4px 20px rgba(51, 106, 234, 0.2);
+}
+
+/* Featured план */
+.plan-card.featured {
+    border-color: #10B981;
+}
+
+/* Einmalig план */
+.plan-card.one-time {
+    border-color: #f59e0b;
+    background: linear-gradient(135deg, #fffbeb 0%, #fef3c7 100%);
+}
+
+.plan-card.one-time:has(input:checked) {
+    border-color: #d97706;
+    box-shadow: 0 4px 20px rgba(245, 158, 11, 0.3);
+}
+
+/* Badges */
+.plan-badge {
+    position: absolute;
+    top: -12px;
+    left: 20px;
+    padding: 5px 15px;
+    border-radius: 20px;
+    font-size: 12px;
+    font-weight: 600;
+}
+
+.plan-badge.popular {
+    background: linear-gradient(135deg, #10B981, #34d399);
+    color: #fff;
+}
+
+.plan-badge.one-time {
+    background: linear-gradient(135deg, #f59e0b, #fbbf24);
+    color: #fff;
+}
+
+.plan-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 12px;
+    padding-right: 35px;
+}
+
+.plan-header h3 {
+    font-size: 18px;
+    margin: 0;
+    color: #1e293b;
+}
+
+.plan-price .price {
+    font-size: 24px;
+    font-weight: 700;
+    color: #336AEA;
+}
+
+.plan-card.one-time .plan-price .price {
+    color: #d97706;
+}
+
+.plan-price .interval {
+    font-size: 14px;
+    color: #64748b;
+}
+
+.plan-description {
+    font-size: 14px;
+    color: #64748b;
+    margin: 0 0 15px;
+}
+
+.plan-features {
+    list-style: none;
+    padding: 0;
+    margin: 0 0 15px;
+}
+
+.plan-features li {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    font-size: 13px;
+    color: #475569;
+    padding: 6px 0;
+}
+
+.plan-trial {
+    background: #d1fae5;
+    color: #065f46;
+    padding: 8px 15px;
+    border-radius: 8px;
+    font-size: 13px;
+    font-weight: 600;
+    text-align: center;
+    margin-bottom: 15px;
+}
+
+/* Type labels */
+.plan-type-label {
+    margin-top: 15px;
+    padding-top: 15px;
+    border-top: 1px solid #e2e8f0;
+    text-align: center;
+}
+
+.subscription-label {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    background: #dbeafe;
+    color: #1d4ed8;
+    padding: 6px 14px;
+    border-radius: 20px;
+    font-size: 12px;
+    font-weight: 600;
+}
+
+.subscription-label::before {
+    content: "🔄";
+}
+
+.onetime-label {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    background: #fef3c7;
+    color: #b45309;
+    padding: 6px 14px;
+    border-radius: 20px;
+    font-size: 12px;
+    font-weight: 600;
+}
+
+.onetime-label::before {
+    content: "1️⃣";
+}
+
+@media (max-width: 576px) {
+    .plan-header {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 8px;
+    }
+}
+</style>
+{% endblock %}

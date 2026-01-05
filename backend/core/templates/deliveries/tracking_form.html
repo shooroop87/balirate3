@@ -1,0 +1,159 @@
+{% extends "base.html" %}
+{% load static i18n %}
+
+{% block title %}{% trans "Sendungsverfolgung" %}{% endblock %}
+
+{% block content %}
+<div class="tracking-area ptb-140">
+    <div class="container">
+        <div class="row justify-content-center">
+            <div class="col-lg-8">
+                <div class="tracking-card">
+                    <div class="tracking-header">
+                        <div class="tracking-icon">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                <rect x="1" y="3" width="15" height="13"/>
+                                <polygon points="16 8 20 8 23 11 23 16 16 16 16 8"/>
+                                <circle cx="5.5" cy="18.5" r="2.5"/>
+                                <circle cx="18.5" cy="18.5" r="2.5"/>
+                            </svg>
+                        </div>
+                        <h1>{% trans "Sendungsverfolgung" %}</h1>
+                        <p>{% trans "Verfolgen Sie Ihre BlisterPerPost-Lieferung in Echtzeit" %}</p>
+                    </div>
+
+<form method="get" action="" class="tracking-form">
+    <div class="search-wrapper">
+        <svg class="search-icon" xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#9CA3AF" stroke-width="2">
+            <circle cx="11" cy="11" r="8"/>
+            <path d="m21 21-4.35-4.35"/>
+        </svg>
+        <input type="text" name="number" class="search-input" 
+               placeholder="{% trans 'Sendungsnummer eingeben (z.B. 00340434161094042557)' %}"
+               value="{{ request.GET.number|default:'' }}" required>
+        <button type="submit" class="btn-track">
+            {% trans "Verfolgen" %}
+            <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <path d="M5 12h14M12 5l7 7-7 7"/>
+            </svg>
+        </button>
+    </div>
+</form>
+
+                    <div class="tracking-info">
+                        <div class="info-item">
+                            <div class="info-icon"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#F59E0B" stroke-width="2">
+            <path d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z"/>
+            <polyline points="3.27 6.96 12 12.01 20.73 6.96"/>
+            <line x1="12" y1="22.08" x2="12" y2="12"/>
+        </svg></div>
+                            <div class="info-text">
+                                <strong>{% trans "DHL Paket" %}</strong>
+                                <span>{% trans "Sendungsnummer beginnt mit 00340..." %}</span>
+                            </div>
+                        </div>
+                        <div class="info-item">
+                            <div class="info-icon"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#336AEA" stroke-width="2">
+            <path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/>
+            <polyline points="22,6 12,13 2,6"/>
+        </svg></div>
+                            <div class="info-text">
+                                <strong>{% trans "Per E-Mail erhalten" %}</strong>
+                                <span>{% trans "Die Sendungsnummer finden Sie in Ihrer Versandbestätigung" %}</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Recent Shipments (if logged in) -->
+                {% if user.is_authenticated and user.balirate_orders.exists %}
+                <div class="recent-shipments">
+                    <h3>{% trans "Ihre letzten Sendungen" %}</h3>
+                    <div class="shipments-list">
+                        {% for order in user.balirate_orders.all|slice:":3" %}
+                        <div class="shipment-card">
+                            <div class="shipment-icon">
+                                {% if order.status == 'delivered' %}
+                                <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#10B981" stroke-width="2"><polyline points="20 6 9 17 4 12"/></svg>
+                                {% elif order.status == 'shipped' %}
+                                <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#3B82F6" stroke-width="2"><rect x="1" y="3" width="15" height="13"/><polygon points="16 8 20 8 23 11 23 16 16 16 16 8"/><circle cx="5.5" cy="18.5" r="2.5"/><circle cx="18.5" cy="18.5" r="2.5"/></svg>
+                                {% else %}
+                                <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#9CA3AF" stroke-width="2"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
+                                {% endif %}
+                            </div>
+                            <div class="shipment-info">
+                                <strong>{{ order.order_number }}</strong>
+                                <span>{{ order.period_start|date:"d.m" }} - {{ order.period_end|date:"d.m.Y" }}</span>
+                            </div>
+                            <span class="shipment-status {{ order.status }}">{{ order.get_status_display }}</span>
+                            {% if order.shipment.tracking_number %}
+                            <a href="{% url 'deliveries:tracking_detail' order.shipment.tracking_number %}" class="btn-view">{% trans "Verfolgen" %}</a>
+                            {% endif %}
+                        </div>
+                        {% endfor %}
+                    </div>
+                </div>
+                {% endif %}
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+{% block extra_css %}
+<style>
+.tracking-area{padding:140px 0;background:linear-gradient(135deg,#f8fafc 0%,#e2e8f0 100%);min-height:80vh}
+.tracking-card{background:#fff;border-radius:24px;box-shadow:0 20px 60px rgba(0,0,0,.1);padding:50px;text-align:center}
+.tracking-header{margin-bottom:40px}
+.tracking-icon{width:80px;height:80px;background:linear-gradient(135deg,#336AEA,#10B981);border-radius:20px;display:flex;align-items:center;justify-content:center;margin:0 auto 25px;color:#fff}
+.tracking-header h1{font-size:28px;margin-bottom:10px;color:#1e293b}
+.tracking-header p{color:#64748b;font-size:16px;margin:0}
+
+/* Search Form */
+.tracking-form{margin-bottom:40px}
+.search-wrapper{display:flex;align-items:center;background:#f8fafc;border:2px solid #e5e7eb;border-radius:14px;padding:6px;max-width:650px;margin:0 auto;transition:all .3s}
+.search-wrapper:focus-within{border-color:#336AEA;box-shadow:0 0 0 4px rgba(51,106,234,.1);background:#fff}
+.search-icon{margin:0 12px;flex-shrink:0}
+.search-input{flex:1;border:none;background:transparent;padding:12px 0;font-size:15px;outline:none;min-width:0}
+.search-input::placeholder{color:#9CA3AF}
+.btn-track{display:flex;align-items:center;gap:8px;padding:14px 24px;background:linear-gradient(135deg,#336AEA,#5b8def);color:#fff;border:none;border-radius:10px;font-weight:600;cursor:pointer;transition:all .3s;white-space:nowrap;flex-shrink:0}
+.btn-track:hover{transform:translateY(-2px);box-shadow:0 8px 25px rgba(51,106,234,.4)}
+
+/* Info Items */
+.tracking-info{display:flex;gap:60px;justify-content:center;align-items:flex-start;}
+.info-item{display:flex;align-items:center;gap:15px;text-align:left}
+.info-icon{width:50px;height:50px;background:#f8fafc;border-radius:12px;display:flex;align-items:center;justify-content:center;font-size:24px;flex-shrink:0}
+.info-text strong{display:block;font-size:14px;color:#1e293b;margin-bottom:2px}
+.info-text span{font-size:13px;color:#64748b}
+
+/* Responsive */
+@media(max-width:768px){
+    .tracking-info{flex-direction:column;gap:20px;align-items:flex-start;}
+}
+
+/* Recent Shipments */
+.recent-shipments{margin-top:40px}
+.recent-shipments h3{font-size:18px;margin-bottom:20px;color:#1e293b}
+.shipments-list{display:flex;flex-direction:column;gap:12px}
+.shipment-card{display:flex;align-items:center;gap:15px;background:#fff;border-radius:12px;padding:20px;box-shadow:0 5px 20px rgba(0,0,0,.05)}
+.shipment-icon{width:40px;height:40px;border-radius:10px;display:flex;align-items:center;justify-content:center;background:#f8f9fa}
+.shipment-info{flex:1}
+.shipment-info strong{display:block;font-size:14px}
+.shipment-info span{font-size:13px;color:#64748b}
+.shipment-status{padding:5px 12px;border-radius:20px;font-size:12px;font-weight:500}
+.shipment-status.delivered{background:#D1FAE5;color:#065F46}
+.shipment-status.shipped{background:#DBEAFE;color:#1E40AF}
+.shipment-status.pending,.shipment-status.processing{background:#FEF3C7;color:#92400E}
+.btn-view{color:#336AEA;font-size:14px;text-decoration:none;font-weight:500}
+
+/* Responsive */
+@media(max-width:768px){
+    .tracking-card{padding:30px 20px}
+    .search-wrapper{flex-direction:column;padding:15px;gap:12px}
+    .search-input{width:100%;text-align:center}
+    .btn-track{width:100%;justify-content:center}
+    .search-icon{display:none}
+    .tracking-area {padding: 30px 0;min-height: auto;}
+}
+</style>
+{% endblock %}

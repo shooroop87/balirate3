@@ -1,0 +1,117 @@
+{% extends "base.html" %}
+{% load i18n static %}
+
+{% block title %}{% trans "Impressum" %} | BlisterPerPost{% endblock %}
+
+{% block content %}
+<!-- Page Banner -->
+<div class="page-banner-area">
+    <div class="container">
+        <div class="page-banner-content section-title-animation animation-style2">
+            <div class="col-lg-10 col-md-12">
+                <div class="page-banner-content">
+                    <ul class="meta">
+                        <li><a href="{% url 'index' %}">{% trans "Home" %}</a></li>
+                        <li>{% trans "Impressum" %}</li>
+                    </ul>
+                    <h1>{% trans "Impressum" %}</h1>
+                    <p>{% trans "Angaben gemäß § 5 TMG und § 18 Abs. 2 MStV" %}</p>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Imprint Content -->
+<div class="privacy-policy-area ptb-100">
+    <div class="container">
+        <div class="privacy-policy-content">
+
+            <h3><span>1.</span> {% trans "Angaben zum Diensteanbieter" %}</h3>
+            <p>
+                <strong>BlisterPerPost</strong><br>
+                {% trans "Ein Service der" %} Kranich Apotheke<br><br>
+                Siemensstraße 4<br>
+                64289 Darmstadt<br>
+                Deutschland
+            </p>
+
+            <h3><span>2.</span> {% trans "Kontakt" %}</h3>
+            <p>
+                {% trans "Telefon:" %} +49 (0) 6151 712323<br>
+                {% trans "E-Mail:" %} service@balirate.com<br>
+                {% trans "Apotheken-E-Mail:" %} kranichapotheke@gmail.com<br>
+                {% trans "Website:" %} www.balirate.com
+            </p>
+            <p>
+                <strong>{% trans "Öffnungszeiten der Apotheke:" %}</strong><br>
+                {% trans "Mo, Di, Do, Fr:" %} 08:30–12:30 {% trans "Uhr" %} | 14:30–18:30 {% trans "Uhr" %}<br>
+                {% trans "Mi:" %} 08:30–12:30 {% trans "Uhr" %}<br>
+                {% trans "Sa:" %} 09:30–12:30 {% trans "Uhr" %}
+            </p>
+
+            <h3><span>3.</span> {% trans "Berufsbezeichnung und Kammer" %}</h3>
+            <p>
+                <strong>{% trans "Berufsbezeichnung:" %}</strong> {% trans "Apotheker/in (verliehen in der Bundesrepublik Deutschland)" %}<br><br>
+                <strong>{% trans "Zuständige Apothekerkammer:" %}</strong><br>
+                Landesapothekerkammer Hessen<br>
+                Am Leonhardsbrunn 5<br>
+                60487 Frankfurt am Main<br>
+                {% trans "Telefon:" %} +49 (0) 69 97959-0<br>
+                {% trans "Website:" %} <a href="https://www.apothekerkammer-hessen.de" target="_blank" rel="noopener">www.apothekerkammer-hessen.de</a>
+            </p>
+
+            <h3><span>4.</span> {% trans "Berufsrechtliche Regelungen" %}</h3>
+            <p>{% trans "Es gelten folgende berufsrechtliche Regelungen:" %}</p>
+            <ul>
+                <li>{% trans "Bundes-Apothekerordnung (BApO)" %}</li>
+                <li>{% trans "Apothekenbetriebsordnung (ApBetrO)" %}</li>
+                <li>{% trans "Arzneimittelgesetz (AMG)" %}</li>
+                <li>{% trans "Berufsordnung der Landesapothekerkammer Hessen" %}</li>
+                <li>{% trans "Heilmittelwerbegesetz (HWG)" %}</li>
+            </ul>
+            <p>{% trans "Die Regelungen sind einsehbar unter:" %} <a href="https://www.gesetze-im-internet.de" target="_blank" rel="noopener">www.gesetze-im-internet.de</a></p>
+
+            <h3><span>5.</span> {% trans "Aufsichtsbehörde" %}</h3>
+            <p>
+                <strong>{% trans "Zuständige Aufsichtsbehörde:" %}</strong><br>
+                Regierungspräsidium Darmstadt<br>
+                Abteilung Gesundheit<br>
+                Luisenplatz 2<br>
+                64283 Darmstadt<br>
+                {% trans "Telefon:" %} +49 (0) 6151 12-0
+            </p>
+
+            <h3><span>6.</span> {% trans "Verantwortlich für den Inhalt" %}</h3>
+            <p>
+                {% trans "Verantwortlich nach § 18 Abs. 2 MStV:" %}<br>
+                Kranich Apotheke<br>
+                Siemensstraße 4<br>
+                64289 Darmstadt
+            </p>
+
+            <h3><span>7.</span> {% trans "Haftungsausschluss" %}</h3>
+            
+            <h4>{% trans "Haftung für Inhalte" %}</h4>
+            <p>{% trans "Als Diensteanbieter sind wir gemäß § 7 Abs. 1 TMG für eigene Inhalte auf diesen Seiten nach den allgemeinen Gesetzen verantwortlich. Nach §§ 8 bis 10 TMG sind wir als Diensteanbieter jedoch nicht verpflichtet, übermittelte oder gespeicherte fremde Informationen zu überwachen." %}</p>
+
+            <h4>{% trans "Haftung für Links" %}</h4>
+            <p>{% trans "Unser Angebot enthält Links zu externen Websites Dritter, auf deren Inhalte wir keinen Einfluss haben. Für die Inhalte der verlinkten Seiten ist stets der jeweilige Anbieter verantwortlich. Bei Bekanntwerden von Rechtsverletzungen werden wir derartige Links umgehend entfernen." %}</p>
+
+            <h3><span>8.</span> {% trans "Urheberrecht" %}</h3>
+            <p>{% trans "Die durch die Seitenbetreiber erstellten Inhalte und Werke auf diesen Seiten unterliegen dem deutschen Urheberrecht. Die Vervielfältigung, Bearbeitung, Verbreitung und jede Art der Verwertung außerhalb der Grenzen des Urheberrechts bedürfen der schriftlichen Zustimmung des jeweiligen Autors bzw. Erstellers." %}</p>
+
+            <h3><span>9.</span> {% trans "Online-Streitbeilegung" %}</h3>
+            <p>{% trans "Die Europäische Kommission stellt eine Plattform zur Online-Streitbeilegung (OS) bereit:" %}</p>
+            <p><a href="https://ec.europa.eu/consumers/odr/" target="_blank" rel="noopener">https://ec.europa.eu/consumers/odr/</a></p>
+            <p>{% trans "Unsere E-Mail-Adresse finden Sie oben im Impressum." %}</p>
+
+            <h3><span>10.</span> {% trans "Streitschlichtung" %}</h3>
+            <p>{% trans "Wir sind nicht bereit oder verpflichtet, an Streitbeilegungsverfahren vor einer Verbraucherschlichtungsstelle teilzunehmen." %}</p>
+
+        </div>
+    </div>
+</div>
+
+{% include "mainpage/overview.html" %}
+{% endblock %}
