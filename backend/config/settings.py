@@ -23,8 +23,8 @@ else:
 
 CSRF_TRUSTED_ORIGINS = [
     "http://localhost",
-    "http://localhost:4000",
-    "http://127.0.0.1:4000",
+    "http://localhost:10000",
+    "http://127.0.0.1:10000",
     "http://localhost:8000",
     "http://127.0.0.1:8000",
     "https://parisweek.ru",
@@ -121,10 +121,20 @@ WSGI_APPLICATION = "config.wsgi.application"
 # ===========================================
 # DATABASE
 # ===========================================
+# ===========================================
+# DATABASE
+# ===========================================
 if os.getenv("DATABASE_URL"):
     import dj_database_url
     DATABASES = {
         "default": dj_database_url.config(default=os.getenv("DATABASE_URL"))
+    }
+elif os.getenv("USE_SQLITE"):
+    DATABASES = {
+        "default": {
+            "ENGINE": "django.db.backends.sqlite3",
+            "NAME": BASE_DIR / "db.sqlite3",
+        }
     }
 else:
     DATABASES = {
@@ -134,15 +144,15 @@ else:
             "USER": os.getenv("POSTGRES_USER", "balirate_user"),
             "PASSWORD": os.getenv("POSTGRES_PASSWORD", "balirate_password"),
             "HOST": os.getenv("POSTGRES_HOST", "localhost"),
-            "PORT": os.getenv("POSTGRES_PORT", "5432"),
+            "PORT": os.getenv("POSTGRES_PORT", "5450"),
         }
     }
 
 DEFAULT_AUTO_FIELD = "django.db.models.BigAutoField"
 
 # Локальная разработка
-#if not os.environ.get('DOCKER_ENV') and any(cmd in sys.argv for cmd in ['runserver', 'migrate', 'makemigrations', 'shell', 'createsuperuser']):
-#    DATABASES['default']['HOST'] = 'localhost'
+if not os.environ.get('DOCKER_ENV') and any(cmd in sys.argv for cmd in ['runserver', 'migrate', 'makemigrations', 'shell', 'createsuperuser']):
+    DATABASES['default']['HOST'] = 'localhost'
 
 # Cache (Redis)
 if os.environ.get('REDIS_URL'):
@@ -308,25 +318,6 @@ EMAIL_HOST_PASSWORD = os.getenv("EMAIL_HOST_PASSWORD", "")
 
 DEFAULT_FROM_EMAIL = os.getenv("DEFAULT_FROM_EMAIL", "Balirate <service@parisweek.ru>")
 
-# ===========================================
-# PayPal
-# ===========================================
-PAYPAL_CLIENT_ID = os.getenv("PAYPAL_CLIENT_ID", default="")
-PAYPAL_SECRET = os.getenv("PAYPAL_SECRET", default="")
-PAYPAL_WEBHOOK_ID = os.getenv("PAYPAL_WEBHOOK_ID", default="")
-PAYPAL_MODE = os.getenv("PAYPAL_MODE", default="sandbox")
-
-if PAYPAL_MODE == "sandbox":
-    PAYPAL_API_URL = "https://api-m.sandbox.paypal.com"
-else:
-    PAYPAL_API_URL = "https://api-m.paypal.com"
-
-
-# ===========================================
-# DHL API (Tracking)
-# ===========================================
-DHL_API_KEY = os.getenv("DHL_API_KEY", "")
-DHL_API_SECRET = os.getenv("DHL_API_SECRET", "")
 
 # ===========================================
 # CELERY
