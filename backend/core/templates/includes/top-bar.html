@@ -1,0 +1,158 @@
+{% load static %}
+<!-- Top Bar -->
+<div class="top-bar" id="top-bar">
+    <div class="tf-container">
+        <div class="top-bar-inner d-flex align-items-center justify-content-between">
+            <!-- Левая часть - ссылки -->
+            <ul class="top-bar-menu d-flex gap_24 text-body-4">
+                <li><a href="#">Объекты недвижимости</a></li>
+                <li><a href="#">Новости</a></li>
+                <li><a href="#">Статьи</a></li>
+                <li><a href="#">Видео от застройщиков</a></li>
+                <li><a href="#">Сводка от застройщиков</a></li>
+                <li><a href="#">Мероприятия</a></li>
+            </ul>
+
+            <!-- Правая часть -->
+            <div class="top-bar-right d-flex align-items-center gap_16">
+                <!-- Переключатель языка -->
+                <div class="lang-switcher">
+                    <div class="lang-current">
+                        <img src="https://balirate.com/wp-content/plugins/translatepress-multilingual/assets/images/flags/ru_RU.png" alt="RU" class="lang-flag">
+                        <i class="icon-CaretDown"></i>
+                    </div>
+                    <div class="menu-lang">
+                        <a class="dropdown-item active" href="#">
+                            <img src="https://balirate.com/wp-content/plugins/translatepress-multilingual/assets/images/flags/ru_RU.png" alt="RU" class="lang-flag">
+                            Русский
+                        </a>
+                        <a class="dropdown-item" href="/en/">
+                            <img src="https://balirate.com/wp-content/plugins/translatepress-multilingual/assets/images/flags/en_US.png" alt="EN" class="lang-flag">
+                            English
+                        </a>
+                    </div>
+                </div>
+                <!-- Соцсети -->
+                <ul class="social d-flex gap_12">
+                    <li><a href="#" target="_blank" class="icon-TelegramLogo"></a></li>
+                    <li><a href="#" target="_blank" class="icon-MessengerLogo"></a></li>
+                    <li><a href="#" target="_blank" class="icon-InstagramLogo"></a></li>
+                </ul>
+            </div>
+        </div>
+    </div>
+</div>
+<style>
+.top-bar {
+    background: #f8f7f3;
+    padding: 0.625rem 0;
+    position: relative;
+    z-index: 9999;
+    overflow: visible !important;
+}
+
+#top-bar > div {
+    max-height: 30px;
+}
+
+.top-bar-inner,
+.top-bar-right {
+    overflow: visible !important;
+}
+
+.top-bar-menu {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    gap: 32px;
+}
+
+.top-bar-menu li a {
+    color: rgb(50 51 52);
+    transition: color 0.3s;
+    font-size: 15px;
+}
+
+.top-bar-menu li a:hover {
+    color: #e4e95b;
+}
+
+.top-bar .social a {
+    color: #6c757d;
+    font-size: 22px;
+    transition: color 0.3s;
+}
+
+.top-bar .social a:hover {
+    color: #eaf050;
+}
+
+/* Переключатель языка */
+.lang-switcher {
+    position: relative;
+    cursor: pointer;
+}
+
+.lang-current {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+}
+
+.lang-flag {
+    width: 24px;
+    height: 24px;
+    border-radius: 50%;
+    object-fit: cover;
+}
+
+.menu-lang {
+    position: absolute;
+    top: calc(100% + 5px);
+    right: 0;
+    background: #fff;
+    border-radius: 8px;
+    box-shadow: 0 4px 16px rgba(0,0,0,0.15);
+    padding: 8px 0;
+    min-width: 140px;
+    opacity: 0;
+    visibility: hidden;
+    transition: all 0.3s;
+    z-index: 999999 !important;
+}
+
+.lang-switcher:hover .menu-lang {
+    opacity: 1;
+    visibility: visible;
+}
+
+.menu-lang .dropdown-item {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding: 8px 16px;
+    color: #333;
+    background: #fff;
+    transition: background 0.3s;
+}
+
+.menu-lang .dropdown-item:hover {
+    background: #f5f5f5;
+}
+
+.menu-lang .dropdown-item.active {
+    color: #1563df;
+}
+
+.menu-lang .lang-flag {
+    width: 20px;
+    height: 20px;
+}
+
+/* Скрыть на мобильных */
+@media (max-width: 991px) {
+    .top-bar {
+        display: none !important;
+    }
+}
+</style>

@@ -1,42 +1,63 @@
 {% load static %}
 <!-- Mobile Menu -->
-<div class="offcanvas offcanvas-start" tabindex="-1" id="menu-mobile" aria-labelledby="menu-mobile">
-    <div class="offcanvas-header">
-        <a href="{% url 'index' %}" class="site-logo">
-            <img class="logo_header" alt="logo" width="292" height="48" src="{% static 'images/logo/logo.svg' %}">
-        </a>
-        <button type="button" class="btn-close" data-bs-dismiss="offcanvas" aria-label="Close"></button>
+<div class="offcanvas offcanvas-end mobile-nav-wrap" tabindex="-1" id="menu-mobile" aria-labelledby="menu-mobile" aria-modal="true" role="dialog">
+    <div class="fixed-nav-rounded-div">
+        <div class="rounded-div-wrap">
+            <div class="rounded-div"></div>
+        </div>
     </div>
-    <div class="offcanvas-body">
-        <nav class="mobile-menu">
-            <ul class="navigation">
-                <li class="has-child">
-                    <a href="#">Homepages</a>
-                    <ul class="submenu">
-                        <li><a href="index.html">Homepage 1</a></li>
-                        <li><a href="home02.html">Homepage 2</a></li>
-                        <li><a href="home03.html">Homepage 3</a></li>
-                        <li><a href="home04.html">Homepage 4</a></li>
-                        <li><a href="home05.html">Homepage 5</a></li>
-                    </ul>
+    <div class="offcanvas-header top-nav-mobile">
+        <div class="offcanvas-title">
+            <a href="{% url 'index' %}" class="site-logo">
+                <img src="https://balirate.com/wp-content/uploads/2025/03/logo-1.svg" alt="Balirate" class="main-logo" width="193" height="44">
+            </a>
+        </div>
+        <div data-bs-dismiss="offcanvas" class="btn-close-menu">
+            <i class="icon-times-solid"></i>
+        </div>
+    </div>
+    <div class="offcanvas-body inner-mobile-nav">
+        <div class="mb-body">
+            <ul id="menu-mobile-menu" class="style-1">
+                <li class="menu-item active">
+                    <a href="#developers" class="item-menu-mobile">Рейтинги девелоперов</a>
                 </li>
-                <li class="has-child">
-                    <a href="#">Listing</a>
-                    <ul class="submenu">
-                        <li><a href="listing-topmap-grid.html">Property For Sale</a></li>
-                        <li><a href="listing-topmap-grid.html">Property For Rent</a></li>
-                    </ul>
+                <li class="menu-item">
+                    <a href="#" class="item-menu-mobile">Агентства</a>
                 </li>
-                <li class="has-child">
-                    <a href="#">Pages</a>
-                    <ul class="submenu">
-                        <li><a href="about-us.html">About Us</a></li>
-                        <li><a href="constacts.html">Contact</a></li>
-                    </ul>
+                <li class="menu-item">
+                    <a href="#" class="item-menu-mobile">Премия Девелопер 2025</a>
                 </li>
-                <li><a href="constacts.html">Contact</a></li>
             </ul>
-        </nav>
+            <div class="support">
+                <a href="https://t.me/balirate" class="tf-btn w-full" target="_blank" style="--button-width: 100%;">
+                    <span class="d-flex align-items-center gap_8"><i class="icon-ChatCircleDots"></i>Написать в Telegram</span>
+                    <span class="bg-effect"></span>
+                </a>
+                <ul class="mb-info mt_20">
+                    <li>Наш адрес: <span class="number">Бали, Индонезия</span></li>
+                    <li>Поддержка 24/7: <span class="number">WhatsApp</span></li>
+                    <li>Email: <a href="mailto:info@balirate.com" class="link">info@balirate.com</a></li>
+                    <li>
+                        <div class="wrap-social">
+                            <p>Мы в соцсетях:</p>
+                            <ul class="social align-items-center d-flex gap_24">
+                                <li><a href="#" class="icon-FacebookLogo"></a></li>
+                                <li><a href="https://www.youtube.com/@balirate" class="icon-YoutubeLogo" target="_blank"></a></li>
+                                <li><a href="#" class="icon-XLogo"></a></li>
+                                <li><a href="https://www.instagram.com/balirate.ru/" class="icon-InstagramLogo" target="_blank"></a></li>
+                            </ul>
+                        </div>
+                    </li>
+                </ul>
+            </div>
+        </div>
     </div>
 </div>
-<!-- End Mobile Menu -->
+<style>
+#menu-mobile-menu li.active > a,
+#menu-mobile-menu li.active > a:hover,
+#menu-mobile-menu li.active > a:focus {
+    color: inherit;
+}
+</style>

@@ -6,54 +6,33 @@
             <div class="col-12">
                 <div class="header-inner">
                     <a href="{% url 'index' %}" class="site-logo">
-                        <img class="logo_header" alt="logo" width="292" height="48" src="{% static 'images/logo/logo.svg' %}">
+                        <img class="logo_header" alt="Balirate" width="292" height="48" src="https://balirate.com/wp-content/uploads/2025/03/logo-1.svg">
                     </a>
                     <nav class="main-menu">
                         <ul class="navigation">
-                            <li class="has-child text-menu current-menu">
-                                <a href="#" class="link-no-action toggle splitting">
-                                    <span class="text" data-splitting>Homepages</span>
-                                    <span class="text" data-splitting>Homepages</span>
+                            <li class="text-menu current-menu">
+                                <a href="#developers" class="splitting">
+                                    <span class="text" data-splitting>Рейтинги девелоперов</span>
                                 </a>
-                                <ul class="submenu">
-                                    <li><a href="index.html">Homepage 1</a></li>
-                                    <li><a href="home02.html">Homepage 2</a></li>
-                                    <li><a href="home03.html">Homepage 3</a></li>
-                                    <li><a href="home04.html">Homepage 4</a></li>
-                                    <li class="current-item"><a href="home05.html">Homepage 5</a></li>
-                                </ul>
-                            </li>
-                            <li class="has-child text-menu">
-                                <a href="#" class="link-no-action toggle splitting">
-                                    <span class="text" data-splitting>Listing</span>
-                                    <span class="text" data-splitting>Listing</span>
-                                </a>
-                                <ul class="submenu">
-                                    <li><a href="listing-topmap-grid.html">Property For Sale</a></li>
-                                    <li><a href="listing-topmap-grid.html">Property For Rent</a></li>
-                                </ul>
-                            </li>
-                            <li class="has-child text-menu">
-                                <a href="#" class="link-no-action toggle splitting">
-                                    <span class="text" data-splitting>Pages</span>
-                                    <span class="text" data-splitting>Pages</span>
-                                </a>
-                                <ul class="submenu">
-                                    <li><a href="about-us.html">About Us</a></li>
-                                    <li><a href="constacts.html">Contact</a></li>
-                                </ul>
                             </li>
                             <li class="text-menu">
-                                <a href="constacts.html" class="splitting">
-                                    <span class="text" data-splitting>Contact</span>
-                                    <span class="text" data-splitting>Contact</span>
+                                <a href="https://balirate.com/agency/#agency" class="splitting">
+                                    <span class="text" data-splitting>Агентства</span>
+                                </a>
+                            </li>
+                            <li class="text-menu">
+                                <a href="https://balirate.com/premija-developer-2024/" class="splitting">
+                                    <span class="text" data-splitting>Премия Девелопер 2025</span>
                                 </a>
                             </li>
                         </ul>
                     </nav>
                     <div class="header-right">
-                        <a href="#" class="tf-btn btn-bg-primary btn-px-32">
-                            <span>Submit Property</span>
+                        <div class="text-button text_primary-color">
+                            <a href="#" class="link">Вход</a> / <a href="#" class="link">Регистрация</a>
+                        </div>
+                        <a href="#" data-popup="#popup-download" id="download-mobile-no" class="tf-btn btn-bg-primary btn-px-32">
+                            <span>Получить предложение месяца</span>
                             <span class="bg-effect"></span>
                         </a>
                         <div class="mobile-button d-xl-none" data-bs-toggle="offcanvas"
@@ -71,3 +50,70 @@
     </div>
 </header>
 <!-- End header -->
+<header class="header style-3">
+    <div class="tf-container w-xxl">
+        <div class="row">
+            <div class="col-12">
+                <div class="header-inner">
+                    <a href="{% url 'index' %}" class="site-logo">
+                        <img class="logo_header" alt="Balirate" width="292" height="48" src="https://balirate.com/wp-content/uploads/2025/03/logo-1.svg">
+                    </a>
+                    <nav class="main-menu">
+                        <ul class="navigation">
+                            <li class="text-menu current-menu">
+                                <a href="#developers" class="splitting">
+                                    <span class="text" data-splitting>Рейтинги девелоперов</span>
+                                </a>
+                            </li>
+                            <li class="text-menu">
+                                <a href="#" class="splitting">
+                                    <span class="text" data-splitting>Агентства</span>
+                                </a>
+                            </li>
+                            <li class="text-menu">
+                                <a href="#" class="splitting">
+                                    <span class="text" data-splitting>Премия Девелопер 2025</span>
+                                </a>
+                            </li>
+                        </ul>
+                    </nav>
+                    <div class="header-right d-flex align-items-center gap_20">
+                        <div class="text-button text_primary-color">
+                            <a href="#" class="link">Вход</a> / <a href="#" class="link">Регистрация</a>
+                        </div>
+                        <a href="#" data-popup="#popup-download" class="tf-btn btn-bg-primary btn-px-32">
+                            <span>Получить предложение месяца</span>
+                            <span class="bg-effect"></span>
+                        </a>
+                        <div class="mobile-button d-xl-none" data-bs-toggle="offcanvas"
+                            data-bs-target="#menu-mobile" aria-controls="menu-mobile">
+                            <div class="burger">
+                                <span></span>
+                                <span></span>
+                                <span></span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</header>
+<style>
+@media (max-width: 768px) {
+    #wrapper > header.header.style-3 > div > div > div > div > div > a {
+        display: none !important;
+    }
+}
+.header.style-3 {
+    z-index: 9998 !important;
+}
+
+.top-bar {
+    z-index: 99999 !important;
+}
+
+.menu-lang {
+    z-index: 999999 !important;
+}
+</style>

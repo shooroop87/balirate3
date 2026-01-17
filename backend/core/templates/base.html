@@ -42,11 +42,11 @@
 <body>
     <!-- wrapper -->
     <div id="wrapper" class="counter-scroll">
-
+        {% include 'includes/top-bar.html' %}
         {% include 'includes/header.html' %}
 
         <!-- main-content -->
-        <div class="main-content">
+        <div class="main-content tf-spacing-8" style="background-color: #f8f7f3;">
             {% block content %}{% endblock %}
         </div>
         <!-- End main-content -->
