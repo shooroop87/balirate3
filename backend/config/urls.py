@@ -20,9 +20,18 @@ sitemaps = {
 urlpatterns = [
     path("set-language/", set_language, name="set_language"),
     path("admin/", admin.site.urls),
+    # Allauth
+    path('accounts/', include('allauth.urls')),
+    # Third-party apps
     path("tinymce/", include("tinymce.urls")),
     path("filer/", include("filer.urls")),
-    path("blog/", include("blog.urls")),
+    path('', include('core.urls')),
+    path('developers/', include('developers.urls', namespace='developers')),
+    path('properties/', include('properties.urls', namespace='properties')),
+    path('agencies/', include('agencies.urls', namespace='agencies')),
+    path('blog/', include('blog.urls', namespace='blog')),
+    path('events/', include('events.urls', namespace='events')),
+    # SEO
     path("sitemap.xml", sitemap, {"sitemaps": sitemaps}, name="sitemap"),
     path("robots.txt", TemplateView.as_view(template_name="robots.txt", content_type="text/plain"), name="robots"),
 ]

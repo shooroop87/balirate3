@@ -1,55 +1,32 @@
-# blog/views.py
-from django.shortcuts import get_object_or_404, render
+from django.shortcuts import render, get_object_or_404
 from django.core.paginator import Paginator
-
-from .models import BlogCategory, BlogPost
+from .models import BlogPost, BlogCategory
 
 
 def blog_list(request):
-    """Список всех постов блога."""
-    posts = BlogPost.objects.filter(
-        status=BlogPost.Status.PUBLISHED
-    ).select_related("category").order_by("-published_at")
+    posts = BlogPost.objects.filter(status='published').select_related('category')
     
-    # Фильтр по категории
-    category_slug = request.GET.get("category")
-    category = None
+    category_slug = request.GET.get('category')
     if category_slug:
-        category = get_object_or_404(BlogCategory, slug=category_slug)
-        posts = posts.filter(category=category)
+        posts = posts.filter(category__slug=category_slug)
     
-    # Пагинация
-    paginator = Paginator(posts, 9)  # 9 постов на страницу
-    page_number = request.GET.get("page")
-    page_obj = paginator.get_page(page_number)
+    paginator = Paginator(posts, 9)
+    page_obj = paginator.get_page(request.GET.get('page'))
     
-    # Все категории для фильтра
-    categories = BlogCategory.objects.all()
-    
-    return render(request, "blog/blog_list.html", {
-        "page_obj": page_obj,
-        "categories": categories,
-        "current_category": category,
+    return render(request, 'blog/blog_list.html', {
+        'posts': page_obj,
+        'page_obj': page_obj,
+        'categories': BlogCategory.objects.all(),
     })
 
 
 def blog_detail(request, slug):
-    """Детальная страница поста."""
-    post = get_object_or_404(
-        BlogPost.objects.select_related("category"),
-        slug=slug,
-        status=BlogPost.Status.PUBLISHED
-    )
+    post = get_object_or_404(BlogPost, slug=slug, status='published')
+    related = BlogPost.objects.filter(
+        status='published', category=post.category
+    ).exclude(pk=post.pk)[:3]
     
-    # Похожие посты (из той же категории)
-    related_posts = []
-    if post.category:
-        related_posts = BlogPost.objects.filter(
-            category=post.category,
-            status=BlogPost.Status.PUBLISHED
-        ).exclude(id=post.id)[:3]
-    
-    return render(request, "blog/blog_detail.html", {
-        "post": post,
-        "related_posts": related_posts,
+    return render(request, 'blog/blog_detail.html', {
+        'post': post,
+        'related_posts': related,
     })

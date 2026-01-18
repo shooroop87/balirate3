@@ -60,7 +60,53 @@
 
     {% include 'includes/scripts.html' %}
 
-    {% block extra_js %}{% endblock %}
+    {% include 'includes/auth_popup.html' %}
+
+    {% block extra_js %}
+        <script>
+// Auth popup form switching
+document.addEventListener('DOMContentLoaded', function() {
+    const loginContainer = document.getElementById('login-form-container');
+    const registerContainer = document.getElementById('register-form-container');
+    
+    // Switch forms
+    document.querySelectorAll('[data-form]').forEach(link => {
+        link.addEventListener('click', function(e) {
+            e.preventDefault();
+            const form = this.dataset.form;
+            
+            if (form === 'register') {
+                loginContainer.style.display = 'none';
+                registerContainer.style.display = 'block';
+            } else if (form === 'login') {
+                registerContainer.style.display = 'none';
+                loginContainer.style.display = 'block';
+            }
+        });
+    });
+    
+    // Reset on modal close
+    document.getElementById('authModal').addEventListener('hidden.bs.modal', function() {
+        loginContainer.style.display = 'block';
+        registerContainer.style.display = 'none';
+    });
+    
+    // Open register form directly
+    document.querySelectorAll('[data-bs-target="#authModal"][data-form="register"]').forEach(btn => {
+        btn.addEventListener('click', function() {
+            setTimeout(() => {
+                loginContainer.style.display = 'none';
+                registerContainer.style.display = 'block';
+            }, 100);
+        });
+    });
+});
+</script>
+    
+    {% endblock %}
+
+
+
 </body>
 
 </html>

@@ -43,12 +43,13 @@ INSTALLED_APPS = [
     "django.contrib.messages",
     "django.contrib.staticfiles",
     "django.contrib.sites",
-    "django.contrib.sitemaps",
+    
     # 3rd party - Auth
     "allauth",
     "allauth.account",
     "allauth.socialaccount",
     "allauth.socialaccount.providers.google",
+    
     # 3rd party - Other
     "parler",
     "taggit",
@@ -59,10 +60,34 @@ INSTALLED_APPS = [
     "mptt",
     "crispy_forms",
     "crispy_bootstrap5",
-    # Local
+    
+    # Local apps
+    "accounts",
     "core",
+    "developers",
+    "properties",
+    "agencies",
     "blog",
+    "events",
 ]
+
+SITE_ID = 1
+
+# Crispy forms
+CRISPY_ALLOWED_TEMPLATE_PACKS = "bootstrap5"
+CRISPY_TEMPLATE_PACK = "bootstrap5"
+
+# Auth
+AUTH_USER_MODEL = 'accounts.User'
+
+# Thumbnails
+THUMBNAIL_PROCESSORS = (
+    "easy_thumbnails.processors.colorspace",
+    "easy_thumbnails.processors.autocrop",
+    "easy_thumbnails.processors.scale_and_crop",
+    "filer.thumbnail_processors.scale_and_crop_with_subject_location",
+    "easy_thumbnails.processors.filters",
+)
 
 SITE_ID = 1
 
@@ -121,15 +146,12 @@ WSGI_APPLICATION = "config.wsgi.application"
 # ===========================================
 # DATABASE
 # ===========================================
-# ===========================================
-# DATABASE
-# ===========================================
 if os.getenv("DATABASE_URL"):
     import dj_database_url
     DATABASES = {
         "default": dj_database_url.config(default=os.getenv("DATABASE_URL"))
     }
-elif os.getenv("USE_SQLITE"):
+elif os.getenv("USE_SQLITE", "0") == "1":
     DATABASES = {
         "default": {
             "ENGINE": "django.db.backends.sqlite3",
@@ -175,12 +197,12 @@ else:
 # ===========================================
 # AUTHENTICATION
 # ===========================================
-#AUTH_USER_MODEL = "accounts.User"
+AUTH_USER_MODEL = "accounts.User"
 
-#AUTHENTICATION_BACKENDS = [
-#    "django.contrib.auth.backends.ModelBackend",
-#    "allauth.account.auth_backends.AuthenticationBackend",
-#]
+AUTHENTICATION_BACKENDS = [
+    "django.contrib.auth.backends.ModelBackend",
+    "allauth.account.auth_backends.AuthenticationBackend",
+]
 
 # ===========================================
 # ALLAUTH - Custom User без username
@@ -197,9 +219,9 @@ if DEBUG:
 else:
     ACCOUNT_DEFAULT_HTTP_PROTOCOL = "https"
 
-#LOGIN_REDIRECT_URL = "/dashboard/"
-#LOGOUT_REDIRECT_URL = "/"
-#LOGIN_URL = "/account/login/"
+LOGIN_REDIRECT_URL = "/dashboard/"
+LOGOUT_REDIRECT_URL = "/"
+LOGIN_URL = "/account/login/"
 
 # Google OAuth
 SOCIALACCOUNT_PROVIDERS = {
@@ -222,11 +244,24 @@ SENDPULSE_FROM_EMAIL = os.getenv("SENDPULSE_FROM_EMAIL", "noreply@parisweek.ru")
 SENDPULSE_FROM_NAME = os.getenv("SENDPULSE_FROM_NAME", "Balirate")
 
 
-# Allauth Social
+# Social auth
 SOCIALACCOUNT_AUTO_SIGNUP = True
 SOCIALACCOUNT_EMAIL_AUTHENTICATION = True
 SOCIALACCOUNT_EMAIL_AUTHENTICATION_AUTO_CONNECT = True
 SOCIALACCOUNT_LOGIN_ON_GET = True
+
+SOCIALACCOUNT_PROVIDERS = {
+    'google': {
+        'SCOPE': [
+            'profile',
+            'email',
+        ],
+        'AUTH_PARAMS': {
+            'access_type': 'online',
+        },
+        'OAUTH_PKCE_ENABLED': True,
+    }
+}
 
 # Custom Adapter для HTML emails
 #ACCOUNT_ADAPTER = 'accounts.adapters.HTMLEmailAccountAdapter'
