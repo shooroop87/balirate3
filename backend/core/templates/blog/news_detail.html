@@ -1,0 +1,169 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}{{ post.title }} - Balirate{% endblock %}
+{% block meta_description %}{{ post.excerpt|truncatewords:25 }}{% endblock %}
+
+{% block content %}
+<!-- Главное изображение -->
+<div class="thumbs-main-post">
+    <div class="thumbs">
+        {% if post.featured_image %}
+        <img src="{{ post.featured_image.url }}" width="1920" height="800" alt="{{ post.title }}">
+        {% endif %}
+    </div>
+</div>
+
+<!-- main-content -->
+<div class="blog-post">
+    <div class="tf-container tf-spacing-1">
+        <div class="row">
+            <div class="col-lg-8">
+                <div class="details-post">
+                    <!-- Заголовок и мета -->
+                    <div class="heading-title mb_24">
+                        {% if post.category %}
+                        <div class="tag-heading text-button-small text_primary-color">{{ post.category.name|upper }}</div>
+                        {% endif %}
+                        <h3>{{ post.title }}</h3>
+                        <div class="meta-post d-flex align-items-center mb_16">
+                            <div class="item text_primary-color text-title fw-6 d-flex align-items-center gap_8">
+                                <i class="icon-CalendarBlank"></i> {{ post.published_at|date:"d.m.Y" }}
+                            </div>
+                        </div>
+                    </div>
+                    <!-- Контент статьи -->
+                    <div class="post-content">
+                        {{ post.content|safe }}
+                    </div>
+
+                    <!-- Теги и шаринг -->
+                    {% if post.tags %}
+                    <div class="tag-share d-flex justify-content-between mt_40">
+                        <div class="tag d-flex align-items-center gap_12">
+                            <span class="text-button fw-7 text_primary-color">Теги:</span>
+                            <ul class="tags-list">
+                                {% for tag in post.get_tags %}
+                                <li><a href="#" class="tags-item text-caption-1">{{ tag }}</a></li>
+                                {% endfor %}
+                            </ul>
+                        </div>
+                        <div class="share d-flex align-items-center gap_16">
+                            <span class="text-button fw-7 text_primary-color">Поделиться:</span>
+                            <ul class="tf-social d-flex gap_24">
+                                <li><a href="https://t.me/share/url?url={{ request.build_absolute_uri }}" class="icon-TelegramLogo" target="_blank"></a></li>
+                                <li><a href="https://wa.me/?text={{ request.build_absolute_uri }}" class="icon-WhatsappLogo" target="_blank"></a></li>
+                            </ul>
+                        </div>
+                    </div>
+                    {% endif %}
+
+                    <!-- Навигация между статьями -->
+                    {% if prev_post or next_post %}
+                    <div class="tf-article-navigation">
+                        {% if prev_post %}
+                        <div class="item prev">
+                            <a href="{% url 'blog:detail' prev_post.slug %}" class="hover-underline-link text-button text_primary-color fw-7 mb_8">Предыдущая</a>
+                            <h5><a href="{% url 'blog:detail' prev_post.slug %}" class="link line-clamp-2">{{ prev_post.title }}</a></h5>
+                        </div>
+                        {% endif %}
+                        {% if next_post %}
+                        <div class="item next">
+                            <a href="{% url 'blog:detail' next_post.slug %}" class="hover-underline-link text-button text_primary-color fw-7 mb_8">Следующая</a>
+                            <h5><a href="{% url 'blog:detail' next_post.slug %}" class="link line-clamp-2">{{ next_post.title }}</a></h5>
+                        </div>
+                        {% endif %}
+                    </div>
+                    {% endif %}
+                </div>
+            </div>
+            <!-- Sidebar -->
+            <div class="col-lg-4">
+                <div class="tf-sidebar sticky-top">
+                    <!-- Категории -->
+                    <div class="sidebar-item sidebar-categories">
+                        <h5 class="sidebar-title mb_17">Категории</h5>
+                        <ul class="list-categories d-grid gap_8">
+                            {% for cat in categories %}
+                            <li class="d-flex align-items-center justify-content-between text-body-default">
+                                <a href="{% url 'blog:list' %}?category={{ cat.slug }}" class="hover-line-text">{{ cat.name }}</a>
+                                <div class="number">({{ cat.posts.count }})</div>
+                            </li>
+                            {% endfor %}
+                        </ul>
+                    </div>
+
+                    <!-- Последние новости -->
+                    <div class="sidebar-item sidebar-recent-post">
+                        <h5 class="sidebar-title mb_17">Последние новости</h5>
+                        <ul>
+                            {% for recent in recent_posts %}
+                            <li class="recent-post hover-image-rotate">
+                                <a href="{% url 'blog:detail' recent.slug %}" class="img-style">
+                                    <img src="{{ recent.featured_image.url }}" width="100" height="100" alt="{{ recent.title }}">
+                                </a>
+                                <div class="content">
+                                    <div class="meta-post d-flex align-items-center mb_7">
+                                        <div class="item text_secondary-color text-caption-2">{{ recent.published_at|date:"d.m.Y" }}</div>
+                                    </div>
+                                    <div class="text-title title text_primary-color fw-6">
+                                        <a href="{% url 'blog:detail' recent.slug %}" class="link">{{ recent.title|truncatewords:8 }}</a>
+                                    </div>
+                                </div>
+                            </li>
+                            {% endfor %}
+                        </ul>
+                    </div>
+
+                    <!-- Подписка -->
+                    <div class="sidebar-item">
+                        <h5 class="sidebar-title mb_15">Подписаться на новости</h5>
+                        <form action="#" class="form-newsletter">
+                            <fieldset>
+                                <input class="" type="email" placeholder="Email адрес" name="email" required>
+                            </fieldset>
+                            <div class="button-submit">
+                                <button type="submit"><i class="icon-PaperPlaneTilt"></i></button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- Related News Slider -->
+{% if related_posts %}
+<div class="tf-container sw-layout tf-spacing-1 pt-0">
+    <div class="heading-section text-center mb_48">
+        <h3>Похожие новости</h3>
+    </div>
+    <div class="swiper" data-preview="3" data-tablet="2" data-mobile-sm="2" data-mobile="1" data-space-lg="30" data-space-md="20" data-space="15">
+        <div class="swiper-wrapper">
+            {% for related in related_posts %}
+            <div class="swiper-slide">
+                <div class="blog-article-item style-default hover-image-translate">
+                    <div class="article-thumb image-wrap mb_24">
+                        <img loading="lazy" src="{{ related.featured_image.url }}" width="850" height="478" alt="{{ related.title }}">
+                        {% if related.category %}
+                        <a href="#" class="tag text-label text text_primary-color text-uppercase">{{ related.category.name }}</a>
+                        {% endif %}
+                        <a href="{% url 'blog:detail' related.slug %}" class="overlay-link"></a>
+                    </div>
+                    <div class="article-content">
+                        <div class="meta-post d-flex align-items-center mb_12">
+                            <div class="item text_secondary-color text-caption-1">{{ related.published_at|date:"d.m.Y" }}</div>
+                        </div>
+                        <h5 class="title">
+                            <a href="{% url 'blog:detail' related.slug %}" class="hover-line-text">{{ related.title }}</a>
+                        </h5>
+                    </div>
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+        <div class="sw-dots style-1 sw-pagination-layout text-center mt_24"></div>
+    </div>
+</div>
+{% endif %}
+{% endblock %}

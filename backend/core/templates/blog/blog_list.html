@@ -1,0 +1,100 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}Новости Бали - Balirate{% endblock %}
+{% block meta_description %}Последние новости о недвижимости и инвестициях на Бали{% endblock %}
+
+{% block content %}
+<div class="container">
+    <!-- Page Header -->
+    <div class="row mb_40">
+        <div class="col-12">
+            <h1 class="text-heading fw-7 mb_16">Новости</h1>
+            <p class="text-body-default text_secondary-color">Актуальные события и аналитика рынка недвижимости Бали</p>
+        </div>
+    </div>
+
+    <div class="news-page__content">
+        {% if page_obj %}
+        <!-- Featured Post (первый пост крупно) -->
+        {% with featured=page_obj.0 %}
+        {% if featured and page_obj.number == 1 %}
+        <div class="news__featured mb_40">
+            <div class="news__top news-topitem">
+                <a href="{% url 'blog:detail' featured.slug %}">
+                    <picture>
+                        <img src="{{ featured.featured_image.url }}" class="ibg" alt="{{ featured.title }}" loading="lazy">
+                    </picture>
+                </a>
+                <div class="news-topitem__content">
+                    <div class="news-topitem__date">{{ featured.published_at|date:"d.m.Y" }}</div>
+                    <a href="{% url 'blog:detail' featured.slug %}" class="news-topitem__name">{{ featured.title }}</a>
+                    <div class="news-topitem__text">{{ featured.excerpt|truncatewords:20 }}</div>
+                    <a href="{% url 'blog:detail' featured.slug %}" class="news-topitem__link icon-arrow-r-t">Подробнее</a>
+                </div>
+            </div>
+        </div>
+        {% endif %}
+        {% endwith %}
+        <!-- News Grid -->
+        <div class="news__grid">
+            {% for post in page_obj %}
+            {% if page_obj.number > 1 or not forloop.first %}
+            <div class="news__slide news-item">
+                <div class="news-item__image">
+                    <a href="{% url 'blog:detail' post.slug %}">
+                        <picture>
+                            <img src="{{ post.featured_image.url }}" class="ibg" alt="{{ post.title }}" loading="lazy">
+                        </picture>
+                    </a>
+                </div>
+                <div class="news-item__content">
+                    <div class="news-item__date">{{ post.published_at|date:"d.m.Y" }}</div>
+                    <a href="{% url 'blog:detail' post.slug %}" class="news-item__name">{{ post.title }}</a>
+                    {% if post.excerpt %}
+                    <div class="news-item__info">{{ post.excerpt|truncatewords:15 }}</div>
+                    {% endif %}
+                    <a href="{% url 'blog:detail' post.slug %}" class="news-item__link icon-arrow-r-t">подробнее</a>
+                </div>
+            </div>
+            {% endif %}
+            {% endfor %}
+        </div>
+        {% else %}
+        <div class="text-center py_40">
+            <p class="text-body-default text_secondary-color">Новостей пока нет</p>
+        </div>
+        {% endif %}
+    </div>
+    <!-- Pagination -->
+    {% if page_obj.has_other_pages %}
+    <div class="tf-pagination mt_40">
+        <ul class="d-flex align-items-center justify-content-center gap_12">
+            {% if page_obj.has_previous %}
+            <li>
+                <a href="?page={{ page_obj.previous_page_number }}" class="pagination-link prev">
+                    <i class="icon-arrow-left"></i>
+                </a>
+            </li>
+            {% endif %}
+            
+            {% for num in page_obj.paginator.page_range %}
+                {% if page_obj.number == num %}
+                <li><span class="pagination-link active">{{ num }}</span></li>
+                {% elif num > page_obj.number|add:'-3' and num < page_obj.number|add:'3' %}
+                <li><a href="?page={{ num }}" class="pagination-link">{{ num }}</a></li>
+                {% endif %}
+            {% endfor %}
+            
+            {% if page_obj.has_next %}
+            <li>
+                <a href="?page={{ page_obj.next_page_number }}" class="pagination-link next">
+                    <i class="icon-arrow-right"></i>
+                </a>
+            </li>
+            {% endif %}
+        </ul>
+    </div>
+    {% endif %}
+</div>
+{% endblock %}

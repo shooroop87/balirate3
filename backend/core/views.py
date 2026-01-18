@@ -11,3 +11,11 @@ from django.urls import path
 def index(request):
     """Главная страница."""
     return render(request, "pages/index.html")
+
+
+def developer_award_2025(request):
+    return render(request, 'pages/developer_award_2025.html')
+
+
+def privacy_policy(request):
+    return render(request, 'pages/privacy_policy.html')

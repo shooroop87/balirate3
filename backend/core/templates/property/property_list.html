@@ -1,0 +1,271 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}Объекты недвижимости - Balirate{% endblock %}
+{% block meta_description %}Каталог объектов недвижимости на Бали от проверенных застройщиков{% endblock %}
+
+{% block content %}
+<div class="tf-spacing-1 section-properties">
+    <div class="tf-container">
+        <!-- Заголовок -->
+        <div class="box-title mb_40">
+            <div>
+                <ul class="breadcrumb style-1 text-button fw-4 mb_4">
+                    <li><a href="{% url 'index' %}">Главная</a></li>
+                    <li>Объекты недвижимости</li>
+                </ul>
+                <h4>Объекты недвижимости</h4>
+            </div>
+            <div class="right d-flex gap_12">
+                <ul class="nav-tab-filter align-items-center group-layout d-flex gap_12" role="tablist">
+                    <li class="nav-tab-item" role="presentation">
+                        <a href="#gridLayout" class="btn-layout grid nav-link-item active" data-bs-toggle="tab">
+                            <i class="icon-SquaresFour"></i>
+                        </a>
+                    </li>
+                    <li class="nav-tab-item" role="presentation">
+                        <a href="#listLayout" class="nav-link-item btn-layout list" data-bs-toggle="tab">
+                            <i class="icon-Rows"></i>
+                        </a>
+                    </li>
+                </ul>
+                <div class="nice-select select-filter list-sort" tabindex="0">
+                    <span class="current">Сортировка</span>
+                    <ul class="list">
+                        <li data-value="default" class="option selected">По умолчанию</li>
+                        <li data-value="new" class="option">Сначала новые</li>
+                        <li data-value="old" class="option">Сначала старые</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+
+        <!-- Баннер верхний -->
+        <a href="#" data-popup="#popup-lead" class="w-100 mb_30 d-block">
+            <img src="{% static 'images/banners/property-banner-desktop.webp' %}" class="banner-pk w-100" alt="">
+            <img src="{% static 'images/banners/property-banner-mobile.webp' %}" class="banner-mob w-100" alt="">
+        </a>
+        <div class="row">
+            <!-- Sidebar Filters -->
+            <div class="col-lg-4">
+                <div class="tf-filter-sidebar">
+                    <form method="get" class="form-sl">
+                        <div class="wd-filter-select">
+                            <div class="inner-group d-grid gap_16">
+                                <!-- Поиск -->
+                                <fieldset>
+                                    <label class="text-button fw-7 text_primary-color mb_8">Поиск</label>
+                                    <input type="text" placeholder="Название объекта" name="q" value="{{ request.GET.q }}">
+                                </fieldset>
+
+                                <!-- Город/Район -->
+                                <div>
+                                    <div class="text-button text_primary-color mb_8">Район</div>
+                                    <div class="nice-select" tabindex="0">
+                                        <span class="current">{{ current_location|default:"Все районы" }}</span>
+                                        <ul class="list">
+                                            <li data-value="" class="option {% if not request.GET.location %}selected{% endif %}">Все районы</li>
+                                            {% for loc in locations %}
+                                            <li data-value="{{ loc.slug }}" class="option {% if request.GET.location == loc.slug %}selected{% endif %}">{{ loc.name }}</li>
+                                            {% endfor %}
+                                        </ul>
+                                    </div>
+                                    <input type="hidden" name="location" value="{{ request.GET.location }}">
+                                </div>
+
+                                <!-- Тип недвижимости -->
+                                <div>
+                                    <div class="text-button text_primary-color mb_8">Тип жилья</div>
+                                    <div class="nice-select" tabindex="0">
+                                        <span class="current">{{ current_type|default:"Все типы" }}</span>
+                                        <ul class="list">
+                                            <li data-value="" class="option {% if not request.GET.property_type %}selected{% endif %}">Все типы</li>
+                                            {% for type in property_types %}
+                                            <li data-value="{{ type.0 }}" class="option {% if request.GET.property_type == type.0 %}selected{% endif %}">{{ type.1 }}</li>
+                                            {% endfor %}
+                                        </ul>
+                                    </div>
+                                    <input type="hidden" name="property_type" value="{{ request.GET.property_type }}">
+                                </div>
+
+                                <!-- Застройщик -->
+                                <div>
+                                    <div class="text-button text_primary-color mb_8">Застройщик</div>
+                                    <div class="nice-select" tabindex="0">
+                                        <span class="current">{{ current_developer|default:"Все застройщики" }}</span>
+                                        <ul class="list">
+                                            <li data-value="" class="option {% if not request.GET.developer %}selected{% endif %}">Все застройщики</li>
+                                            {% for dev in developers %}
+                                            <li data-value="{{ dev.slug }}" class="option {% if request.GET.developer == dev.slug %}selected{% endif %}">{{ dev.name }}</li>
+                                            {% endfor %}
+                                        </ul>
+                                    </div>
+                                    <input type="hidden" name="developer" value="{{ request.GET.developer }}">
+                                </div>
+
+                                <!-- Дата сдачи -->
+                                <div>
+                                    <div class="text-button text_primary-color mb_8">Дата сдачи</div>
+                                    <div class="nice-select" tabindex="0">
+                                        <span class="current">{{ current_completion|default:"Любая" }}</span>
+                                        <ul class="list">
+                                            <li data-value="" class="option {% if not request.GET.completion %}selected{% endif %}">Любая</li>
+                                            <li data-value="completed" class="option {% if request.GET.completion == 'completed' %}selected{% endif %}">Сдан</li>
+                                            <li data-value="2025" class="option {% if request.GET.completion == '2025' %}selected{% endif %}">2025</li>
+                                            <li data-value="2026" class="option {% if request.GET.completion == '2026' %}selected{% endif %}">2026</li>
+                                            <li data-value="2027" class="option {% if request.GET.completion == '2027' %}selected{% endif %}">2027</li>
+                                        </ul>
+                                    </div>
+                                    <input type="hidden" name="completion" value="{{ request.GET.completion }}">
+                                </div>
+
+                                <!-- Кнопка поиска -->
+                                <div class="form-style">
+                                    <button type="submit" class="tf-btn w-full">
+                                        <span>Найти</span>
+                                        <span class="bg-effect"></span>
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
+            <!-- Properties Grid -->
+            <div class="col-lg-8">
+                <div class="flat-animate-tab">
+                    <div class="tab-content">
+                        <!-- Grid View -->
+                        <div class="tab-pane active show" id="gridLayout" role="tabpanel">
+                            <div class="tf-grid-layout md-col-2">
+                                {% for property in page_obj %}
+                                <div class="card-house style-default hover-image">
+                                    <div class="img-style mb_20">
+                                        {% if property.featured_image %}
+                                        <img loading="lazy" src="{{ property.featured_image.url }}" width="410" height="308" alt="{{ property.name }}">
+                                        {% endif %}
+                                        <div class="wrap-tag d-flex gap_8 mb_12">
+                                            <div class="tag categoreis text-button-small fw-6 text_primary-color">
+                                                {{ property.get_property_type_display }}
+                                            </div>
+                                            {% if property.is_completed %}
+                                            <div class="tag text-button-small fw-6" style="background: #28a745; color: #fff;">
+                                                Сдан
+                                            </div>
+                                            {% endif %}
+                                        </div>
+                                        <a href="{% url 'properties:detail' property.slug %}" class="overlay-link"></a>
+                                        <div class="wishlist">
+                                            <a href="javascript:void(0);" class="hover-tooltip tooltip-left box-icon">
+                                                <span class="icon icon-Heart"></span>
+                                                <span class="tooltip">В избранное</span>
+                                            </a>
+                                        </div>
+                                    </div>
+                                    <div class="content">
+                                        <!-- Название -->
+                                        <a href="{% url 'properties:detail' property.slug %}" class="title mb_8 h5 link text_primary-color">{{ property.name }}</a>
+                                        
+                                        <!-- Застройщик -->
+                                        <div class="d-flex align-items-center gap_8 mb_8">
+                                            {% if property.developer.is_verified %}
+                                            <i class="icon-CheckCircle" style="color: #28a745;"></i>
+                                            {% endif %}
+                                            <span class="text-body-default">{{ property.developer.name }}</span>
+                                        </div>
+                                        
+                                        <!-- Локация -->
+                                        <p class="mb_12"><i class="icon-MapPin"></i> {{ property.location }}</p>
+                                        
+                                        <!-- Характеристики -->
+                                        <ul class="info d-flex">
+                                            {% if property.rooms %}
+                                            <li class="d-flex align-items-center gap_8 text-title text_primary-color fw-6">
+                                                <i class="icon-Bed"></i>{{ property.rooms }}
+                                            </li>
+                                            {% endif %}
+                                            {% if property.area %}
+                                            <li class="d-flex align-items-center gap_8 text-title text_primary-color fw-6">
+                                                <i class="icon-Ruler"></i>{{ property.area }} м²
+                                            </li>
+                                            {% endif %}
+                                        </ul>
+                                        
+                                        <!-- Дата сдачи -->
+                                        <div class="mt_12 text-caption-1 text_secondary-color">
+                                            Сдача: {{ property.completion_date|default:"Сдан" }}
+                                        </div>
+                                    </div>
+                                </div>
+                                {% empty %}
+                                <div class="col-12 text-center py_40">
+                                    <p>Объекты не найдены</p>
+                                </div>
+                                {% endfor %}
+                            </div>
+                        </div>
+                        <!-- List View -->
+                        <div class="tab-pane" id="listLayout" role="tabpanel">
+                            <div class="d-grid gap_30">
+                                {% for property in page_obj %}
+                                <div class="card-house style-list hover-image">
+                                    <div class="img-style">
+                                        {% if property.featured_image %}
+                                        <img loading="lazy" src="{{ property.featured_image.url }}" width="410" height="308" alt="{{ property.name }}">
+                                        {% endif %}
+                                        <a href="{% url 'properties:detail' property.slug %}" class="overlay-link"></a>
+                                    </div>
+                                    <div class="content">
+                                        <div class="wrap-tag d-flex gap_8 mb_12">
+                                            <div class="tag categoreis text-button-small fw-6 text_primary-color">{{ property.get_property_type_display }}</div>
+                                        </div>
+                                        <a href="{% url 'properties:detail' property.slug %}" class="title mb_8 h5 link text_primary-color">{{ property.name }}</a>
+                                        <div class="d-flex align-items-center gap_8 mb_8">
+                                            {% if property.developer.is_verified %}<i class="icon-CheckCircle" style="color: #28a745;"></i>{% endif %}
+                                            <span>{{ property.developer.name }}</span>
+                                        </div>
+                                        <p><i class="icon-MapPin"></i> {{ property.location }}</p>
+                                        <ul class="info d-flex mt_12">
+                                            {% if property.rooms %}<li class="d-flex align-items-center gap_8 text-title fw-6"><i class="icon-Bed"></i>{{ property.rooms }}</li>{% endif %}
+                                            {% if property.area %}<li class="d-flex align-items-center gap_8 text-title fw-6"><i class="icon-Ruler"></i>{{ property.area }} м²</li>{% endif %}
+                                        </ul>
+                                        <div class="mt_12 text-caption-1 text_secondary-color">Сдача: {{ property.completion_date|default:"Сдан" }}</div>
+                                    </div>
+                                </div>
+                                {% endfor %}
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Pagination -->
+                    {% if page_obj.has_other_pages %}
+                    <div class="tf-pagination mt_40">
+                        <ul class="d-flex align-items-center justify-content-center gap_8">
+                            {% if page_obj.has_previous %}
+                            <li><a href="?page={{ page_obj.previous_page_number }}" class="pagination-link"><i class="icon-CaretLeft"></i></a></li>
+                            {% endif %}
+                            {% for num in page_obj.paginator.page_range %}
+                                {% if page_obj.number == num %}
+                                <li><span class="pagination-link active">{{ num }}</span></li>
+                                {% elif num > page_obj.number|add:'-3' and num < page_obj.number|add:'3' %}
+                                <li><a href="?page={{ num }}" class="pagination-link">{{ num }}</a></li>
+                                {% endif %}
+                            {% endfor %}
+                            {% if page_obj.has_next %}
+                            <li><a href="?page={{ page_obj.next_page_number }}" class="pagination-link"><i class="icon-CaretRight"></i></a></li>
+                            {% endif %}
+                        </ul>
+                    </div>
+                    {% endif %}
+                </div>
+            </div>
+        </div>
+
+        <!-- Баннер нижний -->
+        <a href="#" data-popup="#popup-lead" class="w-100 mt_40 d-block">
+            <img src="{% static 'images/banners/property-banner-desktop.webp' %}" class="banner-pk w-100" alt="">
+            <img src="{% static 'images/banners/property-banner-mobile.webp' %}" class="banner-mob w-100" alt="">
+        </a>
+    </div>
+</div>
+{% endblock %}

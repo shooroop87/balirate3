@@ -618,8 +618,8 @@ h6,
 
 h1,
 .h1 {
-  font-size: 96px;
-  line-height: 104px;
+  font-size: 62px;
+  line-height: 72px;
 }
 
 h2,
@@ -708,8 +708,8 @@ h6,
 @media (max-width: 1199px) {
   h1,
   .h1 {
-    font-size: 80px;
-    line-height: 88px;
+    font-size: 42px;
+    line-height: 52px;
   }
   h2,
   .h2 {
@@ -720,8 +720,8 @@ h6,
 @media (max-width: 991px) {
   h1,
   .h1 {
-    font-size: 66px;
-    line-height: 74px;
+    font-size: 32px;
+    line-height: 42px;
   }
   h2,
   .h2 {
@@ -741,8 +741,8 @@ h6,
 @media (max-width: 767px) {
   h1,
   .h1 {
-    font-size: 55px;
-    line-height: 63px;
+    font-size: 28px;
+    line-height: 34px;
   }
   h2,
   .h2 {
@@ -767,8 +767,8 @@ h6,
 @media (max-width: 575px) {
   h1,
   .h1 {
-    font-size: 36px;
-    line-height: 44px;
+    font-size: 24px;
+    line-height: 32px;
   }
   h2,
   .h2 {
@@ -8350,6 +8350,7 @@ tr {
 }
 .page-title.style-default .thumbs {
   background-color: var(--Text-primary);
+  min-height: 300px;
 }
 .page-title.style-default .thumbs img {
   width: 100%;

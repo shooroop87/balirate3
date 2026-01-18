@@ -1,0 +1,317 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}{{ developer.name }} - Balirate{% endblock %}
+{% block meta_description %}{{ developer.short_description|truncatewords:25 }}{% endblock %}
+
+{% block content %}
+<!-- Page Title -->
+<div class="page-title style-default">
+    <div class="thumbs">
+        {% if developer.cover_image %}
+        <img src="{{ developer.cover_image.url }}" width="1920" height="300" alt="{{ developer.name }}">
+        {% else %}
+        <img src="{% static 'images/page-title/developer-default.jpg' %}" width="1920" height="300" alt="">
+        {% endif %}
+    </div>
+    <div class="content text-center">
+        <div class="tf-container">
+            <h2 class="title text_white mb_12">{{ developer.name }}</h2>
+            <ul class="breadcrumb justify-content-center text-button fw-4">
+                <li><a href="{% url 'index' %}">Главная</a></li>
+                <li><a href="{% url 'developers:list' %}">Рейтинг застройщиков</a></li>
+                <li>{{ developer.name }}</li>
+            </ul>
+        </div>
+    </div>
+</div>
+
+<!-- Developer Detail -->
+<div class="tf-container tf-spacing-1 agent-detail">
+    <div class="row">
+        <!-- Logo/Image -->
+        <div class="col-lg-5 hover-image">
+            <div class="img-style mb_30">
+                {% if developer.logo %}
+                <img src="{{ developer.logo.url }}" width="500" height="500" loading="lazy" alt="{{ developer.name }}" style="object-fit: contain; background: #f8f7f3;">
+                {% endif %}
+            </div>
+            
+            <!-- Rating Stars -->
+            <div class="d-flex align-items-center gap_16 mb_24">
+                <span class="text-title fw-6">Рейтинг:</span>
+                <div class="d-flex align-items-center gap_8">
+                    {% for i in "12345" %}
+                    <i class="icon-StarFill {% if forloop.counter <= developer.rating %}text-warning{% else %}text-muted{% endif %}"></i>
+                    {% endfor %}
+                    <span class="h5 ms-2">{{ developer.rating }}</span>
+                </div>
+            </div>
+        </div>
+        <!-- Developer Info -->
+        <div class="col-lg-7">
+            <div class="detail">
+                <div class="content mb_30">
+                    <h3 class="mb_16">{{ developer.name }}</h3>
+                    
+                    <!-- Social Links -->
+                    <ul class="tf-social d-flex gap_24 mb_24">
+                        {% if developer.telegram %}
+                        <li><a href="{{ developer.telegram }}" target="_blank" class="icon-TelegramLogo"></a></li>
+                        {% endif %}
+                        {% if developer.whatsapp %}
+                        <li><a href="{{ developer.whatsapp }}" target="_blank" class="icon-WhatsappLogo"></a></li>
+                        {% endif %}
+                        {% if developer.instagram %}
+                        <li><a href="{{ developer.instagram }}" target="_blank" class="icon-InstagramLogo"></a></li>
+                        {% endif %}
+                        {% if developer.website %}
+                        <li><a href="{{ developer.website }}" target="_blank" class="icon-Globe"></a></li>
+                        {% endif %}
+                    </ul>
+                    
+                    <!-- Key Points -->
+                    {% if developer.key_points %}
+                    <ul class="d-grid gap_12 mb_24">
+                        {% for point in developer.get_key_points %}
+                        <li class="d-flex align-items-start gap_12 text-body-2">
+                            <i class="icon-CheckCircle text-success mt-1"></i>
+                            <span>{{ point }}</span>
+                        </li>
+                        {% endfor %}
+                    </ul>
+                    {% endif %}
+                </div>
+
+                <!-- Rating Bars -->
+                <div class="info mb_30">
+                    <h5 class="mb_20">Показатели</h5>
+                    <div class="d-grid gap_16">
+                        <!-- Срок сдачи -->
+                        <div class="d-flex align-items-center gap_16">
+                            <div class="text-body-default" style="min-width: 150px;">Срок сдачи</div>
+                            <div class="flex-grow-1">
+                                <div class="progress" style="height: 8px; background: #e9ecef; border-radius: 4px;">
+                                    <div class="progress-bar" style="width: {{ developer.delivery_score|default:80 }}%; background: linear-gradient(90deg, #11E226, #5AE868); border-radius: 4px;"></div>
+                                </div>
+                            </div>
+                            <div class="text-title fw-6" style="min-width: 40px;">{{ developer.delivery_rating }}/5</div>
+                        </div>
+                        <!-- Премиальность -->
+                        <div class="d-flex align-items-center gap_16">
+                            <div class="text-body-default" style="min-width: 150px;">Премиальность</div>
+                            <div class="flex-grow-1">
+                                <div class="progress" style="height: 8px; background: #e9ecef; border-radius: 4px;">
+                                    <div class="progress-bar" style="width: {{ developer.premium_score|default:100 }}%; background: linear-gradient(90deg, #11E226, #5AE868); border-radius: 4px;"></div>
+                                </div>
+                            </div>
+                            <div class="text-title fw-6" style="min-width: 40px;">{{ developer.premium_rating }}/5</div>
+                        </div>
+                        <!-- Поддержка -->
+                        <div class="d-flex align-items-center gap_16">
+                            <div class="text-body-default" style="min-width: 150px;">Поддержка</div>
+                            <div class="flex-grow-1">
+                                <div class="progress" style="height: 8px; background: #e9ecef; border-radius: 4px;">
+                                    <div class="progress-bar" style="width: {{ developer.support_score|default:100 }}%; background: linear-gradient(90deg, #11E226, #5AE868); border-radius: 4px;"></div>
+                                </div>
+                            </div>
+                            <div class="text-title fw-6" style="min-width: 40px;">{{ developer.support_rating }}/5</div>
+                        </div>
+                        <!-- Качество строительства -->
+                        <div class="d-flex align-items-center gap_16">
+                            <div class="text-body-default" style="min-width: 150px;">Качество</div>
+                            <div class="flex-grow-1">
+                                <div class="progress" style="height: 8px; background: #e9ecef; border-radius: 4px;">
+                                    <div class="progress-bar" style="width: {{ developer.quality_score|default:100 }}%; background: linear-gradient(90deg, #11E226, #5AE868); border-radius: 4px;"></div>
+                                </div>
+                            </div>
+                            <div class="text-title fw-6" style="min-width: 40px;">{{ developer.quality_rating }}/5</div>
+                        </div>
+                    </div>
+                </div>
+                <!-- Stats -->
+                <div class="info mb_30">
+                    <ul class="list tf-grid-layout tf-col-3 gap_20">
+                        <li class="text-center p-3" style="background: #f8f7f3; border-radius: 8px;">
+                            <div class="h4 text-success mb_4">{{ developer.completed_count }}</div>
+                            <div class="text-caption-1 text_secondary-color">Сдано объектов</div>
+                        </li>
+                        <li class="text-center p-3" style="background: #f8f7f3; border-radius: 8px;">
+                            <div class="h4 text-primary mb_4">{{ developer.in_progress_count }}</div>
+                            <div class="text-caption-1 text_secondary-color">Строится</div>
+                        </li>
+                        <li class="text-center p-3" style="background: #f8f7f3; border-radius: 8px;">
+                            <div class="h4 mb_4">{{ developer.total_count }}</div>
+                            <div class="text-caption-1 text_secondary-color">Всего объектов</div>
+                        </li>
+                    </ul>
+                </div>
+
+                <!-- Action Buttons -->
+                <div class="d-flex flex-wrap gap_12">
+                    <button type="button" class="tf-btn" data-bs-toggle="modal" data-bs-target="#reviewModal">
+                        <i class="icon-ChatCircle me-2"></i>
+                        <span>Оставить отзыв</span>
+                        <span class="bg-effect"></span>
+                    </button>
+                    {% if developer.whatsapp %}
+                    <a href="{{ developer.whatsapp }}" target="_blank" class="tf-btn btn-bg-2">
+                        <i class="icon-WhatsappLogo me-2"></i>
+                        <span>Получить презентацию</span>
+                        <span class="bg-effect"></span>
+                    </a>
+                    {% endif %}
+                    {% if developer.website %}
+                    <a href="{{ developer.website }}" target="_blank" rel="nofollow" class="tf-btn btn-outline">
+                        <span>
+                            <!-- Reviews Section -->
+{% if developer.reviews.exists %}
+<div class="tf-container tf-spacing-1 pt-0">
+    <div class="heading-section mb_30">
+        <h4>Отзывы</h4>
+    </div>
+    <div class="swiper" data-preview="3" data-tablet="2" data-mobile="1" data-space-lg="30" data-space-md="20" data-space="15">
+        <div class="swiper-wrapper">
+            {% for review in developer.reviews.all %}
+            <div class="swiper-slide">
+                <div class="testimonial-item style-1" style="background: #f8f7f3; padding: 24px; border-radius: 12px;">
+                    <div class="d-flex align-items-center gap_16 mb_16">
+                        <div class="avatar" style="width: 50px; height: 50px; border-radius: 50%; overflow: hidden; background: #e9ecef;">
+                            {% if review.user_avatar %}
+                            <img src="{{ review.user_avatar.url }}" alt="{{ review.user_name }}">
+                            {% else %}
+                            <div class="d-flex align-items-center justify-content-center h-100 text-title fw-6">{{ review.user_name|slice:":1" }}</div>
+                            {% endif %}
+                        </div>
+                        <div>
+                            <div class="text-title fw-6">{{ review.user_name }}</div>
+                            <div class="d-flex align-items-center gap_4">
+                                {% for i in "12345" %}
+                                <i class="icon-StarFill {% if forloop.counter <= review.rating %}text-warning{% else %}text-muted{% endif %}" style="font-size: 12px;"></i>
+                                {% endfor %}
+                            </div>
+                        </div>
+                        <div class="ms-auto text-caption-1 text_secondary-color">{{ review.created_at|date:"d.m.Y" }}</div>
+                    </div>
+                    <p class="text-body-2">{{ review.text|truncatewords:30 }}</p>
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+        <div class="sw-dots style-1 sw-pagination-layout text-center mt_24"></div>
+    </div>
+</div>
+{% endif %}
+<!-- About Section -->
+{% if developer.description %}
+<div class="tf-container tf-spacing-1 pt-0">
+    <div class="row">
+        <div class="col-lg-10 mx-auto">
+            <div class="post-content">
+                {{ developer.description|safe }}
+            </div>
+        </div>
+    </div>
+</div>
+{% endif %}
+
+<!-- Developer Properties -->
+{% if properties %}
+<div class="section-properties">
+    <div class="tf-spacing-1 pt-0">
+        <div class="tf-container">
+            <div class="box-title mb_40">
+                <h4>Объекты {{ developer.name }}</h4>
+            </div>
+            <div class="tf-grid-layout lg-col-3 md-col-2">
+                {% for property in properties %}
+                <div class="card-house style-default hover-image">
+                    <div class="img-style mb_20">
+                        {% if property.featured_image %}
+                        <img loading="lazy" src="{{ property.featured_image.url }}" width="410" height="308" alt="{{ property.name }}">
+                        {% endif %}
+                        <div class="wrap-tag d-flex gap_8 mb_12">
+                            <div class="tag categoreis text-button-small fw-6 text_primary-color">{{ property.get_property_type_display }}</div>
+                            {% if property.is_completed %}
+                            <div class="tag text-button-small fw-6" style="background: #28a745; color: #fff;">Сдан</div>
+                            {% endif %}
+                        </div>
+                        <a href="{% url 'properties:detail' property.slug %}" class="overlay-link"></a>
+                    </div>
+                    <div class="content">
+                        <a href="{% url 'properties:detail' property.slug %}" class="title mb_8 h5 link text_primary-color">{{ property.name }}</a>
+                        <p class="mb_8"><i class="icon-MapPin"></i> {{ property.location }}</p>
+                        <ul class="info d-flex">
+                            {% if property.rooms %}
+                            <li class="d-flex align-items-center gap_8 text-title text_primary-color fw-6">
+                                <i class="icon-Bed"></i>{{ property.rooms }}
+                            </li>
+                            {% endif %}
+                            {% if property.area %}
+                            <li class="d-flex align-items-center gap_8 text-title text_primary-color fw-6">
+                                <i class="icon-Ruler"></i>{{ property.area }} м²
+                            </li>
+                            {% endif %}
+                        </ul>
+                        <div class="mt_12 text-caption-1 text_secondary-color">Сдача: {{ property.completion_date|default:"Сдан" }}</div>
+                    </div>
+                </div>
+                {% endfor %}
+            </div>
+            
+            {% if properties.count > 6 %}
+            <div class="text-center mt_40">
+                <a href="{% url 'properties:list' %}?developer={{ developer.slug }}" class="tf-btn btn-outline">
+                    <span>Все объекты {{ developer.name }}</span>
+                    <span class="bg-effect"></span>
+                </a>
+            </div>
+            {% endif %}
+        </div>
+    </div>
+</div>
+{% endif %}
+
+<!-- Review Modal -->
+<div class="modal fade" id="reviewModal" tabindex="-1">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">Оставить отзыв о {{ developer.name }}</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+            </div>
+            <div class="modal-body">
+                {% if user.is_authenticated %}
+                <form method="post" action="{% url 'developers:add_review' developer.slug %}">
+                    {% csrf_token %}
+                    <div class="mb_16">
+                        <label class="text-button fw-7 mb_8">Ваша оценка</label>
+                        <select name="rating" class="form-select" required>
+                            <option value="5">5 - Отлично</option>
+                            <option value="4">4 - Хорошо</option>
+                            <option value="3">3 - Нормально</option>
+                            <option value="2">2 - Плохо</option>
+                            <option value="1">1 - Ужасно</option>
+                        </select>
+                    </div>
+                    <div class="mb_16">
+                        <label class="text-button fw-7 mb_8">Ваш отзыв</label>
+                        <textarea name="text" rows="4" class="form-control" placeholder="Напишите ваш отзыв..." required></textarea>
+                    </div>
+                    <button type="submit" class="tf-btn w-full">
+                        <span>Отправить отзыв</span>
+                        <span class="bg-effect"></span>
+                    </button>
+                </form>
+                {% else %}
+                <p class="text-center">Авторизуйтесь, чтобы оставить отзыв</p>
+                <a href="{% url 'account_login' %}?next={{ request.path }}" class="tf-btn w-full">
+                    <span>Войти</span>
+                    <span class="bg-effect"></span>
+                </a>
+                {% endif %}
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

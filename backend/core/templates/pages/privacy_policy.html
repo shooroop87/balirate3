@@ -1,0 +1,187 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}Политика конфиденциальности - Balirate{% endblock %}
+{% block meta_description %}Политика конфиденциальности сайта Balirate.com - рейтинг застройщиков недвижимости на Бали{% endblock %}
+
+{% block content %}
+<!-- Page Title -->
+<div class="page-title style-default">
+    <div class="thumbs">
+    </div>
+    <div class="content text-center">
+        <div class="tf-container">
+            <h1 class="title text_white mb_12">Политика конфиденциальности</h1>
+            <ul class="breadcrumb justify-content-center text-button fw-4">
+                <li><a href="{% url 'index' %}">Главная</a></li>
+                <li>Политика конфиденциальности</li>
+            </ul>
+        </div>
+    </div>
+</div>
+
+<!-- Main Content -->
+<div class="tf-spacing-1 section-privacy">
+    <div class="tf-container">
+        <div class="row">
+            <!-- Sidebar Navigation -->
+            <div class="col-lg-4">
+                <ul class="privacy-table sticky-top">
+                    <li class="nav_link text-title fw-6" data-target="general">
+                        <a href="#general">1. Общие положения</a>
+                    </li>
+                    <li class="nav_link text-title fw-6" data-target="data-collection">
+                        <a href="#data-collection">2. Сбор данных</a>
+                    </li>
+                    <li class="nav_link text-title fw-6" data-target="data-usage">
+                        <a href="#data-usage">3. Использование данных</a>
+                    </li>
+                    <li class="nav_link text-title fw-6" data-target="cookies">
+                        <a href="#cookies">4. Файлы cookie</a>
+                    </li>
+                    <li class="nav_link text-title fw-6" data-target="third-parties">
+                        <a href="#third-parties">5. Третьи стороны</a>
+                    </li>
+                    <li class="nav_link text-title fw-6" data-target="user-rights">
+                        <a href="#user-rights">6. Права пользователей</a>
+                    </li>
+                    <li class="nav_link text-title fw-6" data-target="security">
+                        <a href="#security">7. Безопасность данных</a>
+                    </li>
+                    <li class="nav_link text-title fw-6" data-target="changes">
+                        <a href="#changes">8. Изменения политики</a>
+                    </li>
+                    <li class="nav_link text-title fw-6" data-target="contacts">
+                        <a href="#contacts">9. Контакты</a>
+                    </li>
+                    <li class="highlight-bar"></li>
+                </ul>
+            </div>
+            <!-- Content -->
+            <div class="col-lg-8">
+                <div class="content">
+                    <h4 class="mb_32 heading-title">Политика конфиденциальности Balirate.com</h4>
+                    <p class="mb_32 text-body-2">Дата последнего обновления: Январь 2025</p>
+                    
+                    <!-- 1. Общие положения -->
+                    <div id="general">
+                        <h5 class="title mb_12 text-capitalize">1. Общие положения</h5>
+                        <p class="mb_12">Настоящая Политика конфиденциальности описывает, как Balirate.com («мы», «наш», «сайт») собирает, использует и защищает персональные данные пользователей.</p>
+                        <p class="mb_12">Balirate.com — это независимая рейтинговая платформа для застройщиков и объектов недвижимости на Бали. Мы предоставляем информацию о девелоперах, их проектах, рейтингах и отзывах для помощи инвесторам в принятии обоснованных решений.</p>
+                        <p>Используя наш сайт, вы соглашаетесь с условиями данной Политики конфиденциальности. Если вы не согласны с какими-либо положениями, пожалуйста, воздержитесь от использования сайта.</p>
+                    </div>
+                    
+                    <!-- 2. Сбор данных -->
+                    <div id="data-collection" class="pt_32">
+                        <h5 class="title mb_12 text-capitalize">2. Какие данные мы собираем</h5>
+                        <p class="mb_12">Мы можем собирать следующие категории персональных данных:</p>
+                        <ul class="mb_12">
+                            <li class="text-body-default"><strong>Контактные данные:</strong> имя, адрес электронной почты, номер телефона, WhatsApp, Telegram — при заполнении форм обратной связи или регистрации.</li>
+                            <li class="text-body-default"><strong>Данные аккаунта:</strong> логин, пароль (в зашифрованном виде), история отзывов — при создании учётной записи.</li>
+                            <li class="text-body-default"><strong>Технические данные:</strong> IP-адрес, тип браузера, операционная система, данные о посещённых страницах, время визита.</li>
+                            <li class="text-body-default"><strong>Данные из отзывов:</strong> текст отзыва, оценки, дата публикации — при оставлении отзывов о застройщиках.</li>
+                            <li class="text-body-default"><strong>Данные из форм:</strong> информация, которую вы указываете при запросе презентаций или консультаций.</li>
+                        </ul>
+                        <p>Мы не собираем данные о платёжных картах, паспортные данные или другую конфиденциальную финансовую информацию.</p>
+                    </div>
+                    
+                    <!-- 3. Использование данных -->
+                    <div id="data-usage" class="pt_32">
+                        <h5 class="title mb_12 text-capitalize">3. Как мы используем ваши данные</h5>
+                        <p class="mb_12">Собранные данные используются для следующих целей:</p>
+                        <ul class="mb_12">
+                            <li class="text-body-default">Предоставление доступа к функциям сайта и персонализация контента</li>
+                            <li class="text-body-default">Обработка запросов на консультации и презентации от застройщиков</li>
+                            <li class="text-body-default">Публикация и модерация отзывов о застройщиках</li>
+                            <li class="text-body-default">Отправка информационных рассылок (только с вашего согласия)</li>
+                            <li class="text-body-default">Улучшение работы сайта и анализ пользовательского поведения</li>
+                            <li class="text-body-default">Связь с вами по вопросам, связанным с использованием сайта</li>
+                            <li class="text-body-default">Соблюдение требований законодательства</li>
+                        </ul>
+                        <p>Мы не продаём и не передаём ваши персональные данные третьим лицам для маркетинговых целей без вашего явного согласия.</p>
+                    </div>
+                    <!-- 4. Файлы cookie -->
+                    <div id="cookies" class="pt_32">
+                        <h5 class="title mb_12 text-capitalize">4. Файлы cookie</h5>
+                        <p class="mb_12">Наш сайт использует файлы cookie для улучшения пользовательского опыта. Cookie — это небольшие текстовые файлы, сохраняемые на вашем устройстве.</p>
+                        <p class="mb_12">Мы используем следующие типы cookie:</p>
+                        <ul class="mb_12">
+                            <li class="text-body-default"><strong>Необходимые cookie:</strong> обеспечивают базовую функциональность сайта (авторизация, сохранение настроек).</li>
+                            <li class="text-body-default"><strong>Аналитические cookie:</strong> помогают понять, как посетители взаимодействуют с сайтом (Google Analytics, Яндекс.Метрика).</li>
+                            <li class="text-body-default"><strong>Функциональные cookie:</strong> запоминают ваши предпочтения (язык, регион).</li>
+                        </ul>
+                        <p>Вы можете отключить cookie в настройках браузера, однако это может ограничить функциональность сайта.</p>
+                    </div>
+                    
+                    <!-- 5. Третьи стороны -->
+                    <div id="third-parties" class="pt_32">
+                        <h5 class="title mb_12 text-capitalize">5. Передача данных третьим сторонам</h5>
+                        <p class="mb_12">Мы можем передавать ваши данные третьим сторонам в следующих случаях:</p>
+                        <ul class="mb_12">
+                            <li class="text-body-default"><strong>Застройщикам:</strong> при вашем запросе на получение презентации или консультации мы передаём ваши контактные данные соответствующему застройщику.</li>
+                            <li class="text-body-default"><strong>Сервисам аналитики:</strong> Google Analytics, Яндекс.Метрика — для анализа посещаемости (данные обезличены).</li>
+                            <li class="text-body-default"><strong>Хостинг-провайдерам:</strong> для обеспечения работы сайта.</li>
+                            <li class="text-body-default"><strong>По требованию закона:</strong> если это необходимо для соблюдения законодательства или защиты наших прав.</li>
+                        </ul>
+                        <p>Мы не передаём данные в страны, не обеспечивающие адекватный уровень защиты персональных данных, без дополнительных гарантий безопасности.</p>
+                    </div>
+                    
+                    <!-- 6. Права пользователей -->
+                    <div id="user-rights" class="pt_32">
+                        <h5 class="title mb_12 text-capitalize">6. Ваши права</h5>
+                        <p class="mb_12">В соответствии с законодательством о защите персональных данных вы имеете право:</p>
+                        <ul class="mb_12">
+                            <li class="text-body-default"><strong>Право на доступ:</strong> запросить информацию о том, какие ваши данные мы храним.</li>
+                            <li class="text-body-default"><strong>Право на исправление:</strong> потребовать исправления неточных или неполных данных.</li>
+                            <li class="text-body-default"><strong>Право на удаление:</strong> потребовать удаления ваших персональных данных.</li>
+                            <li class="text-body-default"><strong>Право на ограничение обработки:</strong> ограничить способы использования ваших данных.</li>
+                            <li class="text-body-default"><strong>Право на отзыв согласия:</strong> отозвать ранее данное согласие на обработку данных.</li>
+                            <li class="text-body-default"><strong>Право на отказ от рассылок:</strong> отписаться от email-рассылок в любой момент.</li>
+                        </ul>
+                        <p>Для реализации своих прав свяжитесь с нами по адресу <a href="mailto:privacy@balirate.com" class="link text_primary-color">privacy@balirate.com</a>.</p>
+                    </div>
+                    <!-- 7. Безопасность данных -->
+                    <div id="security" class="pt_32">
+                        <h5 class="title mb_12 text-capitalize">7. Безопасность данных</h5>
+                        <p class="mb_12">Мы принимаем технические и организационные меры для защиты ваших персональных данных:</p>
+                        <ul class="mb_12">
+                            <li class="text-body-default">Шифрование данных при передаче (SSL/TLS)</li>
+                            <li class="text-body-default">Хранение паролей в зашифрованном виде</li>
+                            <li class="text-body-default">Ограничение доступа к персональным данным только уполномоченным сотрудникам</li>
+                            <li class="text-body-default">Регулярное обновление систем безопасности</li>
+                            <li class="text-body-default">Резервное копирование данных</li>
+                        </ul>
+                        <p>Несмотря на принимаемые меры, мы не можем гарантировать абсолютную безопасность данных, передаваемых через интернет. Вы используете сайт на свой риск.</p>
+                    </div>
+                    
+                    <!-- 8. Изменения политики -->
+                    <div id="changes" class="pt_32">
+                        <h5 class="title mb_12 text-capitalize">8. Изменения политики конфиденциальности</h5>
+                        <p class="mb_12">Мы оставляем за собой право изменять данную Политику конфиденциальности в любое время. Изменения вступают в силу с момента публикации на сайте.</p>
+                        <p class="mb_12">При существенных изменениях мы уведомим вас:</p>
+                        <ul class="mb_12">
+                            <li class="text-body-default">Размещением уведомления на главной странице сайта</li>
+                            <li class="text-body-default">Отправкой email-уведомления (если вы подписаны на рассылку)</li>
+                        </ul>
+                        <p>Рекомендуем периодически проверять эту страницу для ознакомления с актуальной версией политики.</p>
+                    </div>
+                    
+                    <!-- 9. Контакты -->
+                    <div id="contacts" class="pt_32">
+                        <h5 class="title mb_12 text-capitalize">9. Контактная информация</h5>
+                        <p class="mb_12">Если у вас есть вопросы относительно данной Политики конфиденциальности или обработки ваших персональных данных, свяжитесь с нами:</p>
+                        <div class="p-4 mb_12" style="background: #f8f7f3; border-radius: 12px;">
+                            <p class="mb_8"><strong>Balirate.com</strong></p>
+                            <p class="mb_8"><i class="icon-Envelope me-2"></i>Email: <a href="mailto:privacy@balirate.com" class="link text_primary-color">privacy@balirate.com</a></p>
+                            <p class="mb_8"><i class="icon-TelegramLogo me-2"></i>Telegram: <a href="https://t.me/balirate" target="_blank" class="link text_primary-color">@balirate</a></p>
+                            <p class="mb_0"><i class="icon-Globe me-2"></i>Сайт: <a href="https://balirate.com" class="link text_primary-color">https://balirate.com</a></p>
+                        </div>
+                        <p>Мы стремимся ответить на все запросы в течение 30 дней.</p>
+                    </div>
+                    
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
