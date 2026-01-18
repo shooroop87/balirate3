@@ -1,0 +1,152 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}Мероприятия - Balirate{% endblock %}
+{% block meta_description %}Мероприятия от застройщиков на Бали: бизнес-завтраки, нетворкинг, презентации проектов{% endblock %}
+
+{% block content %}
+<!-- Breadcrumbs -->
+<div class="page-title style-default">
+    <div class="content">
+        <div class="tf-container">
+            <h2 class="title text_primary-color mb_12">Мероприятия</h2>
+            <ul class="breadcrumb justify-content-center text-button fw-4">
+                <li><a href="{% url 'index' %}">Главная</a></li>
+                <li>Мероприятия</li>
+            </ul>
+        </div>
+    </div>
+</div>
+
+<!-- Events List -->
+<div class="tf-container tf-spacing-1">
+    <!-- Tabs -->
+    <div class="events-tabs d-flex gap_16 mb_30">
+        <a href="?sort=upcoming" class="tf-btn {% if active_tab == 'upcoming' %}btn-bg-1{% else %}btn-border{% endif %} btn-px-28">
+            <span>Предстоящие мероприятия</span>
+            <span class="bg-effect"></span>
+        </a>
+        <a href="?sort=past" class="tf-btn {% if active_tab == 'past' %}btn-bg-1{% else %}btn-border{% endif %} btn-px-28">
+            <span>Прошедшие мероприятия</span>
+            <span class="bg-effect"></span>
+        </a>
+    </div>
+
+    <!-- Events Grid -->
+    <div class="row">
+        {% for event in events %}
+        <div class="col-lg-4 col-md-6 mb_30">
+            <div class="career-item h-100">
+                {% if event.image %}
+                <div class="img-style mb_16">
+                    <a href="{{ event.get_absolute_url }}">
+                        <img src="{{ event.image.url }}" alt="{{ event.title }}" style="width: 100%; height: 200px; object-fit: cover; border-radius: 12px;">
+                    </a>
+                </div>
+                {% endif %}
+                <div class="content">
+                    <div class="heading">
+                        <div class="event-date d-flex align-items-center gap_8 mb_12">
+                            <i class="icon-CalendarBlank text_secondary-color"></i>
+                            <span class="text-button text_secondary-color">{{ event.event_date|date:"d.m.Y" }} в {{ event.event_date|time:"H:i" }}</span>
+                        </div>
+                        <h5 class="text-title fw-6 mb_8 text_primary-color">
+                            <a href="{{ event.get_absolute_url }}" class="link">{{ event.title }}</a>
+                        </h5>
+                        {% if event.location_name %}
+                        <div class="d-flex align-items-center gap_4 text_secondary-color mb_12">
+                            <i class="icon-MapPin"></i>{{ event.location_name }}
+                        </div>
+                        {% endif %}
+                    </div>
+                    {% if event.short_description %}
+                    <div class="text_secondary-color mb_16">{{ event.short_description|truncatewords:15 }}</div>
+                    {% endif %}
+                </div>
+                <div class="wrap-btn mt-auto">
+                    <a href="{{ event.get_absolute_url }}" class="tf-btn btn-border btn-px-28">
+                        <span class="text-button-small">Подробнее</span>
+                        <span class="bg-effect"></span>
+                    </a>
+                </div>
+            </div>
+        </div>
+        {% empty %}
+        <div class="col-12">
+            <div class="text-center py-5">
+                <p class="text_secondary-color h5">
+                    {% if active_tab == 'upcoming' %}
+                    Предстоящих мероприятий пока нет
+                    {% else %}
+                    Прошедших мероприятий пока нет
+                    {% endif %}
+                </p>
+            </div>
+        </div>
+        {% endfor %}
+    </div>
+
+    <!-- Pagination -->
+    {% if page_obj.has_other_pages %}
+    <div class="pagination-wrap d-flex justify-content-center mt_30">
+        <ul class="pagination d-flex gap_8">
+            {% if page_obj.has_previous %}
+            <li>
+                <a href="?sort={{ active_tab }}&page={{ page_obj.previous_page_number }}" class="pagination-link">
+                    <i class="icon-CaretLeft"></i>
+                </a>
+            </li>
+            {% endif %}
+            
+            {% for num in page_obj.paginator.page_range %}
+                {% if page_obj.number == num %}
+                <li><span class="pagination-link active">{{ num }}</span></li>
+                {% elif num > page_obj.number|add:'-3' and num < page_obj.number|add:'3' %}
+                <li><a href="?sort={{ active_tab }}&page={{ num }}" class="pagination-link">{{ num }}</a></li>
+                {% endif %}
+            {% endfor %}
+            
+            {% if page_obj.has_next %}
+            <li>
+                <a href="?sort={{ active_tab }}&page={{ page_obj.next_page_number }}" class="pagination-link">
+                    <i class="icon-CaretRight"></i>
+                </a>
+            </li>
+            {% endif %}
+        </ul>
+    </div>
+    {% endif %}
+</div>
+
+<style>
+.career-item {
+    background: #f8f7f3;
+    border-radius: 16px;
+    padding: 24px;
+    display: flex;
+    flex-direction: column;
+}
+
+.events-tabs {
+    flex-wrap: wrap;
+}
+
+.pagination-link {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 40px;
+    height: 40px;
+    border-radius: 8px;
+    background: #f8f7f3;
+    color: #323334;
+    transition: all 0.3s;
+}
+
+.pagination-link:hover,
+.pagination-link.active {
+    background: #11E226;
+    color: #fff;
+}
+</style>
+{% endblock %}

@@ -1,0 +1,171 @@
+<!-- section-ratings -->
+<div class="tf-container tf-spacing-8" id="ratings">
+    <div class="wrap-heading-section d-flex justify-content-between align-items-center mb_30">
+        <div class="heading-section">
+            <h3>Рейтинги застройщиков и девелоперов на Бали</h3>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-lg-9">
+            
+            <!-- Табы категорий -->
+<!-- Табы категорий -->
+<ul class="tab-slide overflow-x-auto d-flex gap_16 mb_30" id="developer-tabs">
+    {% for category in categories %}
+    <li class="nav-tab-item {% if forloop.first %}active{% endif %}">
+        <a href="#{{ category.slug }}" class="nav_link d-flex align-items-center gap_8 text-button text_primary-color">
+            {% if category.icon %}<img src="{{ category.icon }}" alt="" width="20" height="20">{% endif %}
+            {{ category.name|safe }}
+        </a>
+    </li>
+    {% endfor %}
+</ul>
+            
+            <!-- Список застройщиков -->
+            <div class="developers-list">
+                {% for developer in featured_developers %}
+                <div class="box-sellers style-no-border mb_16 d-flex align-items-center gap_16">
+                    <div class="developer_image">
+                        {% if developer.logo %}
+                        <img src="{{ developer.logo.url }}" alt="{{ developer.name }}" width="60" height="60" style="object-fit: contain;">
+                        {% endif %}
+                    </div>
+                    <div class="d-flex flex-column gap_4 flex-grow-1">
+                        <div class="d-flex align-items-center gap_8">
+                            <h6 class="text-title-developer fw-6 text_primary-color">
+                                <a href="{{ developer.get_absolute_url }}">{{ developer.name }}</a>
+                            </h6>
+                            {% if developer.is_verified %}
+                            <i class="icon-CheckCircle verified-icon"></i>
+                            {% endif %}
+                        </div>
+                        <div class="d-flex gap_16 text-body-default" id="rating-mobile-no">
+                            <span>Сдано: <strong>{{ developer.completed_count }} объектов</strong></span>
+                            <span>Строится: <strong>{{ developer.in_progress_count }} объектов</strong></span>
+                            <span>Всего: <strong>{{ developer.total_objects }} объектов</strong></span>
+                            <span class="d-flex align-items-center gap_4">
+                                <i class="icon-ChatCircleDots"></i> {{ developer.reviews_count }} отзывов
+                            </span>
+                        </div>
+                    </div>
+                    <div class="d-flex flex-column align-items-end gap_4">
+                        <div class="d-flex align-items-center gap_8">
+                            <span class="text-button fw-7">{{ developer.rating }}</span>
+                            <ul class="ratings d-flex">
+                                {% for i in "12345" %}
+                                <li><i class="icon-favorite_major {% if forloop.counter <= developer.rating %}{% else %}text-muted{% endif %}"></i></li>
+                                {% endfor %}
+                            </ul>
+                        </div>
+                        {% if developer.website %}
+                        <a href="{{ developer.website }}" class="text-body-default link d-flex align-items-center gap_2" target="_blank">
+                            Сайт компании <i class="icon-ArrowUpRight"></i>
+                        </a>
+                        {% endif %}
+                    </div>
+                </div>
+                {% empty %}
+                <p class="text-center text_secondary-color">Застройщики пока не добавлены</p>
+                {% endfor %}
+            </div>
+            
+            <a href="{% url 'developers:list' %}" class="tf-btn btn-bg-1 w-full mt_20">
+                <span>Смотреть весь список</span>
+                <span class="bg-effect"></span>
+            </a>
+        </div>
+        
+        <div class="col-lg-3" id="sidebar-right-mobile">
+            <div class="wrap-sidebar-right">
+                <div class="box-sellers style-no-border mb_30">
+                    <h5 class="mb_24">Консультация</h5>
+                    <p class="text-body-4 mb_20">Поможем выбрать надёжного застройщика на Бали</p>
+                    <a href="https://t.me/balirate" class="tf-btn w-full" target="_blank">
+                        <span class="d-flex align-items-center gap_8"><i class="icon-ChatCircleDots"></i>Написать в Telegram</span>
+                        <span class="bg-effect"></span>
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<style>
+.tab-slide .nav-tab-item {
+    flex-shrink: 0;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.tab-slide .nav-tab-item .nav_link {
+    white-space: normal;
+    line-height: 1.3;
+}
+.tab-slide {
+    display: flex;
+    overflow-x: auto;
+    overflow-y: hidden;
+    padding-bottom: 15px;
+    margin-bottom: 0.8rem;
+    gap: 16px;
+    flex-wrap: nowrap;
+    -webkit-overflow-scrolling: touch;
+    scrollbar-width: none;
+}
+
+.tab-slide::-webkit-scrollbar {
+    display: none;
+}
+
+@media (min-width: 76.25em) {
+    .tab-slide {
+        gap: 1.25rem;
+    }
+}
+
+.tab-slide .nav-tab-item {
+    flex-shrink: 0;
+}
+
+.tab-slide .nav-tab-item .nav_link {
+    white-space: normal;
+    line-height: 1.3;
+}
+.tab-slide {
+    justify-content: space-between;
+    width: 100%;
+}
+.verified-badge {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 18px;
+    height: 18px;
+    background: #22c55e;
+    border-radius: 50%;
+    flex-shrink: 0;
+}
+
+.verified-badge::after {
+    content: '';
+    width: 10px;
+    height: 6px;
+    border-left: 2px solid #fff;
+    border-bottom: 2px solid #fff;
+    transform: rotate(-45deg);
+    margin-bottom: 2px;
+}
+.verified-icon {
+    color: #22c55e;
+    font-size: 20px;
+}
+.developer_image {
+    min-width: 60px;
+}
+
+@media (max-width: 767px) {
+    .developer_image {
+        min-width: 30px;
+    }
+}
+</style>

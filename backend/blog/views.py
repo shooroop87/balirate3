@@ -21,12 +21,45 @@ def blog_list(request):
 
 
 def blog_detail(request, slug):
-    post = get_object_or_404(BlogPost, slug=slug, status='published')
-    related = BlogPost.objects.filter(
-        status='published', category=post.category
-    ).exclude(pk=post.pk)[:3]
+    """Детальная страница поста."""
+    post = get_object_or_404(
+        BlogPost.objects.select_related("category"),
+        slug=slug,
+        status=BlogPost.Status.PUBLISHED
+    )
     
-    return render(request, 'blog/blog_detail.html', {
-        'post': post,
-        'related_posts': related,
+    # Категории для сайдбара
+    categories = BlogCategory.objects.all()
+    
+    # Последние посты для сайдбара (кроме текущего)
+    recent_posts = BlogPost.objects.filter(
+        status=BlogPost.Status.PUBLISHED
+    ).exclude(id=post.id).order_by("-published_at")[:5]
+    
+    # Похожие посты (из той же категории)
+    related_posts = []
+    if post.category:
+        related_posts = BlogPost.objects.filter(
+            category=post.category,
+            status=BlogPost.Status.PUBLISHED
+        ).exclude(id=post.id)[:3]
+    
+    # Навигация (предыдущий/следующий)
+    prev_post = BlogPost.objects.filter(
+        status=BlogPost.Status.PUBLISHED,
+        published_at__lt=post.published_at
+    ).order_by("-published_at").first()
+    
+    next_post = BlogPost.objects.filter(
+        status=BlogPost.Status.PUBLISHED,
+        published_at__gt=post.published_at
+    ).order_by("published_at").first()
+    
+    return render(request, "blog/blog_detail.html", {
+        "post": post,
+        "categories": categories,
+        "recent_posts": recent_posts,
+        "related_posts": related_posts,
+        "prev_post": prev_post,
+        "next_post": next_post,
     })

@@ -1,115 +1,65 @@
-<!-- section-features-property -->
-            <div class="section-features-property-4 tf-spacing-7" id="offers">
-                <div class="tf-container">
-                    
-                    <div class="wrap-heading-section d-flex justify-content-between mb_48">
-    <div class="heading-section d-flex align-items-center">
-        <h3 class="split-text effect-blur-fade" style="margin: 0; line-height: 1;">Предложения от застройщика</h3>
-    </div>
-    
-    <div class="d-flex gap_12 align-items-center">
-        <a href="#" data-popup="#popup-download" class="tf-btn btn-border btn-px-32">
-            <span>Скачать каталог</span>
-            <span class="bg-effect"></span>
-        </a>
-        <a href="https://balirate.com/obekty-nedvizhimosti/" class="tf-btn btn-bg-1 btn-px-32">
-            <span>Смотреть все объекты</span>
-            <span class="bg-effect"></span>
-        </a>
-    </div>
-</div>
-                    <div class="swiper tf-sw-mobile  bg_1" data-screen="767" data-preview="1" data-space="15">
-                        <div class="swiper-wrapper tf-grid-layout-md lg-col-3 md-col-2">
-                            <div class="swiper-slide ">
-                                <div class="card-house style-default">
-                                    <div class="img-style mb_20">
-                                        <img loading="lazy" decoding="async" src="https://balirate.com/wp-content/uploads/2025/03/ud.png"
-                                            width="410" height="308" alt="Ubud Dream">
-                                        <div class="wrap-tag d-flex gap_8 mb_12">
-                                            <div class="tag sale text-button-small fw-6 text_primary-color">
-                                                Продажа
-                                            </div>
-                                            <div class="tag categoreis text-button-small fw-6 text_primary-color">
-                                                Вилла
-                                            </div>
-                                        </div>
-                                        <a href="https://balirate.com/offers/zhk-ubud-dream-ubud-bali/" class="overlay-link"></a>
-                                        
-                                    </div>
-                                    <div class="content">
-                                        <a href="https://balirate.com/offers/zhk-ubud-dream-ubud-bali/"
-                                            class="title mb_8 h5 link text_primary-color">Ubud Dream, УБУД, БАЛИ</a>
-                                        <h6 class="price mb_12">LOYO & BONDAR<span
-                                                class="text_secondary-color text-body-default"> | Рейтинг 4</span></h4>
-                                        <p>Дата сдачи: 4 квартал 2027</p>
-                                    </div>
+<!-- section-offers -->
+<div class="section-properties tf-spacing-8" id="offers">
+    <div class="tf-container">
+        <div class="wrap-heading-section d-flex justify-content-between align-items-center mb_30">
+            <div class="heading-section">
+                <h3>Предложения от застройщиков</h3>
+            </div>
+            <a href="{% url 'properties:list' %}" class="tf-btn btn-bg-1 btn-px-32">
+                <span>Все объекты</span>
+                <span class="bg-effect"></span>
+            </a>
+        </div>
+        
+        <div class="swiper" data-preview="3" data-tablet="2" data-mobile="1" data-space-lg="30" data-space-md="20" data-space="15">
+            <div class="swiper-wrapper">
+                {% for property in featured_properties %}
+                <div class="swiper-slide">
+                    <div class="card-house style-default">
+                        <div class="img-style mb_20">
+                            {% if property.main_image %}
+                            <img loading="lazy" src="{{ property.main_image.url }}" width="410" height="308" alt="{{ property.name }}">
+                            {% endif %}
+                            <div class="wrap-tag d-flex gap_8 mb_12">
+                                <div class="tag sale text-button-small fw-6 text_primary-color">
+                                    {{ property.get_status_display }}
                                 </div>
-                            </div>
-                            <div class="swiper-slide ">
-                                <div class="card-house style-default">
-                                    <div class="img-style mb_20">
-                                        <img loading="lazy" decoding="async" src="https://balirate.com/wp-content/uploads/2025/04/xo.png"
-                                            width="410" height="308" alt="XO Project Canggu">
-                                        <div class="wrap-tag d-flex gap_8 mb_12">
-                                            <div class="tag sale text-button-small fw-6 text_primary-color">
-                                                Продажа
-                                            </div>
-                                            <div class="tag categoreis text-button-small fw-6 text_primary-color">
-                                                Апартаменты
-                                            </div>
-                                        </div>
-                                        <a href="https://balirate.com/offers/xo-project-canggu-bali/" class="overlay-link"></a>
-                                        
-                                    </div>
-                                    <div class="content">
-                                        <a href="https://balirate.com/offers/xo-project-canggu-bali/"
-                                            class="title mb_8 h5 link text_primary-color">XO Project Canggu, ЧАНГУ, БАЛИ</a>
-                                       <h6 class="price mb_12">LOYO & BONDAR<span
-                                                class="text_secondary-color text-body-default"> | Рейтинг 4</span></h4>
-                                        <p>Дата сдачи: 3 квартал 2025</p>
-                                    </div>
+                                {% if property.property_type %}
+                                <div class="tag categoreis text-button-small fw-6 text_primary-color">
+                                    {{ property.property_type.name }}
                                 </div>
+                                {% endif %}
                             </div>
-                            <div class="swiper-slide ">
-                                <div class="card-house style-default">
-                                    <div class="img-style mb_20">
-                                        <img loading="lazy" decoding="async" src="http://www.milanweek.ru/wp-content/uploads/2026/01/Untitled-312.jpg"
-                                            width="410" height="308" alt="OceaniQ Villas">
-                                        <div class="wrap-tag d-flex gap_8 mb_12">
-                                            <div class="tag sale text-button-small fw-6 text_primary-color">
-                                                Продажа
-                                            </div>
-                                            <div class="tag categoreis text-button-small fw-6 text_primary-color">
-                                                Вилла
-                                            </div>
-                                        </div>
-                                        <a href="https://balirate.com/offers/oceaniq-villas-nusa-dua-bali/" class="overlay-link"></a>
-                                        
-                                    </div>
-                                    <div class="content">
-                                        <a href="https://balirate.com/offers/oceaniq-villas-nusa-dua-bali/"
-                                            class="title mb_8 h5 link text_primary-color">OceaniQ Villas Nusa Dua, БАЛИ</a>
-                                       <h6 class="price mb_12">OceaniQ<span
-                                                class="text_secondary-color text-body-default"> | Рейтинг 4</span></h4>
-                                        <p>Дата сдачи: 1 квартал 2026</p>
-                                    </div>
-                                </div>
-                            </div>
+                            <a href="{{ property.get_absolute_url }}" class="overlay-link"></a>
+                        </div>
+                        <div class="content">
+                            <a href="{{ property.get_absolute_url }}" class="title mb_8 h5 link text_primary-color">
+                                {{ property.name }}{% if property.location %}, {{ property.location.name }}{% endif %}
+                            </a>
+                            <h6 class="price mb_12">
+                                {% if property.developer %}
+                                <a href="{{ property.developer.get_absolute_url }}" class="link">{{ property.developer.name }}</a>
+                                <span class="text_secondary-color text-body-default"> | Рейтинг {{ property.developer.rating }}</span>
+                                {% endif %}
+                            </h6>
+                            {% if property.completion_date %}
+                            <p class="text_secondary-color">Дата сдачи: {{ property.completion_date }}</p>
+                            {% endif %}
+                            {% if property.price_from %}
+                            <p class="text-title fw-6 mt_8">от ${{ property.price_from|floatformat:0 }}</p>
+                            {% endif %}
                         </div>
                     </div>
                 </div>
+                {% empty %}
+                <div class="swiper-slide">
+                    <div class="card-house style-default text-center p-4">
+                        <p class="text_secondary-color">Объекты пока не добавлены</p>
+                    </div>
+                </div>
+                {% endfor %}
             </div>
-            <!-- End section-features-property -->
-            <style>
-                .section-features-property-4 .wrap-heading-section {
-    display: flex;
-    justify-content: space-between;
-    align-items: flex-end;
-}
-
-.section-features-property-4 .wrap-heading-section h3 {
-    margin: 0;
-    padding: 0;
-    line-height: 1.3!important;
-}
-</style>
+            <div class="sw-dots sw-pagination-layout justify-content-center d-flex mt_24"></div>
+        </div>
+    </div>
+</div>

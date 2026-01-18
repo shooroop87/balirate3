@@ -1,10 +1,11 @@
-<div class="bg-dark-color sw-layout tf-spacing-1 properties-video">
+<!-- section-videos -->
+<div class="bg-dark-color sw-layout tf-spacing-1 properties-video" id="videos">
     <div class="tf-container">
         <div class="wrap-heading-section d-flex justify-content-between align-items-center mb_48">
             <div class="heading-section">
                 <h3 class="text_white">Видео от застройщиков</h3>
             </div>
-            <a href="/videos/" class="tf-btn btn-bg-white btn-px-32">
+            <a href="#" class="tf-btn btn-bg-white btn-px-32">
                 <span>Смотреть все видео</span>
                 <span class="bg-effect"></span>
             </a>
@@ -13,134 +14,44 @@
     <div class="tf-container slider-layout-right">
         <div class="swiper scrolling-effect effectRight" data-screen-xl="3.712" data-preview="2.7" data-tablet="2.3" data-mobile-sm="1.5" data-mobile="1.1" data-space-lg="30" data-space-md="20" data-space="15">
             <div class="swiper-wrapper">
-                <!-- Slide 1 -->
-                 <div class="swiper-slide swiper-slide-active" role="group" aria-label="1 / 6" style="width: 394.3px; margin-right: 30px;">
-                                <div class="card-house style-2 hover-image">
-                                    <div class="img-style">
-                                        <img class="lazyload" data-src="images/section/property-detail.jpg" src="https://img.youtube.com/vi/yo8umxcf_lE/maxresdefault.jpg" alt="">
-                                        <a href="https://www.youtube.com/watch?v=MLpWrANjFbI" class="popup-youtube">
-                                            <img src="https://luminor-eight.vercel.app/icons/play.svg" alt="play"> </a>
-                                        <div class="wrap-tag d-flex gap_8 mb_12">
-                                            
-                                            
-                                        </div>
-                                        <a href="property-details-1.html" class="overlay-link"></a>
-                                        
-                                    </div>
-                                    <div class="content">
-                                        <p class="line-clamp-1">Интервью с Никитой Марковым, CEO HIDDEN CITY</p>
-                                       
-                                    </div>
+                {% for video in videos %}
+                <div class="swiper-slide">
+                    <div class="card-house style-2 hover-image">
+                        <div class="img-style">
+                            <img src="{{ video.thumbnail_url }}" alt="{{ video.title }}">
+                            <a href="{{ video.youtube_url }}" class="popup-youtube">
+                                <img src="https://luminor-eight.vercel.app/icons/play.svg" alt="play">
+                            </a>
+                            {% if video.developer %}
+                            <div class="wrap-tag d-flex gap_8 mb_12">
+                                <div class="tag categoreis text-button-small fw-6 text_primary-color">
+                                    {{ video.developer.name }}
                                 </div>
                             </div>
-                
-                <!-- Slide 2 -->
-                 <div class="swiper-slide swiper-slide-active" role="group" aria-label="1 / 6" style="width: 394.3px; margin-right: 30px;">
-                                <div class="card-house style-2 hover-image">
-                                    <div class="img-style">
-                                        <img class="lazyload" data-src="images/section/property-detail.jpg" src="https://img.youtube.com/vi/yo8umxcf_lE/maxresdefault.jpg" alt="">
-                                        <a href="https://www.youtube.com/watch?v=MLpWrANjFbI" class="popup-youtube">
-                                            <img src="https://luminor-eight.vercel.app/icons/play.svg" alt="play"> </a>
-                                        <div class="wrap-tag d-flex gap_8 mb_12">
-                                            
-                                            
-                                        </div>
-                                        <a href="property-details-1.html" class="overlay-link"></a>
-                                        
-                                    </div>
-                                    <div class="content">
-                                        <p class="line-clamp-1">Интервью с Никитой Марковым, CEO HIDDEN CITY</p>
-                                       
-                                    </div>
-                                </div>
-                            </div>
-                <!-- Slide 3 -->
-                 <div class="swiper-slide swiper-slide-active" role="group" aria-label="1 / 6" style="width: 394.3px; margin-right: 30px;">
-                                <div class="card-house style-2 hover-image">
-                                    <div class="img-style">
-                                        <img class="lazyload" data-src="images/section/property-detail.jpg" src="https://img.youtube.com/vi/yo8umxcf_lE/maxresdefault.jpg" alt="">
-                                        <a href="https://www.youtube.com/watch?v=MLpWrANjFbI" class="popup-youtube">
-                                            <img src="https://luminor-eight.vercel.app/icons/play.svg" alt="play"> </a>
-                                        <div class="wrap-tag d-flex gap_8 mb_12">
-                                            
-                                            
-                                        </div>
-                                        <a href="property-details-1.html" class="overlay-link"></a>
-                                        
-                                    </div>
-                                    <div class="content">
-                                        <p class="line-clamp-1">Интервью с Никитой Марковым, CEO HIDDEN CITY</p>
-                                       
-                                    </div>
-                                </div>
-                            </div>
-                <!-- Slide 4 -->
-                 <div class="swiper-slide swiper-slide-active" role="group" aria-label="1 / 6" style="width: 394.3px; margin-right: 30px;">
-                                <div class="card-house style-2 hover-image">
-                                    <div class="img-style">
-                                        <img class="lazyload" data-src="images/section/property-detail.jpg" src="https://img.youtube.com/vi/yo8umxcf_lE/maxresdefault.jpg" alt="">
-                                        <a href="https://www.youtube.com/watch?v=MLpWrANjFbI" class="popup-youtube">
-                                            <img src="https://luminor-eight.vercel.app/icons/play.svg" alt="play"> </a>
-                                        <div class="wrap-tag d-flex gap_8 mb_12">
-                                            
-                                            
-                                        </div>
-                                        <a href="property-details-1.html" class="overlay-link"></a>
-                                        
-                                    </div>
-                                    <div class="content">
-                                        <p class="line-clamp-1">Интервью с Никитой Марковым, CEO HIDDEN CITY</p>
-                                       
-                                    </div>
-                                </div>
-                            </div>
-                <!-- Slide 5 -->
-                 <div class="swiper-slide swiper-slide-active" role="group" aria-label="1 / 6" style="width: 394.3px; margin-right: 30px;">
-                                <div class="card-house style-2 hover-image">
-                                    <div class="img-style">
-                                        <img class="lazyload" data-src="images/section/property-detail.jpg" src="https://img.youtube.com/vi/yo8umxcf_lE/maxresdefault.jpg" alt="">
-                                        <a href="https://www.youtube.com/watch?v=MLpWrANjFbI" class="popup-youtube">
-                                            <img src="https://luminor-eight.vercel.app/icons/play.svg" alt="play"> </a>
-                                        <div class="wrap-tag d-flex gap_8 mb_12">
-                                            
-                                            
-                                        </div>
-                                        <a href="property-details-1.html" class="overlay-link"></a>
-                                        
-                                    </div>
-                                    <div class="content">
-                                        <p class="line-clamp-1">Интервью с Никитой Марковым, CEO HIDDEN CITY</p>
-                                       
-                                    </div>
-                                </div>
-                            </div>
-                <!-- Slide 6 -->
-                 <div class="swiper-slide swiper-slide-active" role="group" aria-label="1 / 6" style="width: 394.3px; margin-right: 30px;">
-                                <div class="card-house style-2 hover-image">
-                                    <div class="img-style">
-                                        <img class="lazyload" data-src="images/section/property-detail.jpg" src="https://img.youtube.com/vi/yo8umxcf_lE/maxresdefault.jpg" alt="">
-                                        <a href="https://www.youtube.com/watch?v=MLpWrANjFbI" class="popup-youtube">
-                                            <img src="https://luminor-eight.vercel.app/icons/play.svg" alt="play"> </a>
-                                        <div class="wrap-tag d-flex gap_8 mb_12">
-                                            
-                                            
-                                        </div>
-                                        <a href="property-details-1.html" class="overlay-link"></a>
-                                        
-                                    </div>
-                                    <div class="content">
-                                        <p class="line-clamp-1">Интервью с Никитой Марковым, CEO HIDDEN CITY</p>
-                                       
-                                    </div>
-                                </div>
-                            </div>
+                            {% endif %}
+                        </div>
+                        <div class="content">
+                            <p class="line-clamp-1">{{ video.title }}</p>
+                            {% if video.developer %}
+                            <span class="text-body-default text_color-1">{{ video.developer.name }}</span>
+                            {% endif %}
+                        </div>
+                    </div>
+                </div>
+                {% empty %}
+                <div class="swiper-slide">
+                    <div class="card-house style-2 text-center p-4">
+                        <p class="text_white">Видео пока не добавлены</p>
+                    </div>
+                </div>
+                {% endfor %}
             </div>
             <div class="sw-dots sw-pagination-layout justify-content-center d-flex mt_24 d-md-none"></div>
         </div>
     </div>
 </div>
 <style>
-    .properties-video .img-style {
+.properties-video .img-style {
     position: relative;
     border-radius: 16px;
     overflow: hidden;
@@ -153,6 +64,7 @@
     justify-content: center;
     align-items: center;
     z-index: 2;
+    background: rgba(0,0,0,0.3);
 }
 
 .properties-video .popup-youtube img {
@@ -163,5 +75,16 @@
 
 .properties-video .popup-youtube:hover img {
     transform: scale(1.1);
+}
+
+.properties-video .wrap-tag {
+    position: absolute;
+    top: 12px;
+    left: 12px;
+    z-index: 3;
+}
+
+.properties-video .content {
+    padding-top: 16px;
 }
 </style>

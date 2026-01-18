@@ -89,6 +89,7 @@ class DeveloperReview(models.Model):
     
     user_name = models.CharField("Имя", max_length=100)
     user_avatar = models.ImageField("Аватар", upload_to="reviews/avatars/", blank=True)
+    user_avatar_url = models.URLField("Или ссылка на аватар", max_length=500, blank=True)
     
     rating = models.PositiveSmallIntegerField("Оценка", choices=[(i, str(i)) for i in range(1, 6)])
     text = models.TextField("Текст отзыва")
@@ -103,3 +104,9 @@ class DeveloperReview(models.Model):
 
     def __str__(self):
         return f"{self.user_name} → {self.developer.name}"
+    
+    def get_avatar(self):
+        """Возвращает URL аватара."""
+        if self.user_avatar:
+            return self.user_avatar.url
+        return self.user_avatar_url or ''

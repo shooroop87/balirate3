@@ -1,0 +1,38 @@
+<!-- section-videos -->
+<div class="properties-video tf-spacing-8" id="videos">
+    <div class="tf-container">
+        <div class="wrap-heading-section d-flex justify-content-between align-items-center mb_30">
+            <div class="heading-section">
+                <h3>Видео от застройщиков</h3>
+            </div>
+        </div>
+        
+        <div class="swiper" data-preview="3" data-tablet="2" data-mobile="1" data-space-lg="30" data-space-md="20" data-space="15">
+            <div class="swiper-wrapper">
+                {% for video in videos %}
+                <div class="swiper-slide">
+                    <div class="card-house style-2 hover-image">
+                        <div class="img-style">
+                            <img src="{{ video.thumbnail_url }}" alt="{{ video.title }}">
+                            <a href="{{ video.youtube_url }}" class="popup-youtube">
+                                <img src="https://luminor-eight.vercel.app/icons/play.svg" alt="play">
+                            </a>
+                        </div>
+                        <div class="content">
+                            <p class="line-clamp-1">{{ video.title }}</p>
+                            {% if video.developer %}
+                            <span class="text-body-default text_secondary-color">{{ video.developer.name }}</span>
+                            {% endif %}
+                        </div>
+                    </div>
+                </div>
+                {% empty %}
+                <div class="swiper-slide">
+                    <p class="text-center text_secondary-color">Видео пока не добавлены</p>
+                </div>
+                {% endfor %}
+            </div>
+            <div class="sw-dots sw-pagination-layout justify-content-center d-flex mt_24 d-md-none"></div>
+        </div>
+    </div>
+</div>

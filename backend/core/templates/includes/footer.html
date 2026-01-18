@@ -30,22 +30,22 @@
             </div>
             <div class="tf-collapse-content">
                 <ul class="footer-menu-list d-grid gap_12">
-                    <li class="text-body-default text_color-1">
-                        <a href="#" class="link">Новости</a>
-                    </li>
-                    <li class="text-body-default text_color-1">
-                        <a href="#" class="link">Статьи</a>
-                    </li>
-                    <li class="text-body-default text_color-1">
-                        <a href="#" class="link">Видео от застройщиков</a>
-                    </li>
-                    <li class="text-body-default text_color-1">
-                        <a href="#" class="link">Сводка от застройщиков</a>
-                    </li>
-                    <li class="text-body-default text_color-1">
-                        <a href="#" class="link">Мероприятия</a>
-                    </li>
-                </ul>
+    <li class="text-body-default text_color-1">
+        <a href="{% url 'blog:list' %}?category=news" class="link">Новости</a>
+    </li>
+    <li class="text-body-default text_color-1">
+        <a href="{% url 'blog:list' %}" class="link">Статьи</a>
+    </li>
+    <li class="text-body-default text_color-1">
+        <a href="#" class="link">Видео от застройщиков</a>
+    </li>
+    <li class="text-body-default text_color-1">
+        <a href="{% url 'developers:list' %}" class="link">Сводка от застройщиков</a>
+    </li>
+    <li class="text-body-default text_color-1">
+        <a href="{% url 'events:list' %}" class="link">Мероприятия</a>
+    </li>
+</ul>
             </div>
         </div>
         <div class="footer-col-block quick-link">
@@ -150,13 +150,21 @@
         </div>
         <div class="footer-bottom d-flex align-items-center justify-content-between">
             <p class="text_muted-color">© Balirate 2020-2025. Все права защищены.</p>
-            <ul class="social d-flex gap_24">
-                            <li><a href="#" class="icon-FacebookLogo"></a></li>
-                            <li><a href="https://www.youtube.com/@balirate" class="icon-YoutubeLogo"></a></li>
-                            <li><a href="#" class="icon-XLogo"></a></li>
-                            <li><a href="https://www.instagram.com/balirate.ru/" class="icon-InstagramLogo"></a></li>
-                            <li><a href="#"><i class="icon-linkedin"></i></a></li>
-            </ul>
+           <!-- Соцсети -->
+<ul class="tf-social d-flex gap_12">
+    {% if settings.telegram_link %}
+    <li><a href="{{ settings.telegram_link }}" target="_blank" class="icon-TelegramLogo"></a></li>
+    {% endif %}
+    {% if settings.whatsapp_link %}
+    <li><a href="{{ settings.whatsapp_link }}" target="_blank" class="icon-WhatsappLogo"></a></li>
+    {% endif %}
+    {% if settings.instagram_link %}
+    <li><a href="{{ settings.instagram_link }}" target="_blank" class="icon-InstagramLogo"></a></li>
+    {% endif %}
+    {% if settings.youtube_link %}
+    <li><a href="{{ settings.youtube_link }}" target="_blank" class="icon-YoutubeLogo"></a></li>
+    {% endif %}
+</ul>
         </div>
     </div>
 </footer>

@@ -31,6 +31,7 @@ urlpatterns = [
     path('agencies/', include('agencies.urls', namespace='agencies')),
     path('blog/', include('blog.urls', namespace='blog')),
     path('events/', include('events.urls', namespace='events')),
+    path('news/', include('news.urls')),
     # SEO
     path("sitemap.xml", sitemap, {"sitemaps": sitemaps}, name="sitemap"),
     path("robots.txt", TemplateView.as_view(template_name="robots.txt", content_type="text/plain"), name="robots"),

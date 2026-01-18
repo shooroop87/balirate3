@@ -1,0 +1,46 @@
+<!-- section-news -->
+<div class="section-blog tf-spacing-8" id="news">
+    <div class="tf-container">
+        <div class="wrap-heading-section d-flex justify-content-between align-items-center mb_30">
+            <div class="heading-section">
+                <h3>Новости</h3>
+            </div>
+            <a href="{% url 'blog:list' %}" class="tf-btn btn-bg-1 btn-px-32">
+                <span>Все новости</span>
+                <span class="bg-effect"></span>
+            </a>
+        </div>
+        
+        <div class="row">
+            {% for post in latest_posts %}
+            <div class="col-lg-3 col-md-6 mb_30">
+                <div class="blog-article-item hover-image-translate">
+                    <div class="img-style mb_16">
+                        <a href="{{ post.get_absolute_url }}">
+                            {% if post.featured_image %}
+                            <img src="{{ post.get_featured_image }}" alt="{{ post.title }}" loading="lazy">
+                            {% endif %}
+                        </a>
+                    </div>
+                    <div class="content">
+                        <div class="d-flex align-items-center gap_12 mb_12">
+                            {% if post.category %}
+                            <span class="text-caption-1 text_secondary-color">{{ post.category.name }}</span>
+                            {% endif %}
+                            <span class="text-caption-1 text_secondary-color">{{ post.published_at|date:"d.m.Y" }}</span>
+                        </div>
+                        <h6 class="title mb_12">
+                            <a href="{{ post.get_absolute_url }}" class="link text_primary-color">{{ post.title }}</a>
+                        </h6>
+                        <p class="text-body-default text_secondary-color">{{ post.excerpt|truncatewords:15 }}</p>
+                    </div>
+                </div>
+            </div>
+            {% empty %}
+            <div class="col-12">
+                <p class="text-center text_secondary-color">Новости пока не добавлены</p>
+            </div>
+            {% endfor %}
+        </div>
+    </div>
+</div>

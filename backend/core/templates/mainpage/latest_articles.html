@@ -1,50 +1,46 @@
-<div class="tf-container blog-grid" id="articles">
-    <div class="heading-section mb_48">
-                        <h3 class="split-text effect-blur-fade" style="perspective: 400px;">
-                            <div style="position: relative; display: inline-block; translate: none; rotate: none; scale: none; transform: translate(0px, 0px); filter: blur(0px); opacity: 1;">Последние статьи</div>
-                        </h3>
+<!-- section-articles -->
+<div class="section-blog tf-spacing-8" id="articles">
+    <div class="tf-container">
+        <div class="wrap-heading-section d-flex justify-content-between align-items-center mb_30">
+            <div class="heading-section">
+                <h3>Последние статьи</h3>
+            </div>
+            <a href="{% url 'blog:list' %}" class="tf-btn btn-bg-1 btn-px-32">
+                <span>Все статьи</span>
+                <span class="bg-effect"></span>
+            </a>
+        </div>
+        
+        <div class="row">
+            {% for post in latest_posts %}
+            <div class="col-lg-3 col-md-6 mb_30">
+                <div class="blog-article-item hover-image-translate">
+                    <div class="img-style mb_16">
+                        <a href="{{ post.get_absolute_url }}">
+                            {% if post.featured_image or post.featured_image_url %}
+                            <img src="{{ post.get_featured_image }}" alt="{{ post.title }}" loading="lazy">
+                            {% endif %}
+                        </a>
                     </div>
-                <div class=" tf-grid-layout lg-col-3 md-col-2" id="gridLayout">
-                    <div class="blog-article-item style-default hover-image-translate loadItem ">
-                        <div class="article-thumb image-wrap mb_24">
-    <img loading="lazy" decoding="async" src="https://balirate.com/wp-content/uploads/2025/12/2025-12-22-13.21.33-760x440.jpg" width="850" height="478" alt="Что такое премиум?">
-    <div class="wrap-tag d-flex gap_8 mb_12">
-        <div class="tag categoreis text-button-small fw-6 text_primary-color">22.12.2025</div>
-    </div>
-    <a href="https://balirate.com/stati/chto-takoe-premium/" class="overlay-link"></a>
-</div>
-                        <div class="article-content ">
-                            <h5 class="title mb_12">
-                                <a href="https://balirate.com/stati/chto-takoe-premium/" class="link">Что такое премиум?</a>
-                            </h5>
-                            <p class="description">Премиум сегмент на Бали, как понять</p>
+                    <div class="content">
+                        <div class="d-flex align-items-center gap_12 mb_12">
+                            {% if post.category %}
+                            <span class="text-caption-1 text_secondary-color">{{ post.category.name }}</span>
+                            {% endif %}
+                            <span class="text-caption-1 text_secondary-color">{{ post.published_at|date:"d.m.Y" }}</span>
                         </div>
-                    </div>
-                    <div class="blog-article-item style-default hover-image-translate loadItem ">
-                        <div class="article-thumb image-wrap mb_24">
-                            <img loading="lazy" decoding="async" src="https://balirate.com/wp-content/uploads/2025/12/statja-1-760x440.jpg" width="850" height="478" alt="Что ожидать от погоды на Бали">
-                            
-                            <a href="https://balirate.com/stati/chto-ozhidat-ot-pogody-na-bali/" class="overlay-link"></a>
-                        </div>
-                        <div class="article-content ">
-                            <h5 class="title mb_12">
-                                <a href="https://balirate.com/stati/chto-ozhidat-ot-pogody-na-bali/" class="link">Что ожидать от погоды на Бали</a>
-                            </h5>
-                            <p class="description">Особенности природы острова, чем отличается север от юга острова</p>
-                        </div>
-                    </div>
-                    <div class="blog-article-item style-default hover-image-translate loadItem ">
-                        <div class="article-thumb image-wrap mb_24">
-                            <img loading="lazy" decoding="async" src="https://balirate.com/wp-content/uploads/2025/12/statja-760x440.jpg" width="850" height="478" alt="Разбор районов Бали">
-                            
-                            <a href="https://balirate.com/stati/razbor-rajonov-bali/" class="overlay-link"></a>
-                        </div>
-                        <div class="article-content ">
-                            <h5 class="title mb_12">
-                                <a href="https://balirate.com/stati/razbor-rajonov-bali/" class="link">Разбор районов Бали</a>
-                            </h5>
-                            <p class="description">Вводная информация районов острова</p>
-                        </div>
+                        <h6 class="title mb_12">
+                            <a href="{{ post.get_absolute_url }}" class="link text_primary-color">{{ post.title }}</a>
+                        </h6>
+                        <p class="text-body-default text_secondary-color">{{ post.excerpt|truncatewords:15 }}</p>
                     </div>
                 </div>
             </div>
+            {% empty %}
+            <div class="col-12">
+                <p class="text-center text_secondary-color">Статьи пока не добавлены</p>
+            </div>
+            {% endfor %}
+        </div>
+    </div>
+</div>

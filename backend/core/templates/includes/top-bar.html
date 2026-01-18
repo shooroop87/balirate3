@@ -5,12 +5,12 @@
         <div class="top-bar-inner d-flex align-items-center justify-content-between">
             <!-- Левая часть - ссылки -->
             <ul class="top-bar-menu d-flex gap_24 text-body-4">
-                <li><a href="#">Объекты недвижимости</a></li>
-                <li><a href="#">Новости</a></li>
-                <li><a href="#">Статьи</a></li>
-                <li><a href="#">Видео от застройщиков</a></li>
-                <li><a href="#">Сводка от застройщиков</a></li>
-                <li><a href="#">Мероприятия</a></li>
+                <li><a href="{% url 'properties:list' %}">Объекты недвижимости</a></li>
+                <li><a href="{% url 'news:list' %}">Новости</a></li>
+                <li><a href="{% url 'blog:list' %}">Статьи</a></li>
+                <li><a href="{% url 'video:list' %}">Видео от застройщиков</a></li>
+                <li><a href="{% url 'agencies:list' %}">Cводка от застройщиков</a></li>
+                <li><a href="{% url 'events:list' %}">Мероприятия</a></li>
             </ul>
 
             <!-- Правая часть -->
@@ -34,9 +34,15 @@
                 </div>
                 <!-- Соцсети -->
                 <ul class="social d-flex gap_12">
-                    <li><a href="#" target="_blank" class="icon-TelegramLogo"></a></li>
-                    <li><a href="#" target="_blank" class="icon-MessengerLogo"></a></li>
-                    <li><a href="#" target="_blank" class="icon-InstagramLogo"></a></li>
+                    {% if site_settings.telegram_link %}
+                    <li><a href="{{ site_settings.telegram_link }}" target="_blank" class="icon-TelegramLogo"></a></li>
+                    {% endif %}
+                    {% if site_settings.whatsapp_link %}
+                    <li><a href="{{ site_settings.whatsapp_link }}" target="_blank" class="icon-WhatsappLogo"></a></li>
+                    {% endif %}
+                    {% if site_settings.instagram_link %}
+                    <li><a href="{{ site_settings.instagram_link }}" target="_blank" class="icon-InstagramLogo"></a></li>
+                    {% endif %}
                 </ul>
             </div>
         </div>
@@ -145,7 +151,6 @@
     height: 20px;
 }
 
-/* Скрыть на мобильных */
 @media (max-width: 991px) {
     .top-bar {
         display: none !important;

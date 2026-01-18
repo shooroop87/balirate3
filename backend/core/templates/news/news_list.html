@@ -1,0 +1,56 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}Новости - Balirate{% endblock %}
+{% block meta_description %}Последние новости о недвижимости и инвестициях на Бали{% endblock %}
+
+{% block content %}
+<!-- page-title -->
+<div class="page-title style-default">
+    <div class="thumbs">
+    </div>
+    <div class="content text-center">
+        <div class="tf-container">
+            <h2 class="title text_white mb_12">Новости</h2>
+            <ul class="breadcrumb justify-content-center text-button fw-4">
+                <li><a href="{% url 'index' %}">Главная</a></li>
+                <li>Новости</li>
+            </ul>
+        </div>
+    </div>
+</div>
+<!-- End page-title -->
+<!-- main-content -->
+<div class="tf-container tf-spacing-1 blog-grid">
+    <div class="tf-grid-layout lg-col-3 md-col-2">
+        {% for post in posts %}
+        <div class="blog-article-item style-default hover-image-translate">
+            <div class="article-thumb image-wrap mb_24">
+                {% if post.get_featured_image %}
+                <img loading="lazy" src="{{ post.get_featured_image }}" width="850" height="478" alt="{{ post.title }}">
+                {% endif %}
+                {% if post.category %}
+                <a href="?category={{ post.category.slug }}" class="tag text-label text text_primary-color text-uppercase">
+                    {{ post.category.name }}
+                </a>
+                {% endif %}
+                <a href="{% url 'news:detail' post.slug %}" class="overlay-link"></a>
+            </div>
+            <div class="article-content">
+                <div class="meta-post d-flex align-items-center mb_12">
+                    <div class="item text_secondary-color text-caption-1">{{ post.published_at|date:"d.m.Y" }}</div>
+                </div>
+                <h5 class="title mb_12">
+                    <a href="{% url 'news:detail' post.slug %}" class="link">{{ post.title }}</a>
+                </h5>
+                <p class="description">{{ post.excerpt|truncatewords:15 }}</p>
+            </div>
+        </div>
+        {% empty %}
+        <div class="col-12">
+            <p class="text-center text_secondary-color">Новости пока не добавлены</p>
+        </div>
+        {% endfor %}
+    </div>
+</div>
+{% endblock %}

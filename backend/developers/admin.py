@@ -41,5 +41,13 @@ class DeveloperAdmin(admin.ModelAdmin):
 class DeveloperReviewAdmin(admin.ModelAdmin):
     list_display = ["user_name", "developer", "rating", "is_approved", "created_at"]
     list_filter = ["is_approved", "rating", "created_at"]
-    search_fields = ["user_name", "text"]
-    raw_id_fields = ["developer", "user"]
+    search_fields = ["user_name", "text", "developer__name"]
+    
+    fieldsets = (
+        (None, {
+            "fields": ("developer", "user_name", "user_avatar", "user_avatar_url", "rating", "text")
+        }),
+        ("Модерация", {
+            "fields": ("is_approved", "user")
+        }),
+    )

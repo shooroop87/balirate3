@@ -1,5 +1,3 @@
-# blog/models.py
-from django.conf import settings
 from django.db import models
 from django.urls import reverse
 from django.utils.text import slugify
@@ -7,105 +5,78 @@ from django.utils.translation import gettext_lazy as _
 
 
 class BlogCategory(models.Model):
-    """Категории блога."""
-    
-    name = models.CharField(_("Name"), max_length=100)
-    slug = models.SlugField(unique=True, blank=True)
-    
-    created_at = models.DateTimeField(auto_now_add=True)
-    
+    """Категории: Новости, Аналитика, Гайды"""
+    name = models.CharField("Название", max_length=100)
+    slug = models.SlugField(unique=True)
+
     class Meta:
-        verbose_name = _("Blog-Kategorie")
-        verbose_name_plural = _("Blog-Kategorien")
+        verbose_name = "Категория"
+        verbose_name_plural = "Категории"
         ordering = ["name"]
-    
+
     def __str__(self):
         return self.name
-    
-    def save(self, *args, **kwargs):
-        if not self.slug:
-            self.slug = slugify(self.name)
-        super().save(*args, **kwargs)
 
 
 class BlogPost(models.Model):
-    """Блог-пост."""
+    """Статья/Новость"""
     
     class Status(models.TextChoices):
-        DRAFT = "draft", _("Entwurf")
-        PUBLISHED = "published", _("Veröffentlicht")
-    
-    title = models.CharField(_("Titel"), max_length=255)
+        DRAFT = "draft", "Черновик"
+        PUBLISHED = "published", "Опубликовано"
+
+    title = models.CharField("Заголовок", max_length=255)
     slug = models.SlugField(unique=True, blank=True, max_length=255)
     
     category = models.ForeignKey(
-        BlogCategory,
-        on_delete=models.SET_NULL,
-        null=True,
-        blank=True,
-        related_name="posts",
-        verbose_name=_("Kategorie"),
+        BlogCategory, on_delete=models.SET_NULL,
+        null=True, blank=True, related_name="posts",
+        verbose_name="Категория"
     )
     
-    # Превью
-    excerpt = models.TextField(
-        _("Kurzbeschreibung"),
-        max_length=500,
-        help_text=_("Kurze Beschreibung für Vorschau (max 500 Zeichen)")
-    )
+    excerpt = models.TextField("Краткое описание", max_length=500)
     featured_image = models.ImageField(
-        _("Beitragsbild"),
+        "Изображение",
         upload_to="blog/%Y/%m/",
-        help_text=_("Empfohlen: 832x832px")
-    )
-    
-    # Контент (TinyMCE)
-    content = models.TextField(_("Inhalt"))
-    
-    # Мета
-    status = models.CharField(
-        _("Status"),
-        max_length=20,
-        choices=Status.choices,
-        default=Status.DRAFT,
-    )
-    
-    # Теги (простая реализация через CharField)
-    tags = models.CharField(
-        _("Tags"),
-        max_length=255,
         blank=True,
-        help_text=_("Kommagetrennte Tags, z.B.: Medikamente, Gesundheit, Tipps")
+        null=True,
+        help_text="Рекомендуемый размер: 832x832px"
     )
+    featured_image_url = models.URLField(
+        "Или ссылка на изображение",
+        max_length=500,
+        blank=True,
+        help_text="Внешняя ссылка на изображение (если не загружаете файл)"
+    )
+
+    def get_featured_image(self):
+        """Возвращает URL изображения (загруженного или внешнего)."""
+        if self.featured_image:
+            return self.featured_image.url
+        return self.featured_image_url or ''
+    content = models.TextField("Контент (HTML)")
     
-    # SEO
-    meta_title = models.CharField(_("Meta-Titel"), max_length=70, blank=True)
-    meta_description = models.CharField(_("Meta-Beschreibung"), max_length=160, blank=True)
+    status = models.CharField("Статус", max_length=20, choices=Status.choices, default=Status.DRAFT)
     
-    # Даты
-    published_at = models.DateTimeField(_("Veröffentlicht am"), null=True, blank=True)
+    meta_title = models.CharField("Meta Title", max_length=70, blank=True)
+    meta_description = models.CharField("Meta Description", max_length=160, blank=True)
+    
+    published_at = models.DateTimeField("Дата публикации", null=True, blank=True)
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
-    
+
     class Meta:
-        verbose_name = _("Blog-Beitrag")
-        verbose_name_plural = _("Blog-Beiträge")
+        verbose_name = "Статья"
+        verbose_name_plural = "Статьи"
         ordering = ["-published_at", "-created_at"]
-    
+
     def __str__(self):
         return self.title
-    
+
     def save(self, *args, **kwargs):
         if not self.slug:
             self.slug = slugify(self.title)
         super().save(*args, **kwargs)
-    
+
     def get_absolute_url(self):
-        return reverse("blog:post_detail", kwargs={"slug": self.slug})
-    
-    @property
-    def tags_list(self):
-        """Возвращает список тегов."""
-        if self.tags:
-            return [tag.strip() for tag in self.tags.split(",") if tag.strip()]
-        return []
+        return reverse("blog:detail", kwargs={"slug": self.slug})
