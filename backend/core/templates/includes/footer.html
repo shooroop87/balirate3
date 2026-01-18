@@ -64,7 +64,7 @@
                         <a href="#" class="link">Агентства</a>
                     </li>
                     <li class="text-body-default text_color-1">
-                        <a href="#" class="link">Премия Девелопер 2025</a>
+                        <a href="{% url 'developer_award_2025' %}" class="link">Премия Девелопер 2025</a>
                     </li>
                 </ul>
             </div>
@@ -143,7 +143,7 @@
                                         <input type="hidden" name="locale" value="ru">
                                     </form>
                                 </div>
-                                <p class="text_color-1">Нажимая кнопку, Вы соглашаетесь с <a href="#" class="hover-underline-link link">Условиями использования</a> и <a href="#" class="hover-underline-link link">Политикой конфиденциальности.</a></p>
+                                <p class="text_color-1">Нажимая кнопку, Вы соглашаетесь с <a href="{% url 'terms_of_use' %}" class="hover-underline-link link">Условиями использования</a> и <a href="{% url 'privacy_policy' %}" class="hover-underline-link link">Политикой конфиденциальности.</a></p>
                             </div>
                         </div>
             </div>

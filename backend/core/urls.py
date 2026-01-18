@@ -8,4 +8,6 @@ urlpatterns = [
     path("", views.index, name="index"),
     path('developer-award-2025/', views.developer_award_2025, name='developer_award_2025'),
     path('privacy-policy/', views.privacy_policy, name='privacy_policy'),
+    path('terms-of-use/', views.terms_of_use, name='terms_of_use'),
+    path('videos/', views.video_list, name='video_list'),
 ]

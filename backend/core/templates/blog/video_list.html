@@ -1,0 +1,165 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}Видео от застройщиков - Balirate{% endblock %}
+{% block meta_description %}Видеообзоры объектов недвижимости на Бали от ведущих застройщиков{% endblock %}
+
+{% block content %}
+<!-- Page Title -->
+<div class="page-title style-default">
+    <div class="thumbs">
+        <img src="{% static 'images/page-title/video-page.jpg' %}" width="1920" height="300" alt="Видео от застройщиков">
+    </div>
+    <div class="content text-center">
+        <div class="tf-container">
+            <h1 class="title text_white mb_12">Видео от застройщиков</h1>
+            <ul class="breadcrumb justify-content-center text-button fw-4">
+                <li><a href="{% url 'index' %}">Главная</a></li>
+                <li>Видео</li>
+            </ul>
+        </div>
+    </div>
+</div>
+
+<!-- Main Content -->
+<div class="tf-spacing-1">
+    <div class="tf-container">
+        <div class="row">
+            <!-- Video Grid -->
+            <div class="col-lg-8">
+                <div class="tf-grid-layout md-col-2 gap_30">
+                    {% for video in videos %}
+                    <div class="video-item">
+                        <div class="properties-video mb_16">
+                            <div class="widget-video">
+                                <img src="{{ video.thumbnail_url }}" alt="{{ video.title }}" style="width: 100%; height: 200px; object-fit: cover; border-radius: 8px;">
+                                <a href="{{ video.youtube_url }}" class="popup-youtube">
+                                    <img src="{% static 'icons/play.svg' %}" alt="play">
+                                </a>
+                            </div>
+                        </div>
+                        <div class="content">
+                            {% if video.developer %}
+                            <a href="{% url 'developers:detail' video.developer.slug %}" class="tag text-caption-1 text_secondary-color mb_8 d-inline-block">{{ video.developer.name }}</a>
+                            {% endif %}
+                            <h5 class="title mb_8">
+                                <a href="{{ video.youtube_url }}" class="popup-youtube link">{{ video.title }}</a>
+                            </h5>
+                            <div class="meta d-flex align-items-center gap_16 text-caption-1 text_secondary-color">
+                                <span><i class="icon-CalendarBlank me-1"></i>{{ video.created_at|date:"d.m.Y" }}</span>
+                                {% if video.duration %}
+                                <span><i class="icon-Clock me-1"></i>{{ video.duration }}</span>
+                                {% endif %}
+                            </div>
+                        </div>
+                    </div>
+                    {% empty %}
+                    <div class="col-12 text-center py_40">
+                        <p>Видео пока нет</p>
+                    </div>
+                    {% endfor %}
+                </div>
+
+                <!-- Pagination -->
+                {% if page_obj.has_other_pages %}
+                <div class="tf-pagination mt_40">
+                    <ul class="d-flex align-items-center justify-content-center gap_8">
+                        {% if page_obj.has_previous %}
+                        <li><a href="?page={{ page_obj.previous_page_number }}" class="pagination-link"><i class="icon-CaretLeft"></i></a></li>
+                        {% endif %}
+                        {% for num in page_obj.paginator.page_range %}
+                            {% if page_obj.number == num %}
+                            <li><span class="pagination-link active">{{ num }}</span></li>
+                            {% elif num > page_obj.number|add:'-3' and num < page_obj.number|add:'3' %}
+                            <li><a href="?page={{ num }}" class="pagination-link">{{ num }}</a></li>
+                            {% endif %}
+                        {% endfor %}
+                        {% if page_obj.has_next %}
+                        <li><a href="?page={{ page_obj.next_page_number }}" class="pagination-link"><i class="icon-CaretRight"></i></a></li>
+                        {% endif %}
+                    </ul>
+                </div>
+                {% endif %}
+            </div>
+            <!-- Sidebar -->
+            <div class="col-lg-4">
+                <div class="tf-sidebar sticky-top">
+                    <!-- Фильтр по застройщикам -->
+                    <div class="sidebar-item sidebar-categories">
+                        <h5 class="sidebar-title mb_17">Застройщики</h5>
+                        <ul class="list-categories d-grid gap_8">
+                            <li class="d-flex align-items-center justify-content-between text-body-default">
+                                <a href="{% url 'videos:list' %}" class="hover-line-text {% if not current_developer %}fw-7{% endif %}">Все видео</a>
+                                <div class="number">({{ total_videos }})</div>
+                            </li>
+                            {% for dev in developers_with_videos %}
+                            <li class="d-flex align-items-center justify-content-between text-body-default">
+                                <a href="{% url 'videos:list' %}?developer={{ dev.slug }}" class="hover-line-text {% if current_developer == dev.slug %}fw-7{% endif %}">{{ dev.name }}</a>
+                                <div class="number">({{ dev.video_count }})</div>
+                            </li>
+                            {% endfor %}
+                        </ul>
+                    </div>
+
+                    <!-- Популярные видео -->
+                    <div class="sidebar-item sidebar-recent-post">
+                        <h5 class="sidebar-title mb_17">Популярные видео</h5>
+                        <ul>
+                            {% for popular in popular_videos %}
+                            <li class="recent-post hover-image-rotate">
+                                <a href="{{ popular.youtube_url }}" class="img-style popup-youtube">
+                                    <img src="{{ popular.thumbnail_url }}" width="100" height="100" alt="{{ popular.title }}" style="object-fit: cover;">
+                                </a>
+                                <div class="content">
+                                    <div class="meta-post d-flex align-items-center mb_7">
+                                        <div class="item text_secondary-color text-caption-2">{{ popular.developer.name }}</div>
+                                    </div>
+                                    <div class="text-title title text_primary-color fw-6">
+                                        <a href="{{ popular.youtube_url }}" class="link popup-youtube">{{ popular.title|truncatewords:6 }}</a>
+                                    </div>
+                                </div>
+                            </li>
+                            {% endfor %}
+                        </ul>
+                    </div>
+
+                    <!-- CTA блок -->
+                    <div class="sidebar-item" style="background: #f8f7f3; border-radius: 12px; padding: 24px;">
+                        <h5 class="sidebar-title mb_12">Хотите разместить видео?</h5>
+                        <p class="text-body-2 mb_16">Если вы застройщик и хотите добавить видео о своих объектах</p>
+                        <a href="{% url 'contacts' %}" class="tf-btn w-full">
+                            <span>Связаться с нами</span>
+                            <span class="bg-effect"></span>
+                        </a>
+                    </div>
+
+                    <!-- Подписка -->
+                    <div class="sidebar-item">
+                        <h5 class="sidebar-title mb_15">Подписаться на новости</h5>
+                        <form action="#" class="form-newsletter">
+                            <fieldset>
+                                <input type="email" placeholder="Email адрес" name="email" required>
+                            </fieldset>
+                            <div class="button-submit">
+                                <button type="submit"><i class="icon-PaperPlaneTilt"></i></button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+{% block extra_js %}
+<script>
+$(document).ready(function() {
+    $('.popup-youtube').magnificPopup({
+        type: 'iframe',
+        mainClass: 'mfp-fade',
+        preloader: false
+    });
+});
+</script>
+{% endblock %}
